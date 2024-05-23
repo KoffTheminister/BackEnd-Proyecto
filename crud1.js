@@ -23,35 +23,27 @@ class recluso{
     
 }
 
-class arrayActividades{
+let arrayActividades = [];
    
-}
 
 class Actividad{
     static ultimoCodigo = 0;
     //atributos de instancia: horario, actID, descripcion, diaDeLaSemana y Locacion
     cargaDatos(){
+        let lock;
         this.actID = Actividad.ultimoCodigo;
         Actividad.incrementarCodigo();
-        this.descripcion = int(prompt('Ingrese la descripcion de la actividad: '));
+        this.descripcion = (prompt('Ingrese la descripcion de la actividad: ')).toLowerCase();
         lock = false;
         while(lock === false){
-            try{
-                
+            if(this.descripcion == 'lunes'||this.descripcion == 'martes'||this.descripcion == 'miercoles'||this.descripcion == 'jueves'||this.descripcion == 'viernes'||this.descripcion == 'sabado'||this.descripcion == 'domingo'){
                 lock = true;
-            }catch(err){
-                console.log('El dato ingresado no es un numero. Vuelva a ingresar.');
+            }
+            else(){
+                console.log('Dia inexistente, intente con dias de la semana como lunes, martes, etc');
             }
         }
         lock = false;
-        while(lock === false){
-            try{
-                
-                lock = true
-            }catch(err){
-                console.log('El dato ingresado no es un numero. Vuelva a ingresar.');
-            }
-        } 
     }
 
     static incrementarCodigo() {
