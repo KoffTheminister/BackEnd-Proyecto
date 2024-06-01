@@ -83,9 +83,25 @@ function modificar_actividad(){
             }}
     
 }
-function eliminar_actividad(){
 
+function eliminar_actividad(){
+    let id_elegido = Number(prompt('Ingrese id de actividad a eliminar: '))
+    lock = true
+    index = 0
+    while (lock && index <= arrayActividades.length){
+        if(arrayActividades[index].actID == id_elegido){
+            arrayActividades.splice(index,1)
+            lock = false
+            console.log('Actividad eliminada.')
+        }else{
+            index += 1
+        }
+    }
+    if(index > arrayActividades.length){
+        console.log('El ID ingresado no considio con ningun ID de las actividades vigentes. Vuelva a ingresar la opcion.')
+    }
 }
+
 function listar_actividad(){
     if(arrayActividades.length === 0){
         arrayActividades.forEach((element) => console.log(element));
