@@ -18,8 +18,8 @@ export class ActividadRepository implements Repository<Actividad> {
         return actividades
     } 
 
-    public getOne(descripcion: string): Actividad | undefined {
-        return actividades.find((unaActividad) => unaActividad.descripcion === descripcion)
+    public getOne(IdActividad: string): Actividad | undefined {
+        return actividades.find((unaActividad) => unaActividad.actId === Actividad.UltimoId)
     }
 
     public add(item: Actividad): Actividad | undefined {
@@ -30,7 +30,7 @@ export class ActividadRepository implements Repository<Actividad> {
     public update(modificacion: Actividad, desToUpdate: string): number {//Actividad | undefined {
         return 1
         /*
-        let index = actividades.findIndex((actividad) => actividad.descripcion === desToUpdate)
+        let index = actividades.findIndex((actividad) => actividad.IdActividad === idToUpdate)
         if (index !== -1){
 
             for (let atributo in modificacion){
@@ -44,8 +44,8 @@ export class ActividadRepository implements Repository<Actividad> {
             */
     }
 
-    public deleteOne(descripcion: string): string | undefined {
-        const index = actividades.findIndex((unaActividad) => unaActividad.descripcion === descripcion)
+    public deleteOne(IdActividad: string): string | undefined {
+        const index = actividades.findIndex((unaActividad) => unaActividad.actId === IdActividad)
         if (index !== -1){
             actividades.splice(index,1)
             return 'La actividad fue eliminada correctamente.'
@@ -53,4 +53,6 @@ export class ActividadRepository implements Repository<Actividad> {
             return undefined
         }
     }
+    
+    //public agregarRecluso para cuando este hecho lo de recluso
 }
