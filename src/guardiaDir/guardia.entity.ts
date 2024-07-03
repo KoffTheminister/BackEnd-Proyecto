@@ -3,11 +3,12 @@ export class Guardia {
 
     constructor(
         nombre: string,
-        apellido: string,
-        legajo: number
+        apellido: string
     ){}
+    legajo = Guardia.incrementarCodigo()
 
     static incrementarCodigo(){
-        this.legajo = 1
+        Guardia.UltimoLegajo += 1
+        return Guardia.UltimoLegajo.toString()
     }
 }

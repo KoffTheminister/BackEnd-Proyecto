@@ -1,6 +1,11 @@
 import { Request, Response, NextFunction } from "express"
 import { GuardiaRepository } from "./guardia.repository.js"
+import { Guardia } from "./guardia.entity.js"
 
+const guardiaRepositorio = new GuardiaRepository 
+
+
+ 
 function sanitizeGuardiaInput(req: Request, res: Response, next: NextFunction){
     req.body.sanitizedInput = {
         nombre: req.body.nombre,
@@ -17,7 +22,48 @@ function sanitizeGuardiaInput(req: Request, res: Response, next: NextFunction){
 }
 
 function getAll(req:Request, res:Response){
-    res.json({ data: GuardiaRepository.getAll() })
+    res.json({ data: guardiaRepositorio.getAll() })
 }
 
-export { sanitizeGuardiaInput }
+function getOne(req: Request, res: Response){
+    const legajo = req.params.legajo
+    const guardia = guardiaRepositorio.getOne(legajo)
+    if (!guardia){
+        return res.status(404).send({message: 'Guardia no encontrado.'})
+    }else{
+        res.json({data: guardia})
+    }
+}
+
+function add(req: Request, res: Response){
+    const { nombre, apellido } = req.body
+    const nuevoGuardia = new Guardia(
+        nombre, 
+        apellido
+    )
+    //falta validacion
+    guardiaRepositorio.add(nuevoGuardia)
+    //console.log('Se acaba de agregar una nueva actividad con descripcion: ', nuevaActividad.descripcion ,', dia de la semana: ', nuevaActividad.diaSemana ,', hora comienzo: ', nuevaActividad.horaMinutoComienzo,', hora fin: ', nuevaActividad.horaMinutoFin,'y transcurre en:', nuevaActividad.locacion)
+    res.status(201).send({message: 'Actividad agregada', data: nuevoGuardia})
+}
+
+function update(req: Request, res: Response){
+    let rta = guardiaRepositorio.update(req.body, req.params.actId)
+    if (rta === -1){
+        res.status(404).send({message: 'El guardia elegido no coincide con ninguno registrado.'})
+    }else{
+        return res.status(201).send({message: 'El guardia elegido fue correctamente modificado y su forma final es:', data: rta})
+    }
+}
+
+function deleteOne(req: Request, res: Response) {
+    let rta = guardiaRepositorio.deleteOne(req.body.actId)
+    if(rta === undefined){
+        return res.status(404).send({message: 'El guardia no fue encontrado.'})
+    }else{
+        return res.status(201).send({message: 'El guardia fue encontrado y eliminado.'})
+    }
+}
+
+
+export { sanitizeGuardiaInput, getAll, getOne, add, update, deleteOne }
