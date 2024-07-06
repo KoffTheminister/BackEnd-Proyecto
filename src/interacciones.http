@@ -1,0 +1,28 @@
+### get all
+GET http://localhost:8080/api/guardias
+
+
+### 
+GET http://localhost:3000/api/guardias/2
+
+### 
+POST http://localhost:3000/api/guardias
+Content-Type: application/json
+
+{
+  "nombre": "Nacho",
+  "apellido": "chaparrin"
+}
+
+### update
+PUT http://localhost:8080/api/guardias/2
+Content-Type: application/json
+
+{
+  "nombre": "Nacha",
+}
+
+
+### borrar un character
+DELETE http://localhost:8080/api/guardias/2
+
