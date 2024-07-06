@@ -1,52 +1,40 @@
 import { Repository } from "../shared/repository.js";
 import { Guardia } from "./guardia.entity.js";
+import { db } from "../shared/db/conn.js";
 
-const guardias = [
-    new Guardia(
-        'Brian',
-        'Griffin',
-    )
-]
+const guardias = db.collection<Guardia>('guardias')
 
 export class GuardiaRepository implements Repository<Guardia>{
 
-    public getAll(): Guardia[] | undefined {
-        return guardias
+    public async getAll(): Promise <Guardia[] | undefined> {
+        return await guardias.find().toArray()
     } 
 
-    public getOne(legajoBuscado: string): Guardia | undefined {
-        return guardias.find((unGuardia) => unGuardia.legajo === legajoBuscado)
+    public async getOne(legajoBuscado: string): Promise <Guardia | undefined> {
+        return (await guardias.findOne({_id: legajoBuscado })) || undefined
     }
 
-    public add(item: Guardia): Guardia | undefined {
-        guardias.push(item)
-        return item
+    public async add(item: Guardia): Promise <Guardia | undefined> {
+        await guardias.insertOne(item)
+        return await item
     }
 
-    public update(modificacion: Guardia, legToUpdate: string): number {//Actividad | undefined {
-        return 1
-        /*
-        let index = actividades.findIndex((actividad) => actividad.descripcion === desToUpdate)
-        if (index !== -1){
-
-            for (let atributo in modificacion){
-                if (modificacion[atributo] === undefined)
-            }
-            actividades[index] = {...actividades[index], ...modifications}
-            return actividades[index]
+    public async update(modificacion: Guardia, idToUpdate: string): Promise <Guardia | undefined> {
+        const guardiaToModificar = await guardias.findOne({_id: idToUpdate })
+        if (guardiaToModificar !== null){
+            guardias.updateOne({_id:idToUpdate}, { $set: modificacion})
+            return (await guardias.findOne({_id: idToUpdate })) || undefined
         } else {
             return undefined
         }
-            */
     }
 
-    public deleteOne(legajo: string): string | undefined {
-        const index = guardias.findIndex((unGuardia) => unGuardia.legajo === legajo)
-        if (index !== -1){
-            guardias.splice(index,1)
-            return 'El guardia fue eliminado correctamente.'
-        }else{
-            return undefined
+    public async deleteOne(idToDelete: string): Promise < string > {
+        const rtaDelete = await guardias.deleteOne({_id: idToDelete })
+        if(rtaDelete.acknowledged === true){
+            return 'El guardia elegido fue eliminado correctamente.'
+        } else {
+            return 'El guardia elegido no existe, por ende no fue borrado.'
         }
-    }
+    }   
 }

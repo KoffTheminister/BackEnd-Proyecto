@@ -1,12 +1,14 @@
+import { ObjectId } from "mongodb"
+
 export class Guardia {
     static UltimoLegajo = 0
 
     constructor(
-        nombre: string,
-        apellido: string
+        public nombre: string,
+        public apellido: string,
+        public _id = Guardia.incrementarCodigo()
     ){}
-    legajo = Guardia.incrementarCodigo()
-
+    
     static incrementarCodigo(){
         Guardia.UltimoLegajo += 1
         return Guardia.UltimoLegajo.toString()

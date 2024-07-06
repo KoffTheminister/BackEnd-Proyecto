@@ -6,8 +6,8 @@ export class ActividadRepository {
     getAll() {
         return actividades;
     }
-    getOne(descripcion) {
-        return actividades.find((unaActividad) => unaActividad.descripcion === descripcion);
+    getOne(IdActividad) {
+        return actividades.find((unaActividad) => unaActividad.actId === Actividad.UltimoId);
     }
     add(item) {
         actividades.push(item);
@@ -16,7 +16,7 @@ export class ActividadRepository {
     update(modificacion, desToUpdate) {
         return 1;
         /*
-        let index = actividades.findIndex((actividad) => actividad.descripcion === desToUpdate)
+        let index = actividades.findIndex((actividad) => actividad.IdActividad === idToUpdate)
         if (index !== -1){
 
             for (let atributo in modificacion){
@@ -29,8 +29,8 @@ export class ActividadRepository {
         }
             */
     }
-    deleteOne(descripcion) {
-        const index = actividades.findIndex((unaActividad) => unaActividad.descripcion === descripcion);
+    deleteOne(IdActividad) {
+        const index = actividades.findIndex((unaActividad) => unaActividad.actId === IdActividad);
         if (index !== -1) {
             actividades.splice(index, 1);
             return 'La actividad fue eliminada correctamente.';

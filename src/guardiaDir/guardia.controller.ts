@@ -21,13 +21,13 @@ function sanitizeGuardiaInput(req: Request, res: Response, next: NextFunction){
     next()
 }
 
-function getAll(req:Request, res:Response){
-    res.json({ data: guardiaRepositorio.getAll() })
+async function getAll(req:Request, res:Response){
+    res.json({ data: await guardiaRepositorio.getAll() })
 }
 
-function getOne(req: Request, res: Response){
+async function getOne(req: Request, res: Response){
     const legajo = req.params.legajo
-    const guardia = guardiaRepositorio.getOne(legajo)
+    const guardia = await guardiaRepositorio.getOne(legajo)
     if (!guardia){
         return res.status(404).send({message: 'Guardia no encontrado.'})
     }else{
@@ -35,34 +35,30 @@ function getOne(req: Request, res: Response){
     }
 }
 
-function add(req: Request, res: Response){
+async function add(req: Request, res: Response){
     const { nombre, apellido } = req.body
-    const nuevoGuardia = new Guardia(
+    const gInput = new Guardia(
         nombre, 
         apellido
     )
     //falta validacion
-    guardiaRepositorio.add(nuevoGuardia)
+    const nuevoGuardia = await guardiaRepositorio.add(gInput)
     //console.log('Se acaba de agregar una nueva actividad con descripcion: ', nuevaActividad.descripcion ,', dia de la semana: ', nuevaActividad.diaSemana ,', hora comienzo: ', nuevaActividad.horaMinutoComienzo,', hora fin: ', nuevaActividad.horaMinutoFin,'y transcurre en:', nuevaActividad.locacion)
     res.status(201).send({message: 'Actividad agregada', data: nuevoGuardia})
 }
 
-function update(req: Request, res: Response){
-    let rta = guardiaRepositorio.update(req.body, req.params.actId)
-    if (rta === -1){
+async function update(req: Request, res: Response){
+    let rta = await guardiaRepositorio.update(req.body, req.params.actId)
+    if (rta === undefined){
         res.status(404).send({message: 'El guardia elegido no coincide con ninguno registrado.'})
     }else{
         return res.status(201).send({message: 'El guardia elegido fue correctamente modificado y su forma final es:', data: rta})
     }
 }
 
-function deleteOne(req: Request, res: Response) {
-    let rta = guardiaRepositorio.deleteOne(req.body.actId)
-    if(rta === undefined){
-        return res.status(404).send({message: 'El guardia no fue encontrado.'})
-    }else{
-        return res.status(201).send({message: 'El guardia fue encontrado y eliminado.'})
-    }
+async function deleteOne(req: Request, res: Response) {
+    let rta = await guardiaRepositorio.deleteOne(req.body.actId)
+    return res.status(201).send({message: rta})
 }
 
 
