@@ -1,28 +1,36 @@
 ### get all
 GET http://localhost:8080/api/guardias
 
-
-### 
-GET http://localhost:3000/api/guardias/2
-
-### 
-POST http://localhost:3000/api/guardias
+### post
+# @name createActividad
+POST http://localhost:8080/api/actividades
 Content-Type: application/json
 
 {
-  "nombre": "Nacho",
-  "apellido": "chaparrin"
+  "nombre": "recoleccion de mandarinas",
+  "descripcion": "hay que recolectar mandarinas",
+  "locacion": "pradera de mandarinas",
+  "diaDeLaSemana": 5,
+  "horaInicio": 14,
+  "horaFin": 17
 }
 
+### ID
+@elCod = {{createActividad.response.body.data.id}}
+
+### get one
+GET http://localhost:8080/api/actividades/{{elCod}}
+
 ### update
-PUT http://localhost:8080/api/guardias/2
+PUT http://localhost:8080/api/actividades/{{elCod}}
 Content-Type: application/json
 
 {
-  "nombre": "Nacha",
+  "nombre": "recoleccion de mandarinas moradas",
+  "descripcion": "hay que recolectar mandarinas moradas",
 }
 
 
 ### borrar un character
-DELETE http://localhost:8080/api/guardias/2
+DELETE http://localhost:8080/api/actividades/{{elCod}}
 

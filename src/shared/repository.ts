@@ -5,3 +5,4 @@ export interface Repository<T> {
     update(item: Partial <T>, id: string): Promise <T | undefined>,
     deleteOne(id: string): Promise <string> 
 }
+

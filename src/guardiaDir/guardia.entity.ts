@@ -1,16 +1,31 @@
-import { ObjectId } from "mongodb"
+import { Cascade, Collection, Entity, ManyToMany,  ManyToOne,  OneToMany,  PrimaryKey, Property, Rel } from "@mikro-orm/core";
+import { Actividad } from "../actividadDir/actividad.entity.js";
 
+
+@Entity()
 export class Guardia {
-    static UltimoLegajo = 0
-
-    constructor(
-        public nombre: string,
-        public apellido: string,
-        public _id = Guardia.incrementarCodigo()
-    ){}
+    @PrimaryKey({ nullable: false, unique: true})
+    cod_guardia !: number  // el !: significa que esta propiedad no puede ser nula
     
-    static incrementarCodigo(){
-        Guardia.UltimoLegajo += 1
-        return Guardia.UltimoLegajo.toString()
-    }
-}
+    @Property({ nullable: false})
+    nombre !: string 
+
+    @Property({ nullable: false})
+    apellido !: string
+
+    @Property({ nullable: false})
+    dni !: number
+
+    @Property({ nullable: false})
+    fechaIni !: Date
+
+    @Property({ nullable: true})
+    fechaFin ?: Date
+
+    @OneToMany(() => Actividad, Actividad => Actividad.miGuardia, {
+        cascade: [Cascade.ALL],
+      })
+    misActividades ?: Actividad[]
+}   
+
+
