@@ -14,12 +14,4 @@ export class Recluso {
 
     @Property({ nullable: false})
     dni !: number
-
-    @ManyToMany(() => Actividad, Actividad => Actividad.reclusos, {
-        cascade : [Cascade.ALL]
-    })
-    actividades = new Collection<Actividad>(this) // del lado no owner va como collection
-}   
-
-
-
+}

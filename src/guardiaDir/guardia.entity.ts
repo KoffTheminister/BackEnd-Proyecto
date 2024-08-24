@@ -21,11 +21,6 @@ export class Guardia {
 
     @Property({ nullable: true})
     fechaFin ?: Date
-
-    @OneToMany(() => Actividad, Actividad => Actividad.miGuardia, {
-        cascade: [Cascade.ALL],
-      })
-    misActividades ?: Actividad[]
 }   
 
 

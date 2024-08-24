@@ -3,7 +3,7 @@ import { Actividad } from "./actividad.entity.js"
 import { orm } from "../shared/db/orm.js"
 
 const em = orm.em
-em.getRepository(Actividad)
+//em.getRepository(Actividad)
 
 async function getAll(req:Request, res:Response){
     try{
@@ -16,7 +16,7 @@ async function getAll(req:Request, res:Response){
 
 async function getOne(req: Request, res: Response){
     try {
-        const cod_actividad = Number.parseInt(req.params.cod_actividad) //
+        const cod_actividad =  Number.parseInt(req.params.cod_actividad) //
         const laActividad = await em.findOneOrFail(Actividad, { cod_actividad }, { populate: ['reclusos', 'miGuardia']})
         res.status(201).json({ data: laActividad, message: 'actividad encontrada.'} )
     } catch (error: any){
@@ -51,13 +51,6 @@ async function update(req: Request, res: Response) {
         const laActividad = await em.findOne(Actividad, { cod_actividad })
         if (laActividad == null) {
             res.status(400).json({ message: 'La actividad buscada no coincide con ninguna de las registradas'})
-        } else {
-            const actividadParaCambiar = em.getReference(Actividad, cod_actividad)
-            Object.values(laActividad).forEach(([key, value]) => {
-                if (req.body.value == undefined) {
-                    actividadParaCambiar.key = value 
-                }
-            });
         }
         em.assign(laActividad,)
         await em.flush()

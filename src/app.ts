@@ -5,6 +5,7 @@ import { orm, syncSchema } from './shared/db/orm.js'
 import { guardiaRouter } from './guardiaDir/guardia.routes.js'
 import { actividadRouter } from './actividadDir/actividad.routes.js'
 import { RequestContext } from '@mikro-orm/core'
+import { sentenciaRouter } from './sentenciaDir/sentencia.routes.js'
 
 //misc
 const app = express()
@@ -19,6 +20,9 @@ app.use('/api/actividades',actividadRouter)
 
 //manejo de guardias
 app.use('/api/guardias', guardiaRouter)
+
+//manejo de sentencias
+app.use('/api/sentencias', sentenciaRouter)
 
 //url invalido
 app.use((_, res) => {
