@@ -6,7 +6,7 @@ export const orm = await MikroORM.init({
     entitiesTs: ['src/**/*.entity.ts'],
     dbName: 'libertant',
     type: 'mysql',
-    clientUrl: 'mysql://dsw:dsw@localhost:3310/libertant',
+    clientUrl: 'mysql://admin:admin@localhost:3306/libertant',
     highlighter: new SqlHighlighter(),
     debug: true,
     schemaGenerator: { // nunca utilizar en produccion, solo en la etapa de desarrollo
