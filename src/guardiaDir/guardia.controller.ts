@@ -1,18 +1,19 @@
 import { Request, Response, NextFunction } from "express"
-import { GuardiaRepository } from "./guardia.repository.js"
+import { orm } from "../shared/db/orm.js"
 import { Guardia } from "./guardia.entity.js"
 
-const guardiaRepositorio = new GuardiaRepository 
+const em = orm.em
+em.getRepository(Guardia)
 
-
- 
-function sanitizeGuardiaInput(req: Request, res: Response, next: NextFunction){
+function sanitizarInputDeGuardia(req: Request, res: Response, next: NextFunction){
     req.body.sanitizedInput = {
         nombre: req.body.nombre,
         apellido: req.body.apellido,
-        legajo: req.body.legajo
+        dni: req.body.dni,
+        fechaIniContrato: req.body.fechaIniContrato,
+        fechaFinContrato: req.body.fechaFinContrato,
+        contrasenia: req.body.contrasenia
     }
-
     Object.keys(req.body.sanitizedInput).forEach((key) => {
         if(req.body.sanitizedInput[key] === undefined){
             delete req.body.sanitizedInput[key]
@@ -22,44 +23,81 @@ function sanitizeGuardiaInput(req: Request, res: Response, next: NextFunction){
 }
 
 async function getAll(req:Request, res:Response){
-    res.json({ data: await guardiaRepositorio.getAll() })
+    try{
+        const guardias = await em.find(Guardia, {})
+        res.status(201).json({ message: 'los guardias:', data: guardias})
+    } catch (error: any) {
+        res.status(404).json({ message: 'error get all'})
+    }
+}
+
+async function getSome(req : Request, res : Response){
+    try{
+        const guardias = await em.find(Guardia, { nombre: '%req.params.nombreParcial%'})
+        res.status(201).json({ data: guardias })
+    } catch (error: any) {
+        res.status(404).json({ message: error.message})
+    }
 }
 
 async function getOne(req: Request, res: Response){
-    const legajo = req.params.legajo
-    const guardia = await guardiaRepositorio.getOne(legajo)
-    if (!guardia){
-        return res.status(404).send({message: 'Guardia no encontrado.'})
-    }else{
-        res.json({data: guardia})
+    try {
+        const cod_guardia =  Number.parseInt(req.params.cod_guardia) 
+        const elGuardia = await em.findOneOrFail(Guardia, { cod_guardia })
+        res.status(201).json({ data: elGuardia } )
+    } catch (error: any){
+        res.status(500).json({ message: error.message})
     }
 }
 
 async function add(req: Request, res: Response){
-    const { nombre, apellido } = req.body
-    const gInput = new Guardia(
-        nombre, 
-        apellido
-    )
-    //falta validacion
-    const nuevoGuardia = await guardiaRepositorio.add(gInput)
-    //console.log('Se acaba de agregar una nueva actividad con descripcion: ', nuevaActividad.descripcion ,', dia de la semana: ', nuevaActividad.diaSemana ,', hora comienzo: ', nuevaActividad.horaMinutoComienzo,', hora fin: ', nuevaActividad.horaMinutoFin,'y transcurre en:', nuevaActividad.locacion)
-    res.status(201).send({message: 'Actividad agregada', data: nuevoGuardia})
+    try{
+        const si_o_no = await em.getConnection().execute(`select count(*) as cont from guardia gua where gua.dni = ?;`, [req.body.dni]);
+        console.log(si_o_no[0].cont)
+        if(si_o_no[0].cont === 0){
+            const elGuardia = await em.create(Guardia, req.body) 
+            await em.flush()
+            res.status(201).json({message: 'guardia creado', data: elGuardia})
+        }else{
+            console.log('aca')
+            res.status(409).json({message: 'guardia ya creado'})
+        }
+    } catch (error: any) {
+        res.status(500).json({message : error.message})
+    }
 }
 
-async function update(req: Request, res: Response){
-    let rta = await guardiaRepositorio.update(req.body, req.params.actId)
-    if (rta === undefined){
-        res.status(404).send({message: 'El guardia elegido no coincide con ninguno registrado.'})
-    }else{
-        return res.status(201).send({message: 'El guardia elegido fue correctamente modificado y su forma final es:', data: rta})
+async function update(req: Request, res: Response) {
+    try{
+        const cod_guardia: any[] = [];
+        cod_guardia[0] = Number(req.params.cod_guardia)
+        const elGuardiaVerdadero = await em.findOne(Guardia, cod_guardia[0])
+        if (elGuardiaVerdadero === null) {
+            res.status(404).json({ message: 'La guardia buscada no coincide con ninguno de los registrados'})
+        }
+        const guardiaParaActualizar = em.getReference(Guardia, cod_guardia[0])
+        em.assign(guardiaParaActualizar, req.body.sanitizedInput)
+        await em.flush()
+        res.status(200).json({ message: 'Guardia cambiado' })
+    } catch (error: any) {
+        res.status(500).json({message : error.message})
     }
 }
 
 async function deleteOne(req: Request, res: Response) {
-    let rta = await guardiaRepositorio.deleteOne(req.body.actId)
-    return res.status(201).send({message: rta})
+    try{
+        const cod_guardia: any[] = [];
+        cod_guardia[0] = Number(req.params.cod_guardia)
+        const guardiaVerdadero = await em.findOne(Guardia, cod_guardia[0])
+        if (guardiaVerdadero === null){
+            return res.status(500).json({message: 'guardia no encontrado'})
+        }
+        const guardiaParaBorrar = await em.getReference(Guardia, cod_guardia[0])
+        await em.removeAndFlush(guardiaParaBorrar)
+        res.status(200).json({ message: 'guardia eliminado' })
+    } catch (error: any) {
+        res.status(500).json({ message : error.message })
+    }
 }
 
-
-export { sanitizeGuardiaInput, getAll, getOne, add, update, deleteOne }
+export { getAll, getSome, getOne, add, update, deleteOne, sanitizarInputDeGuardia }

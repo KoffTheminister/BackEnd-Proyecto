@@ -1,12 +1,12 @@
 import { Router } from "express";
-import { getAll, getOne, update, add, deleteOne } from "./sentencia.controller.js";
+import { getAll, getOne, update, add, deleteOne, sanitizarInputDeSentencia } from "./sentencia.controller.js";
 
 export const sentenciaRouter = Router()
 
 sentenciaRouter.get('/', getAll)
 sentenciaRouter.get('/:cod_sentencia', getOne)
-sentenciaRouter.post('/', add)
-sentenciaRouter.put('/:cod_sentencia', update)
+sentenciaRouter.post('/', sanitizarInputDeSentencia, add)
+sentenciaRouter.put('/:cod_sentencia', sanitizarInputDeSentencia, update)
 sentenciaRouter.delete('/:cod_sentencia', deleteOne)
 
 

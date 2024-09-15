@@ -3,9 +3,9 @@ import { Recluso } from "../reclusoDir/recluso.entity.js";
 import { Sector } from "../sectorDir/sector.entity.js";
 
 @Entity()
-export class Actividad {
+export class Taller {
     @PrimaryKey({ nullable: false, unique: true, autoincrement: true})
-    cod_actividad ?: number  // el !: significa que esta propiedad no puede ser nula
+    cod_taller ?: number  // el !: significa que esta propiedad no puede ser nula
     
     @Property({ nullable: false})
     nombre !: string 
@@ -28,21 +28,9 @@ export class Actividad {
     @Property({nullable: false})
     estado !: 1
 
-    @Property({nullable: false})
-    cantidadMinima !: number
-
-    @Property({nullable: false})
-    edadMinima !: number
-
-    @ManyToOne(() => Sector, { nullable: false })
-    cod_sector !: Rel<Sector>
-
-    @ManyToMany(() => Recluso, (recluso) => recluso.actividades, { unique : false, nullable : false, cascade: [Cascade.ALL], owner: true})
+    @ManyToMany(() => Recluso, (recluso) => recluso.talleres, { unique : false, nullable : false, cascade: [Cascade.ALL], owner: true})
     reclusos !: Recluso[]
 }   
-
-
-
 
 
 

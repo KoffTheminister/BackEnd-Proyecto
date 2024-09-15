@@ -1,9 +1,9 @@
 import { Entity, PrimaryKey, Property } from "@mikro-orm/core";
 
 @Entity()
-export class Guardia {
-    @PrimaryKey({ nullable: false, unique: true, primary: true, autoincrement: true })
-    cod_guardia !: number
+export class Administrador {
+    @PrimaryKey({ nullable: false, unique: true, primary: true })
+    cod_administrador !: number
     
     @Property({ nullable: false})
     nombre !: string 
@@ -21,5 +21,7 @@ export class Guardia {
     fechaFinContrato ?: Date
 
     @Property({nullable: false})
-    contrasenia!: string
+    contrasenia !: string
 }   
+
+

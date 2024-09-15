@@ -1,36 +1,77 @@
 ### get all
-GET http://localhost:8080/api/guardias
+GET http://localhost:8080/guardias
 
-### post
-# @name createActividad
-POST http://localhost:8080/api/actividades
+### POST a guardia
+# @name createGuardia
+POST http://localhost:8080/guardias
 Content-Type: application/json
 
 {
-  "nombre": "recoleccion de mandarinas",
-  "descripcion": "hay que recolectar mandarinas",
-  "locacion": "pradera de mandarinas",
-  "diaDeLaSemana": 5,
-  "horaInicio": 14,
-  "horaFin": 17
+  "nombre": "nachi",
+  "apellido": "chap",
+  "dni": 45690986,
+  "fechaIniContrato": "10-10-24",
+  "fechaFinContrato": null,
+  "contrasenia": "12345"
 }
 
-### ID
-@elCod = {{createActividad.response.body.data.id}}
-
 ### get one
-GET http://localhost:8080/api/actividades/{{elCod}}
+GET http://localhost:8080/guardias
+
 
 ### update
-PUT http://localhost:8080/api/actividades/{{elCod}}
+PUT http://localhost:8080/guardias/10
 Content-Type: application/json
 
 {
-  "nombre": "recoleccion de mandarinas moradas",
-  "descripcion": "hay que recolectar mandarinas moradas",
+  "nombre": "juan carlos bobo"
 }
 
 
 ### borrar un character
-DELETE http://localhost:8080/api/actividades/{{elCod}}
+DELETE http://localhost:8080/guardias/2
 
+### creando recluso
+POST http://localhost:8080/reclusos
+Content-Type: application/json
+
+{
+  "nombre": "la",
+  "apellido": "piedra",
+  "dni": 74800490,
+  "fecha_nac": "10-10-24"
+}
+
+### buscar act
+GET http://localhost:8080/actividades
+
+
+
+
+### crear actividad
+POST http://localhost:8080/actividades
+Content-Type: application/json
+
+{
+  "edad_minima": 1,
+  "cod_sector_cod_sector": 1
+}
+
+
+
+
+### buscar rec
+GET http://localhost:8080/reclusos
+
+### buscar sent
+GET http://localhost:8080/sentencias
+
+### crear actividad
+POST http://localhost:8080/condenas
+Content-Type: application/json
+
+{
+  "cod_recluso": 12,
+  "cod_sentencia": 6,
+  "cod_sentencia": 5
+}

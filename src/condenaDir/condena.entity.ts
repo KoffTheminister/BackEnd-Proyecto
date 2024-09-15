@@ -1,26 +1,25 @@
-import { Entity, ManyToOne, Property, Rel, PrimaryKeyProp } from "@mikro-orm/core";
+import { Entity, ManyToOne, Property, Rel, PrimaryKeyProp, PrimaryKey, ManyToMany, Cascade } from "@mikro-orm/core";
 import { Recluso } from "../reclusoDir/recluso.entity.js";
+import { Sentencia } from "../sentenciaDir/sentencia.entity.js";
 
 
 
 @Entity()
 export class Condena {
-    @ManyToOne({primary : true, unique : false, nullable : false})
+    @ManyToOne(() => Recluso, { primary: true, nullable: false })
     cod_recluso !: Rel<Recluso>
 
-    @Property({primary : true, unique : false, nullable : false})
+    @PrimaryKey({primary : true, unique : false, nullable : false})
     fecha_ini !: Date
 
-    @Property({unique : false, nullable : false})
+    @Property({unique : false, nullable : true})
     fecha_fin_estimada !: Date
 
     @Property({unique : false, nullable : true})
     fecha_fin_real !: Date
 
-    [PrimaryKeyProp] !: ['cod_recluso', 'fecha_ini'];
+    @ManyToMany(() => Sentencia, (sentencia) => sentencia.condenas, { unique : false, nullable : false, cascade: [Cascade.ALL], owner: true})
+    sentencias !: Sentencia[]
 
-    constructor(cod_recluso: Recluso, fecha_ini: Date) {
-        this.cod_recluso = cod_recluso;
-        this.fecha_ini = fecha_ini;
-    }
+    [PrimaryKeyProp] !: ['cod_recluso', 'fecha_ini'];
 }
