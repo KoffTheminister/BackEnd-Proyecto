@@ -25,24 +25,20 @@ function sanitizarInputDeAdministrador(req: Request, res: Response, next: NextFu
 async function logIn(req: Request, res: Response){
     try {
         const cod_administrador = Number.parseInt(req.body.cod_administrador) 
-        const elGuardia = await em.findOneOrFail(Administrador, { cod_administrador })
-        if(elGuardia?.contrasenia === req.body.contrasenia){
+        const elAdmin = await em.findOneOrFail(Administrador, { cod_administrador })
+        if(elAdmin?.contrasenia === req.body.contrasenia){
             res.status(201).json({ message: 'ok' } )
         }else{
             res.status(401).json({ message: 'contra incorrecta' } )
         }
-        if(elGuardia === null){
-            res.status(404).json({ message: 'no encontrado' } )
-        }
     } catch (error: any){
-        res.status(500).json({ message: error.message})
+        res.status(404).json({ message: 'no encontrado' } )
     }
 }
 
-
 async function getAll(req:Request, res:Response){
     try{
-        const administradores = await em.find(Administrador, {})
+        const administradores = await em.getConnection().execute(`select * from administrador admin where admin.fecha_fin_contrato is null;`);
         res.status(201).json({ message: 'los administradores:', data: administradores})
     } catch (error: any) {
         res.status(404).json({ message: 'error get all'})

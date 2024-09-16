@@ -1,12 +1,9 @@
 import { Router } from "express";
-import { getOne, getAll, add } from "./actividadIlegal.controller.js"; // , getOne, update, deleteOne, sanitizarInputDeCondena}
+import { getOne, getAll, add, inscripcion } from "./actividadIlegal.controller.js"; // , getOne, update, deleteOne, sanitizarInputDeCondena}
 
 export const actividadIlegalRouter = Router()
 
 actividadIlegalRouter.get('/', getAll)
-// condenaRouter.get('/:cod_condena', getOne)
-actividadIlegalRouter.post('/', add) // sanitizarInputDeCondena, add)
-// condenaRouter.put('/:cod_condena', sanitizarInputDeCondena, update)
-// condenaRouter.delete('/:cod_condena', deleteOne)
-
-
+actividadIlegalRouter.get('/:cod_actividad_ilegal', getOne)
+actividadIlegalRouter.post('/', add)
+actividadIlegalRouter.post('/inscripcion/:cod_act_ilegal&:cod_recluso', inscripcion)

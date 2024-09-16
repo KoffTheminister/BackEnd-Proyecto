@@ -17,10 +17,10 @@ export class Turno {
     @PrimaryKey({primary : true, unique : false, nullable : false})
     fecha_ini !: Date
 
-    @Property({unique : false, nullable : true})
+    @Property({unique : false, nullable : true, primary : false}) 
     fecha_fin !: Date
 
     [PrimaryKeyProp] !: ['cod_sector', 'cod_guardia', 'fecha_ini', 'turno'];
 }
 
-
+console.log('c')

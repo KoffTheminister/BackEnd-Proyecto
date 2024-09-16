@@ -6,17 +6,15 @@ import { RequestContext } from '@mikro-orm/core'
 import { guardiaRouter } from './guardiaDir/guardia.routes.js'
 import { actividadRouter } from './actividadDir/actividad.routes.js'
 import { sentenciaRouter } from './sentenciaDir/sentencia.routes.js'
-//import { celdaRouter } from './celdaDir/celda.routes.js'
+import { celdaRouter } from './celdaDir/celda.routes.js'
 import { sectorRouter } from './sectorDir/sector.routes.js'
 import { administradorRouter } from './administradorDir/administrador.routes.js'
 import { condenaRouter } from './condenaDir/condena.routes.js'
-//import { estadiaRouter } from './estadiaDir/estadia.routes.js'
+import { estadiaRouter } from './estadiaDir/estadia.routes.js'
 import { reclusoRouter } from './reclusoDir/recluso.routes.js'
 import { tallerRouter } from './tallerDir/taller.routes.js'
-//import { turnoRouter } from './turnoDir/turno.routes.js'
-//import { actividadIlegalRouter } from './actividadIlegalDir/actividadIlegal.routes.js'
-//import { turnoRouter } from './tallerDir/taller.routes.js'
-
+import { turnoRouter } from './turnoDir/turno.routes.js'
+import { actividadIlegalRouter } from './actividadIlegalDir/actividadIlegal.routes.js'
 
 
 //misc
@@ -29,6 +27,9 @@ app.use((req, res, next) => {
 
 //manejo de actividades
 app.use('/actividades', actividadRouter)
+
+//manejo de actividades ilegales
+app.use('/actividadesIlegales', actividadIlegalRouter)
 
 //manejo de guardias
 app.use('/guardias', guardiaRouter)
@@ -54,13 +55,14 @@ app.use('/talleres', tallerRouter)
 //manejo de sectores
 app.use('/sectores', sectorRouter)
 
-/*
 //manejo de celdas
-app.use('/celda', celdaRouter)
+app.use('/celdas', celdaRouter)
 
 //manejo de estadias
 app.use('/estadias', estadiaRouter)
-*/
+
+//manejo de turnos
+app.use('/turnos', turnoRouter)
 
 // url invalido
 app.use((_, res) => {

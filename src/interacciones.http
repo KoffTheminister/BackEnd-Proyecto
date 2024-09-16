@@ -15,6 +15,18 @@ Content-Type: application/json
   "contrasenia": "12345"
 }
 
+### POST a guardia
+# @name createGuardia
+POST http://localhost:8080/guardias/logIn
+Content-Type: application/json
+
+{
+  "cod_guardia": 1,
+  "contrasenia": "pass"
+}
+
+
+
 ### get one
 GET http://localhost:8080/guardias
 
@@ -63,15 +75,31 @@ Content-Type: application/json
 ### buscar rec
 GET http://localhost:8080/reclusos
 
-### buscar sent
-GET http://localhost:8080/sentencias
-
 ### crear actividad
-POST http://localhost:8080/condenas
+POST http://localhost:8080/talleres
 Content-Type: application/json
 
 {
-  "cod_recluso": 12,
-  "cod_sentencia": 6,
-  "cod_sentencia": 5
+	"nombre": "mecanica",
+	"descripcion": "mecanica",
+	"locacion": "taller de mecanica",
+	"diaDeLaSemana": 1,
+	"horaInicio": 13,
+	"horaFin": 14,
+	"estado": 1
 }
+
+### inscripcion
+POST http://localhost:8080/talleres/inscripcion/3&6
+
+### buscar celdas
+GET http://localhost:8080/celdas
+
+
+### buscar celdas
+GET http://localhost:8080/celdas/buscarPorSector/3
+
+
+
+### inscripcion a taller
+POST http://localhost:8080/talleres/inscripcion/3&4

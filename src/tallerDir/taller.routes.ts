@@ -1,12 +1,13 @@
 import { Router } from "express";
-import { getOne, getAll, add } from "./taller.controller.js"; // , getOne, update, deleteOne, sanitizarInputDeCondena}
+import { getOne, getAll, add, update, inscripcion, sanitizarInputDeTaller } from "./taller.controller.js"; // , getOne, update, deleteOne, sanitizarInputDeCondena}
 
 export const tallerRouter = Router()
 
 tallerRouter.get('/', getAll)
-// condenaRouter.get('/:cod_condena', getOne)
-tallerRouter.post('/', add) // sanitizarInputDeCondena, add)
-// condenaRouter.put('/:cod_condena', sanitizarInputDeCondena, update)
-// condenaRouter.delete('/:cod_condena', deleteOne)
+tallerRouter.get('/:cod_taller', getOne)
+tallerRouter.post('/', add)
+tallerRouter.post('/inscripcion/:cod_taller&:cod_recluso', inscripcion)
+tallerRouter.put('/:cod_condena', sanitizarInputDeTaller, update)
+
 
 

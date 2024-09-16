@@ -23,7 +23,13 @@ export class ActividadIlegal {
 
     @Property({ nullable: false})
     horaFin !: number
-    
+
+    @Property({ nullable: false})
+    estado !: number
+
+    @Property({ nullable: false})
+    cantidad_maxima !: number
+
     @ManyToMany(() => Recluso, (recluso) => recluso.actividades_ilegales, { unique : false, nullable : false, cascade: [Cascade.ALL], owner: true})
     reclusos !: Recluso[]
 }   
