@@ -26,10 +26,10 @@ async function logIn(req: Request, res: Response){
     try {
         const cod_administrador = Number.parseInt(req.body.cod_administrador) 
         const elAdmin = await em.findOneOrFail(Administrador, { cod_administrador })
-        if(elAdmin?.contrasenia === req.body.contrasenia){
+        if(elAdmin.contrasenia === req.body.contrasenia){
             res.status(201).json({ message: 'ok' } )
         }else{
-            res.status(401).json({ message: 'contra incorrecta' } )
+            res.status(401).json({ message: 'contraseña incorrecta' } )
         }
     } catch (error: any){
         res.status(404).json({ message: 'no encontrado' } )
@@ -80,9 +80,16 @@ async function deleteOne(req: Request, res: Response) {
         if (administradorVerdadero === null){
             return res.status(500).json({message: 'administrador no encontrado'})
         }
-        const administradorParaBorrar = await em.getReference(Administrador, cod_administrador[0])
-        await em.removeAndFlush(administradorParaBorrar)
-        res.status(200).json({ message: 'administrador eliminado'})
+        const today = new Date();
+        const day = today.getDate();
+        const month = today.getMonth() + 1;
+        let year = today.getFullYear();
+        let finalDate = `${year}-${month}-${day}`
+        const administradores = await em.getConnection().execute(`update administrador
+                                                                    set fecha_fin_contrato = ?
+                                                                    where cod_administrador = ?;`, [finalDate, cod_administrador[0]]);
+        await em.flush()
+        res.status(200).json({ message: 'administrador con contrato cancelado'})
     } catch (error: any) {
         res.status(500).json({ message : error.message })
     }

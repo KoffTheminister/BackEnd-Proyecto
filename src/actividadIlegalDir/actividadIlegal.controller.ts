@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express"
 import { ActividadIlegal } from "./actividadIlegal.entity.js"
 import { Recluso } from "../reclusoDir/recluso.entity.js"
 import { orm } from "../shared/db/orm.js"
+import { ConstraintViolationException } from "@mikro-orm/core"
 
 const em = orm.em
 
@@ -47,7 +48,6 @@ async function getOne(req: Request, res: Response){
 async function add(req: Request, res: Response){
     try{
         const si_o_no = await em.getConnection().execute(`select count(*) as cont from actividad_ilegal act_il where act_il.nombre = ?;`, [req.body.nombre]);
-        console.log(si_o_no[0].cont)
         if(si_o_no[0].cont === 0){
             const laActIlegal = em.create(ActividadIlegal, req.body)
             await em.flush()
@@ -60,7 +60,6 @@ async function add(req: Request, res: Response){
     }
 }
 
-
 async function inscripcion(req: Request, res: Response) {
     try {
         const cod_actividad_ilegal : any[] = [];
@@ -69,23 +68,22 @@ async function inscripcion(req: Request, res: Response) {
         const cod_recluso : any[] = [];
         cod_recluso[0] = Number(req.params.cod_recluso)
         const elReclusoVerdadero = await em.findOne(Recluso, cod_recluso[0])
-        console.log(actividad_ilegal)
         if(elReclusoVerdadero !== null && actividad_ilegal[0] !== undefined){
             const chequeo = await em.getConnection().execute(`select a_i.cod_act_ilegal, count(a_i_r.recluso_cod_recluso) as cont, cantidad_maxima
-                                                              from actividad_ilegal a_i
-                                                              inner join actividad_ilegal_reclusos a_i_r on a_i_r.actividad_ilegal_cod_act_ilegal = a_i.cod_act_ilegal
-                                                              where a_i.cod_act_ilegal = ?
-                                                              group by a_i.cod_act_ilegal
-                                                              having cantidad_maxima > count(a_i_r.recluso_cod_recluso);`, [cod_actividad_ilegal[0]]);
+                                                                from actividad_ilegal a_i
+                                                                left join actividad_ilegal_reclusos a_i_r on a_i_r.actividad_ilegal_cod_act_ilegal = a_i.cod_act_ilegal
+                                                                where a_i.cod_act_ilegal = ?
+                                                                group by a_i.cod_act_ilegal
+                                                                having cantidad_maxima > count(a_i_r.recluso_cod_recluso);`, [cod_actividad_ilegal[0]]);
             if(chequeo[0] !== undefined){
                 try{
                     const inscripcion = await em.getConnection().execute(`insert into actividad_ilegal_reclusos(actividad_ilegal_cod_act_ilegal, recluso_cod_recluso) 
                                                                             values (?, ?);`, [cod_actividad_ilegal[0], cod_recluso[0]]);
                 }catch (error: any){
-
+                    console.log('error al hacer la inscripcion')
                 }
                 res.status(200).json({ message: 'inscripcion hecha' })
-            }else{
+            } else {
                 res.status(409).json({ message: 'no hay mas cupo' })
             }
         }
@@ -93,7 +91,7 @@ async function inscripcion(req: Request, res: Response) {
             res.status(404).json({ message: 'recluso no encontrado' })
         }
         if(actividad_ilegal[0] === undefined){
-            res.status(404).json({ message: 'taller no encontrado' })
+            res.status(404).json({ message: 'actividad ilegal no encontrada' })
         }
     }catch (error: any) {
         res.status(500).json({ message: error.message })

@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express"
 import { orm } from "../shared/db/orm.js"
 import { Taller } from "./taller.entity.js"
 import { Recluso } from "../reclusoDir/recluso.entity.js"
-import { error } from "console"
+
 
 const em = orm.em
 
@@ -26,7 +26,7 @@ function sanitizarInputDeTaller(req : Request, res : Response, next: NextFunctio
 
 async function getAll(req:Request, res:Response){
     try{
-        const talleres = await em.getConnection().execute(`select * from taller tall where tall.estado = 1;`);
+        const talleres = await em.getConnection().execute(`select * from taller tall where tall.estado = 1 group by dia_de_la_semana;`);
         res.status(201).json({ message: 'los talleres:', data: talleres})
     } catch (error: any) {
         res.status(404).json({ message: 'error'})
@@ -35,7 +35,7 @@ async function getAll(req:Request, res:Response){
 
 async function getOne(req: Request, res: Response){
     try {
-        const cod_taller =  Number.parseInt(req.params.cod_taller) //reveer si recibe params o body segun lo que diga gonza
+        const cod_taller =  Number.parseInt(req.params.cod_taller)
         const elTaller = await em.findOneOrFail(Taller, { cod_taller }, {populate: ['reclusos']})
         res.status(201).json({ data: elTaller, message: 'taller encontrado'} )
     } catch (error: any){
@@ -84,9 +84,11 @@ async function inscripcion(req: Request, res: Response) {
         const cod_recluso : any[] = [];
         cod_recluso[0] = Number(req.params.cod_recluso)
         const elReclusoVerdadero = await em.findOne(Recluso, cod_recluso[0])
-        if(elReclusoVerdadero !== null && elTallerVerdadero.estado === 1 && elTallerVerdadero !== null){
-            const inscripcion = await em.getConnection().execute(`insert into taller_reclusos(taller_cod_taller, recluso_cod_recluso) values (?, ?);`, [cod_taller[0], cod_recluso[0]]);
-            res.status(200).json({ message: 'inscripcion hecha' })
+        if(elReclusoVerdadero !== null && elTallerVerdadero !== null){
+            if(elTallerVerdadero.estado === 1){
+                const inscripcion = await em.getConnection().execute(`insert into taller_reclusos(taller_cod_taller, recluso_cod_recluso) values (?, ?);`, [cod_taller[0], cod_recluso[0]]);
+                res.status(200).json({ message: 'inscripcion hecha' })
+            }
         }
         if(elReclusoVerdadero === null){
             res.status(404).json({ message: 'recluso no encontrado' })

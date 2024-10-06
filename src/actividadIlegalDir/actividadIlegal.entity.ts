@@ -4,7 +4,7 @@ import { Recluso } from "../reclusoDir/recluso.entity.js";
 @Entity()
 export class ActividadIlegal {
     @PrimaryKey({ nullable: false, unique: true, autoincrement: true})
-    cod_act_ilegal ?: number
+    cod_act_ilegal !: number
     
     @Property({ nullable: false})
     nombre !: string 

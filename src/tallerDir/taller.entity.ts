@@ -1,6 +1,5 @@
-import { Entity, PrimaryKey, Property, ManyToMany, Cascade, ManyToOne, Rel } from "@mikro-orm/core";
+import { Entity, PrimaryKey, Property, ManyToMany, Cascade } from "@mikro-orm/core";
 import { Recluso } from "../reclusoDir/recluso.entity.js";
-import { Sector } from "../sectorDir/sector.entity.js";
 
 @Entity()
 export class Taller {
@@ -31,7 +30,5 @@ export class Taller {
     @ManyToMany(() => Recluso, (recluso) => recluso.talleres, { unique : false, nullable : false, cascade: [Cascade.ALL], owner: true})
     reclusos !: Recluso[]
 }   
-
-console.log('h')
 
 

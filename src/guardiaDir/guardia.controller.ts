@@ -50,18 +50,5 @@ async function add(req: Request, res: Response){
     }
 }
 
-async function logIn(req: Request, res: Response){
-    try {
-        const cod_guardia = Number.parseInt(req.body.cod_guardia) 
-        const elGuardia = await em.findOneOrFail(Guardia, { cod_guardia })
-        if(elGuardia?.contrasenia === req.body.contrasenia){
-            res.status(201).json({ message: 'ok' } )
-        }else{
-            res.status(401).json({ message: 'contra incorrecta' } )
-        }
-    } catch (error: any){
-        res.status(404).json({ message: 'no encontrado' } )
-    }
-}
-
-export { getAll, getSome, getOne, add, logIn }
+export { getAll, getSome, getOne, add }
+console.log('ga')

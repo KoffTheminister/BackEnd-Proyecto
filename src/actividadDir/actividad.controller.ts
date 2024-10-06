@@ -15,7 +15,7 @@ function sanitizarInputDeActividad(req : Request, res : Response, next: NextFunc
         estado: req.body.estado,
         /*
         cantidad_minima: req.body.cantidad_minima,
-        edad_minima: req.body.edad_minima,
+        edad_minima: req.body.edad_minima,                     estos atributos no se pueden cambiar una vez declarados
         cod_sector_cod_sector: req.body.cod_sector_cod_sector
         */
     }
@@ -117,3 +117,12 @@ async function update(req: Request, res: Response) {
 }
 
 export { getAll, getOne, add, update, getSome, sanitizarInputDeActividad }
+
+
+
+
+
+
+
+
+

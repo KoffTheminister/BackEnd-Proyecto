@@ -25,46 +25,20 @@ app.use((req, res, next) => {
   RequestContext.create(orm.em, next)
 })
 
-//manejo de actividades
+
 app.use('/actividades', actividadRouter)
-
-//manejo de actividades ilegales
 app.use('/actividadesIlegales', actividadIlegalRouter)
-
-//manejo de guardias
 app.use('/guardias', guardiaRouter)
-
-//manejo de sentencias
 app.use('/sentencias', sentenciaRouter)
-
-//manejo de sectores
 app.use('/sectores', sectorRouter)
-
-//manejo de administradores
 app.use('/administradores', administradorRouter)
-
-//manejo de reclusos
 app.use('/reclusos', reclusoRouter)
-
-//manejo de condenas
 app.use('/condenas', condenaRouter)
-
-//manejo de condenas
 app.use('/talleres', tallerRouter)
-
-//manejo de sectores
 app.use('/sectores', sectorRouter)
-
-//manejo de celdas
 app.use('/celdas', celdaRouter)
-
-//manejo de estadias
 app.use('/estadias', estadiaRouter)
-
-//manejo de turnos
 app.use('/turnos', turnoRouter)
-
-// url invalido
 app.use((_, res) => {
     return res.status(404).send({ message: 'Resource not found' })
 })
@@ -75,5 +49,39 @@ await syncSchema()  // solo en etapas de desarrollo
 app.listen(8080, () => {
     console.log('server correctly running at 8080')
 })
+
+
+/*
+
+actividad                 |
+| actividad_reclusos        |
+| celda                     |
+| composicion_condena       |
+| condena                   |
+| condena_sentencias        |
+| estadia                   |
+| guardia                   |
+| guardia_actividad         |
+| inscripcion               |
+| recluso                   |
+| sector                    |
+| sector_sentencia          |
+| sector_sentencias         |
+| turno
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

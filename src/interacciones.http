@@ -103,3 +103,40 @@ GET http://localhost:8080/celdas/buscarPorSector/3
 
 ### inscripcion a taller
 POST http://localhost:8080/talleres/inscripcion/3&4
+
+
+
+### POST an actividad
+POST http://localhost:8080/actividadesIlegales
+Content-Type: application/json
+
+{
+	"nombre": "cosedo6",
+	"descripcion": "tejemos",
+	"locacion": "sala de tejidos",
+	"diaDeLaSemana": 2,
+	"horaInicio": "12",
+	"horaFin": "13",
+	"estado": 1,
+	"cantidad_maxima": 4
+}
+
+### get all turnos
+GET http://localhost:8080/turnos
+
+### get
+GET http://localhost:8080/actividadesIlegales
+
+### post
+POST http://localhost:8080/actividadesIlegales
+Content-Type: application/json
+
+{
+ 	"nombre": "jugar dota",
+	"descripcion": "ser inhumano basicamente", 
+	"duracion_anios": 1,
+	"duracion_meses": 1, 
+	"duracion_dias": 1,
+	"orden_de_gravedad": 76
+}
+

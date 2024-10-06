@@ -19,7 +19,4 @@ export class Guardia {
 
     @Property({ nullable: true})
     fechaFinContrato ?: Date
-
-    @Property({nullable: false})
-    contrasenia!: string
 }   
