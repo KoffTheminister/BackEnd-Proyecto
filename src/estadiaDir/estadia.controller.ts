@@ -25,13 +25,14 @@ async function getOne(req:Request, res:Response){
 
 async function add(req:Request, res:Response) {
     try{
-        const cod_celda =  Number.parseInt(req.params.cod_celda)
-        const celdas = await em.getConnection().execute(`select c.cod_celda as cod, c.cod_sector_cod_sector as sec, c.capacidad, count(e.cod_celda_cod_celda)
-                                                         from celda c
-                                                         inner join estadia e on c.cod_celda = e.cod_celda_cod_celda
-                                                         where e.fecha_fin is null and c.cod_celda_cod_celda = ?
-                                                         group by c.cod_celda
-                                                         having c.capacidad > count(e.cod_celda_cod_celda);`, [cod_celda]);
+        const cod_celda =  Number.parseInt()
+        const celdas = await em.getConnection().execute(
+            `select c.cod_celda as cod, c.cod_sector_cod_sector as sec, c.capacidad, count(e.cod_celda_cod_celda)
+            from celda c
+            inner join estadia e on e.cod_celda_cod_celda = c.cod_celda and e.fecha_fin is null
+            where c.cod_celda = ?
+            group by c.cod_celda
+            having c.capacidad > count(e.cod_celda_cod_celda);`, [cod_celda]);
         if(celdas.lenght !== 0){
             const cod_recluso =  Number.parseInt(req.params.cod_recluso)
             const today = new Date();

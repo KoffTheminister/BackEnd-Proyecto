@@ -25,6 +25,7 @@ async function getOne(req: Request, res: Response){
     }
 }
 */
+
 async function add(req: Request, res: Response){
     try{
         const today = new Date();
@@ -44,6 +45,7 @@ async function add(req: Request, res: Response){
                 await em.flush()
             }
         })
+
         let max = await em.getConnection().execute(`select max(sen.orden_de_gravedad) as max
                                                     from sentencia sen
                                                     inner join condena_sentencias c_s on c_s.sentencia_cod_sentencia = sen.cod_sentencia
@@ -51,7 +53,6 @@ async function add(req: Request, res: Response){
         let cod_sentencia = await em.getConnection().execute(`select sen.cod_sentencia as cod
                                                               from sentencia sen
                                                               where sen.orden_de_gravedad = ?;`, [max[0].max]);
-
         let cod_sector = await em.getConnection().execute(`select c.cod_sector_cod_sector as cod_sector
                                                            from sector_sentencias s_s
                                                            inner join celda c on s_s.sector_cod_sector = c.cod_sector_cod_sector
@@ -61,7 +62,7 @@ async function add(req: Request, res: Response){
                                                            inner join estadia e on c.cod_celda = e.cod_celda_cod_celda
                                                            where e.fecha_fin is null and c.cod_sector_cod_sector = ?
                                                            group by c.cod_celda
-                                                           having c.capacidad > count(e.cod_celda_cod_celda);`, [cod_sector[0].cod]);
+                                                           having c.capacidad > count(e.cod_celda_cod_celda);`, [cod_sector[0].cod_sector]);
         let estadia = await em.getConnection().execute(`insert into estadia (cod_recluso_cod_recluso, cod_celda_cod_celda, cod_celda_cod_sector_cod_sector, fecha_ini, fecha_fin)
                                                         values (?, ?, ?, ?, null);`, [req.body.cod_recluso, cod_celdas[0].cod, cod_sector[0].cod, finalDate]);
         await em.flush()

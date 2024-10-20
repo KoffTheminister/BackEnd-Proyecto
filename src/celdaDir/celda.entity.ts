@@ -24,3 +24,7 @@ export class Celda {
     }
 }   
 
+
+
+
+

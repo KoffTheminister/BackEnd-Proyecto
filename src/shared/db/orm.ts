@@ -9,11 +9,13 @@ export const orm = await MikroORM.init({
     clientUrl: 'mysql://nachin:ik12345ik@localhost:3306/libertant', // mysql://username:password@localhost:3306/your_database_name
     highlighter: new SqlHighlighter(),
     debug: true,
+    /*
     schemaGenerator: { // nunca utilizar en produccion, solo en la etapa de desarrollo
         disableForeignKeys: true,
         createForeignKeyConstraints: true,
         ignoreSchema: []
     }
+    */
 })
 
 

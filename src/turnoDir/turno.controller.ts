@@ -6,7 +6,7 @@ const em = orm.em
 
 async function getAll(req:Request, res:Response){
     try{
-        const turnos = await em.getConnection().execute(`select * from turno t where t.fecha_fin is not null;`);
+        const turnos = await em.getConnection().execute(`select * from turno t where t.fecha_fin is null;`);
         res.status(201).json({ message: 'los turnos:', data: turnos})
     } catch (error: any) {
         res.status(404).json({ message: 'error'})
@@ -16,8 +16,8 @@ async function getAll(req:Request, res:Response){
 async function getFromSector(req:Request, res:Response){
     try{
         const cod_sector =  Number.parseInt(req.params.cod_sector)
-        const turnos = await em.getConnection().execute(`select * from turno t where t.fecha_fin is not null and t.cod_sector_cod_sector = ?;`, [cod_sector]);
-        res.status(201).json({ message: 'los sectores:', data: turnos})
+        const turnos = await em.getConnection().execute(`select * from turno t where t.fecha_fin is null and t.cod_sector_cod_sector = ?;`, [cod_sector]);
+        res.status(201).json({ message: 'los turnos:', data: turnos})
     } catch (error: any) {
         res.status(404).json({ message: 'error'})
     }
@@ -25,17 +25,19 @@ async function getFromSector(req:Request, res:Response){
 
 async function add(req:Request, res:Response) {
     try{
+        console.log(req.body)
         const turnos = await em.getConnection().execute(`select count(*) as cont
                                                          from turno t 
-                                                         where t.fecha_fin is null and t.cod_guardia_cod_guardia = ? and t.turno = ?;`, [req.body.cod_guardia_cod_guardia, req.body.turno]);
+                                                         where t.fecha_fin is null and t.cod_guardia_cod_guardia = ? and t.turno = ?;`, [req.body.cod_guardia, req.body.turno]);
         if(turnos[0].cont === 0){
             const today = new Date();
             const day = today.getDate();
             const month = today.getMonth() + 1;
             let year = today.getFullYear();
             let finalDate = `${year}-${month}-${day}`
+            console.log(req.body.cod_guardia)
             const turnos = await em.getConnection().execute(`insert into turno (cod_guardia_cod_guardia, cod_sector_cod_sector, turno, fecha_ini, fecha_fin)
-                                                             values (?, ?, ?, ?, null);`, [req.body.cod_guardia_cod_guardia, req.body.cod_sector_cod_sector, req.body.turno, finalDate]);
+                                                             values (?, ?, ?, ?, null);`, [req.body.cod_guardia, req.body.cod_sector, req.body.turno, finalDate]);
             await em.flush()
             res.status(200).json({ message: 'turno creado'})
         } else {
@@ -51,7 +53,7 @@ async function terminarAsignacionDeTurno(req:Request, res:Response) {
         const cod_guardia =  Number.parseInt(req.params.cod_guardia)
         const turnos = await em.getConnection().execute(`select count(*) as cont
                                                          from turno t 
-                                                         where t.fecha_fin is null and t.cod_guardia_cod_guardia = ? and t.turno = ?;`, [cod_guardia, req.params.turno]);
+                                                         where t.fecha_fin is null and t.cod_guardia_cod_guardia = ? and t.cod_sector_cod_sector = ? and t.turno = ?;`, [req.body.cod_guardia, req.body.cod_sector, req.body.turno]);
         console.log(turnos)
         if(turnos[0].cont === 1){                                                 
             const today = new Date();
@@ -59,9 +61,10 @@ async function terminarAsignacionDeTurno(req:Request, res:Response) {
             const month = today.getMonth() + 1;
             let year = today.getFullYear();
             let finalDate = `${year}-${month}-${day}`
-            const modif = await em.getConnection().execute(`update turno
-                                                            set fecha_fin = ?
-                                                            where cod_guardia_cod_guardia = ? and fecha_fin is null and turno = ?;`, [finalDate, cod_guardia, req.params.turno]);
+            const modif = await em.getConnection().execute(
+                `update turno
+                set fecha_fin = ?
+                where cod_guardia_cod_guardia = ? and cod_sector_cod_sector = ? and turno = ? and fecha_fin is null;`, [finalDate, req.body.cod_guardia, req.body.cod_sector, req.body.turno]);
             await em.flush()
             res.status(200).json({ message: 'turno finalizado'})
         } else {

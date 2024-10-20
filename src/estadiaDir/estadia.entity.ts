@@ -6,10 +6,13 @@ import { Celda } from "../celdaDir/celda.entity.js";
 export class Estadia {
     @ManyToOne(() => Recluso, { nullable: false, primary: true })
     cod_recluso !: Rel<Recluso>
+    
     @ManyToOne(() => Celda, { nullable: false, primary: true })
     cod_celda !: Rel<Recluso>
+
     @Property({ nullable: false, primary: true })
     fecha_ini !: Date
+
     @Property({ nullable: true })
     fecha_fin !: Date
 

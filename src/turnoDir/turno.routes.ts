@@ -6,7 +6,7 @@ export const turnoRouter = Router()
 turnoRouter.get('/', getAll)
 turnoRouter.get('/:cod_sector', getFromSector)
 turnoRouter.post('/', add)
-turnoRouter.put('/:cod_guardia&:turno', terminarAsignacionDeTurno)
+turnoRouter.put('/', terminarAsignacionDeTurno)
 
 
 

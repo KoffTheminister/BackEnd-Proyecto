@@ -1,142 +1,92 @@
 ### get all
-GET http://localhost:8080/guardias
+GET http://localhost:8080/sectores
+
+
 
 ### POST a guardia
-# @name createGuardia
-POST http://localhost:8080/guardias
-Content-Type: application/json
-
-{
-  "nombre": "nachi",
-  "apellido": "chap",
-  "dni": 45690986,
-  "fechaIniContrato": "10-10-24",
-  "fechaFinContrato": null,
-  "contrasenia": "12345"
-}
-
-### POST a guardia
-# @name createGuardia
-POST http://localhost:8080/guardias/logIn
-Content-Type: application/json
-
-{
-  "cod_guardia": 1,
-  "contrasenia": "pass"
-}
-
-
-
-### get one
-GET http://localhost:8080/guardias
-
-
-### update
-PUT http://localhost:8080/guardias/10
-Content-Type: application/json
-
-{
-  "nombre": "juan carlos bobo"
-}
-
-
-### borrar un character
-DELETE http://localhost:8080/guardias/2
-
-### creando recluso
-POST http://localhost:8080/reclusos
-Content-Type: application/json
-
-{
-  "nombre": "la",
-  "apellido": "piedra",
-  "dni": 74800490,
-  "fecha_nac": "10-10-24"
-}
-
-### buscar act
-GET http://localhost:8080/actividades
-
-
-
-
-### crear actividad
 POST http://localhost:8080/actividades
 Content-Type: application/json
 
 {
-  "edad_minima": 1,
-  "cod_sector_cod_sector": 1
+    "nombre": "recoleccion de mandarinas",
+    "descripcion": "recolectamos mandarinas", 
+    "locacion": "arboleda del sector 1", 
+    "diaDeLaSemana": 5, 
+    "horaInicio": 23, 
+    "horaFin": 24,
+    "estado": 1,
+    "cantidadMinima": 10,
+    "edadMinima": 18, 
+    "cod_sector": 1
+}
+
+### agregar sentencias a sector
+POST http://localhost:8080/sectores/agregarSentenciasEn1
+Content-Type: application/json
+
+{
+    "cod_sentencia1": 1,
+    "cod_sentencia2": 2,
+    "cod_sentencia3": 3
 }
 
 
 
-
-### buscar rec
-GET http://localhost:8080/reclusos
-
-### crear actividad
-POST http://localhost:8080/talleres
+### POST a recluso
+POST http://localhost:8080/reclusos
 Content-Type: application/json
 
 {
-	"nombre": "mecanica",
-	"descripcion": "mecanica",
-	"locacion": "taller de mecanica",
-	"diaDeLaSemana": 1,
-	"horaInicio": 13,
-	"horaFin": 14,
-	"estado": 1
+    "nombre": "Ignacio",
+    "apellido": "Koffler", 
+    "dni": 45655988, 
+    "fecha_nac": "2004-06-10" 
 }
 
-### inscripcion
-POST http://localhost:8080/talleres/inscripcion/3&6
+### get all guardias
+GET http://localhost:8080/guardias 
 
-### buscar celdas
-GET http://localhost:8080/celdas
-
-
-### buscar celdas
-GET http://localhost:8080/celdas/buscarPorSector/3
-
-
-
-### inscripcion a taller
-POST http://localhost:8080/talleres/inscripcion/3&4
-
-
-
-### POST an actividad
-POST http://localhost:8080/actividadesIlegales
+### post guardia
+POST http://localhost:8080/guardias 
 Content-Type: application/json
 
 {
-	"nombre": "cosedo6",
-	"descripcion": "tejemos",
-	"locacion": "sala de tejidos",
-	"diaDeLaSemana": 2,
-	"horaInicio": "12",
-	"horaFin": "13",
-	"estado": 1,
-	"cantidad_maxima": 4
+    "nombre": "Ignacio",
+    "apellido": "Chaparro", 
+    "dni": 45655986, 
+    "fechaIniContrato": "2004-06-10" 
+}
+
+### finalizar contrato
+PUT http://localhost:8080/guardias/finalizarContratoDe7
+
+### crear turno
+POST http://localhost:8080/turnos/
+Content-Type: application/json
+
+{
+    "cod_guardia": 6,
+    "cod_sector": 1,
+    "turno": "N"
+}
+
+### dar de baja un turno
+PUT http://localhost:8080/turnos/
+Content-Type: application/json
+
+{
+    "cod_guardia": 6,
+    "cod_sector": 1,
+    "turno": "N"
 }
 
 ### get all turnos
-GET http://localhost:8080/turnos
+GET http://localhost:8080/turnos/1
 
-### get
-GET http://localhost:8080/actividadesIlegales
+### get all turnos
+GET http://localhost:8080/celdas
 
-### post
-POST http://localhost:8080/actividadesIlegales
-Content-Type: application/json
 
-{
- 	"nombre": "jugar dota",
-	"descripcion": "ser inhumano basicamente", 
-	"duracion_anios": 1,
-	"duracion_meses": 1, 
-	"duracion_dias": 1,
-	"orden_de_gravedad": 76
-}
+
+
 

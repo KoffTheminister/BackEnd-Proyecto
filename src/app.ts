@@ -25,7 +25,7 @@ app.use((req, res, next) => {
   RequestContext.create(orm.em, next)
 })
 
-
+console.log('hola')
 app.use('/actividades', actividadRouter)
 app.use('/actividadesIlegales', actividadIlegalRouter)
 app.use('/guardias', guardiaRouter)

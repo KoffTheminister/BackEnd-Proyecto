@@ -29,6 +29,9 @@ importers:
       reflect-metadata:
         specifier: 0.2.2
         version: 0.2.2
+      ws:
+        specifier: ^8.18.0
+        version: 8.18.0
     devDependencies:
       '@types/express':
         specifier: 4.17.21
@@ -775,6 +778,18 @@ packages:
     engines: {node: '>= 8'}
     hasBin: true
 
+  ws@8.18.0:
+    resolution: {integrity: sha512-8VbfWfHLbbwu3+N6OKsOMpBdT4kXPDDB9cJk2bJ6mh9ucxdlnNvH1e+roYkKmN9Nxw2yjz7VzeO9oOz2zJ04Pw==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: '>=5.0.2'
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+
   yallist@4.0.0:
     resolution: {integrity: sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==}
 
@@ -1453,5 +1468,7 @@ snapshots:
   which@2.0.2:
     dependencies:
       isexe: 2.0.0
+
+  ws@8.18.0: {}
 
   yallist@4.0.0: {}

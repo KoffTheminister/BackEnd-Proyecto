@@ -23,4 +23,4 @@ export class Turno {
     [PrimaryKeyProp] !: ['cod_sector', 'cod_guardia', 'fecha_ini', 'turno'];
 }
 
-console.log('c')
+

@@ -28,7 +28,11 @@ async function getFromSector(req: Request, res: Response){
     try {
         const cod_sector =  Number.parseInt(req.params.cod_sector) 
         const lasCeldas = await em.getConnection().execute(`select * from celda cel where cel.cod_sector_cod_sector = ?;`, [cod_sector]);
-        res.status(201).json({ data: lasCeldas } )
+        if(lasCeldas.length !== 0){
+            res.status(201).json({ data: lasCeldas } )
+        } else {
+            res.status(404).json({ message: 'sector invalido'})
+        }
     } catch (error: any){
         res.status(500).json({ message: error.message})
     }
