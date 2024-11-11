@@ -26,7 +26,7 @@ function sanitizarInputDeTaller(req : Request, res : Response, next: NextFunctio
 
 async function getAll(req:Request, res:Response){
     try{
-        const talleres = await em.getConnection().execute(`select * from taller tall where tall.estado = 1 group by dia_de_la_semana;`);
+        const talleres = await em.getConnection().execute(`select * from taller tall where tall.estado = 1 order by dia_de_la_semana;`);
         res.status(201).json({ message: 'los talleres:', data: talleres})
     } catch (error: any) {
         res.status(404).json({ message: 'error'})
@@ -45,7 +45,10 @@ async function getOne(req: Request, res: Response){
 
 async function add(req: Request, res: Response){
     try{
-        const si_o_no = await em.getConnection().execute(`select count(*) as cont from taller ta where ta.nombre = ?;`, [req.body.nombre]);
+        const si_o_no = await em.getConnection().execute(
+            `select count(*) as cont 
+            from taller ta 
+            where ta.nombre = ? and ta.dia_de_la_semana = ? and ta.hora_inicio = ? and ta.hora_fin = ?;`, [req.body.nombre, req.body.diaDeLaSemana, req.body.horaInicio, req.body.horaFin]);
         console.log(si_o_no[0].cont)
         if(si_o_no[0].cont === 0){
             const elTaller = em.create(Taller, req.body)
@@ -65,14 +68,14 @@ async function update(req: Request, res: Response) {
         cod_taller[0] = Number(req.params.cod_taller)
         const elTallerVerdadero = await em.findOne(Taller, cod_taller[0])
         if (elTallerVerdadero == null) {
-            res.status(400).json({ message: 'el taller buscado no coincide con ninguno de los registrados'})
+            res.status(404).json({ message: 'el taller buscado no coincide con ninguno de los registrados'})
         }
         const elTaller = em.getReference(Taller, cod_taller[0])
         em.assign(elTaller, req.body)
         await em.flush()
-        res.status(200).json({message: 'taller modificado'})
+        res.status(201).json({message: 'taller modificado'})
     } catch (error: any) {
-        res.status(500).json({message : 'error'})
+        res.status(500).json({message : error.message})
     }
 }
 
@@ -86,15 +89,21 @@ async function inscripcion(req: Request, res: Response) {
         const elReclusoVerdadero = await em.findOne(Recluso, cod_recluso[0])
         if(elReclusoVerdadero !== null && elTallerVerdadero !== null){
             if(elTallerVerdadero.estado === 1){
-                const inscripcion = await em.getConnection().execute(`insert into taller_reclusos(taller_cod_taller, recluso_cod_recluso) values (?, ?);`, [cod_taller[0], cod_recluso[0]]);
-                res.status(200).json({ message: 'inscripcion hecha' })
+                try{
+                    const inscripcion = await em.getConnection().execute(`insert into taller_reclusos(taller_cod_taller, recluso_cod_recluso) values (?, ?);`, [cod_taller[0], cod_recluso[0]]);
+                    res.status(201).json({ message: 'inscripcion hecha' })
+                } catch (error: any){
+                    res.status(409).json({ message: 'inscripcion hecha anteriormente' })
+                }
+            } else {
+                res.status(410).json({ message: 'taller inhabilitado' })
             }
         }
         if(elReclusoVerdadero === null){
             res.status(404).json({ message: 'recluso no encontrado' })
         }
         if(elTallerVerdadero === null){
-            res.status(404).json({ message: 'taller no encontrado' })
+            res.status(403).json({ message: 'taller no encontrado' })
         }
     }catch (error: any) {
         res.status(500).json({ message: error.message })
@@ -102,3 +111,8 @@ async function inscripcion(req: Request, res: Response) {
 }
 
 export { getAll, getOne, add, update, inscripcion, sanitizarInputDeTaller }
+
+
+
+
+

@@ -27,7 +27,11 @@ async function logIn(req: Request, res: Response){
         const cod_administrador = Number.parseInt(req.body.cod_administrador) 
         const elAdmin = await em.findOneOrFail(Administrador, { cod_administrador })
         if(elAdmin.contrasenia === req.body.contrasenia){
-            res.status(201).json({ message: 'ok' } )
+            if(elAdmin.cod_administrador === 11){
+                res.status(202).json({ message: 'ok' } )
+            } else {
+                res.status(201).json({ message: 'ok' } )
+            }
         }else{
             res.status(401).json({ message: 'contraseña incorrecta' } )
         }
@@ -55,44 +59,4 @@ async function getOne(req: Request, res: Response){
     }
 }
 
-async function update(req: Request, res: Response) {
-    try{
-        const cod_administrador: any[] = [];
-        cod_administrador[0] = Number(req.params.cod_administrador)
-        const elAdministradorVerdadero = await em.findOne(Administrador, cod_administrador[0])
-        if (elAdministradorVerdadero === null) {
-            res.status(404).json({ message: 'el administrador no coincide con ninguno de los registrados'})
-        }
-        const administradorParaActualizar = em.getReference(Administrador, cod_administrador[0])
-        em.assign(administradorParaActualizar, req.body.sanitizedInput)
-        await em.flush()
-        res.status(200).json({ message: 'administrador cambiado' })
-    } catch (error: any) {
-        res.status(500).json({message : error.message})
-    }
-}
-
-async function deleteOne(req: Request, res: Response) {
-    try{
-        const cod_administrador: any[] = [];
-        cod_administrador[0] = Number(req.params.cod_administrador)
-        const administradorVerdadero = await em.findOne(Administrador, cod_administrador[0])
-        if (administradorVerdadero === null){
-            return res.status(500).json({message: 'administrador no encontrado'})
-        }
-        const today = new Date();
-        const day = today.getDate();
-        const month = today.getMonth() + 1;
-        let year = today.getFullYear();
-        let finalDate = `${year}-${month}-${day}`
-        const administradores = await em.getConnection().execute(`update administrador
-                                                                    set fecha_fin_contrato = ?
-                                                                    where cod_administrador = ?;`, [finalDate, cod_administrador[0]]);
-        await em.flush()
-        res.status(200).json({ message: 'administrador con contrato cancelado'})
-    } catch (error: any) {
-        res.status(500).json({ message : error.message })
-    }
-}
-
-export { getAll, getOne, logIn, update, deleteOne, sanitizarInputDeAdministrador }
+export { getAll, getOne, logIn, sanitizarInputDeAdministrador }

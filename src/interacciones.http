@@ -1,17 +1,41 @@
 ### get all
 GET http://localhost:8080/sectores
 
+### get one
+GET http://localhost:8080/sectores/1
+
+### get celdas
+GET http://localhost:8080/sectores/celdas/1
+
+### agregar sentencias a sector, es importante que los campos tengan nombres diferentes
+POST http://localhost:8080/sectores/agregarSentenciasEn1
+Content-Type: application/json
+
+{
+    "cod_sentencia1": 10,
+    "cod_sentencia2": 8,
+    "cod_sentencia3": 9
+}
 
 
-### POST a guardia
+
+
+
+### get actividades
+GET http://localhost:8080/actividades
+
+### get actividad
+GET http://localhost:8080/actividades/3
+
+### POST an actividad
 POST http://localhost:8080/actividades
 Content-Type: application/json
 
 {
-    "nombre": "recoleccion de mandarinas",
-    "descripcion": "recolectamos mandarinas", 
+    "nombre": "recoleccion de naranjas",
+    "descripcion": "recolectamos naranjas", 
     "locacion": "arboleda del sector 1", 
-    "diaDeLaSemana": 5, 
+    "diaDeLaSemana": 4, 
     "horaInicio": 23, 
     "horaFin": 24,
     "estado": 1,
@@ -20,17 +44,27 @@ Content-Type: application/json
     "cod_sector": 1
 }
 
-### agregar sentencias a sector
-POST http://localhost:8080/sectores/agregarSentenciasEn1
+### modificar an actividad
+PUT http://localhost:8080/actividades/3
 Content-Type: application/json
 
 {
-    "cod_sentencia1": 1,
-    "cod_sentencia2": 2,
-    "cod_sentencia3": 3
+    "nombre": "recoleccion de naranjas radioactiva",
+    "descripcion": "recolectamos naranjas radioactivas", 
+    "locacion": "chernobyl sector 1", 
+    "estado": 1
 }
 
 
+
+
+
+
+### get reclusos
+GET http://localhost:8080/reclusos
+
+### get reclusos
+GET http://localhost:8080/reclusos/45655988
 
 ### POST a recluso
 POST http://localhost:8080/reclusos
@@ -43,8 +77,17 @@ Content-Type: application/json
     "fecha_nac": "2004-06-10" 
 }
 
+
+
+
+
+
+
 ### get all guardias
 GET http://localhost:8080/guardias 
+
+### get guardia
+GET http://localhost:8080/guardias/7
 
 ### post guardia
 POST http://localhost:8080/guardias 
@@ -60,8 +103,19 @@ Content-Type: application/json
 ### finalizar contrato
 PUT http://localhost:8080/guardias/finalizarContratoDe7
 
+
+
+
+
+
+### get all de un sector en particular
+GET http://localhost:8080/turnos/1
+
+### get all turnos
+GET http://localhost:8080/turnos
+
 ### crear turno
-POST http://localhost:8080/turnos/
+POST http://localhost:8080/turnos/  
 Content-Type: application/json
 
 {
@@ -70,7 +124,7 @@ Content-Type: application/json
     "turno": "N"
 }
 
-### dar de baja un turno
+### dar de baja un turno la diferencia con el de arriba es que este es put y el otro es post
 PUT http://localhost:8080/turnos/
 Content-Type: application/json
 
@@ -80,11 +134,91 @@ Content-Type: application/json
     "turno": "N"
 }
 
-### get all turnos
-GET http://localhost:8080/turnos/1
 
-### get all turnos
-GET http://localhost:8080/celdas
+
+
+
+### get actividades ilegales
+GET http://localhost:8080/actividadesIlegales
+
+### get reclusos
+GET http://localhost:8080/actividadesIlegales/3
+
+### POST an actividad
+POST http://localhost:8080/actividadesIlegales
+Content-Type: application/json
+
+{
+    "nombre": "recoleccion de banans",
+    "descripcion": "recolectamos naranjas", 
+    "locacion": "arboleda del sector 1", 
+    "diaDeLaSemana": 4, 
+    "horaInicio": 23, 
+    "horaFin": 24,
+    "estado": 1,
+    "cantidad_maxima": 10
+}
+
+### modificar an actividad
+PUT http://localhost:8080/actividadesIlegales/9
+Content-Type: application/json
+
+{
+    "nombre": "recoleccion de naranjas radioactiva",
+    "descripcion": "recolectamos naranjas radioactivas", 
+    "locacion": "chernobyl sector 1", 
+    "estado": 1
+}
+
+### inscribir a act ilegal :cod_act_ilegal&:cod_recluso
+POST http://localhost:8080/actividadesIlegales/inscripcion/9&5
+
+
+
+
+
+### get all
+GET http://localhost:8080/condenas
+
+### agregar sentencias a sector, es importante que los campos tengan nombres diferentes
+POST http://localhost:8080/condenas
+Content-Type: application/json
+
+{
+    "cod_recluso": 2,
+    "cod_sentencia1": 10,
+    "cod_sentencia2": 8,
+    "cod_sentencia3": 9
+}
+
+### finalizar condenas
+PUT http://localhost:8080/condenas/finalizarCondenas
+
+
+
+
+### get administradores
+GET http://localhost:8080/administradores
+
+### get administrador
+GET http://localhost:8080/administradores/1
+
+
+### POST a recluso
+POST http://localhost:8080/administradores/logIn
+Content-Type: application/json
+
+{
+    "cod_administrador": 11,
+    "contrasenia": "muajaja"
+}
+
+
+
+
+
+
+
 
 
 

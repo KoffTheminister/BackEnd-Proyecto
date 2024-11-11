@@ -4,6 +4,6 @@ import { getAll, getOne, add, sanitizarInputDeRecluso} from "./recluso.controlle
 export const reclusoRouter = Router()
 
 reclusoRouter.get('/', getAll)
-reclusoRouter.get('/:cod_recluso', getOne)
+reclusoRouter.get('/:dni', getOne)
 reclusoRouter.post('/', add)
 

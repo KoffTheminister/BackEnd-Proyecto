@@ -25,7 +25,6 @@ app.use((req, res, next) => {
   RequestContext.create(orm.em, next)
 })
 
-console.log('hola')
 app.use('/actividades', actividadRouter)
 app.use('/actividadesIlegales', actividadIlegalRouter)
 app.use('/guardias', guardiaRouter)
@@ -53,21 +52,9 @@ app.listen(8080, () => {
 
 /*
 
-actividad                 |
-| actividad_reclusos        |
-| celda                     |
-| composicion_condena       |
-| condena                   |
-| condena_sentencias        |
 | estadia                   |
-| guardia                   |
-| guardia_actividad         |
-| inscripcion               |
-| recluso                   |
 | sector                    |
-| sector_sentencia          |
 | sector_sentencias         |
-| turno
 
 */
 

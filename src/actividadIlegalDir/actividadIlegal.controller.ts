@@ -24,41 +24,54 @@ async function getAll(req:Request, res:Response){
     }
 }
 
-/*
-async function getSome(req:Request, res:Response){
-    try{
-        const talleres = await em.find(Taller, { nombre: '%req.params.nombreParcial%' })  //reveer si recibe params o body segun lo que diga gonza
-        res.status(201).json({ message: 'las actividades:', data: actividades})
-    } catch (error: any) {
-        res.status(404).json({ message: 'error'})
-    }
-}
-*/
-
 async function getOne(req: Request, res: Response){
     try {
         const cod_act_ilegal =  Number.parseInt(req.params.cod_actividad_ilegal)
         const laActIlegal = await em.findOneOrFail(ActividadIlegal, { cod_act_ilegal })
         res.status(201).json({ data: laActIlegal, message: 'actividad ilegal encontrada'} )
     } catch (error: any){
-        res.status(404).json({ message: 'no hay actividades ilegales con ese codigo'})
+        res.status(404).json({message: 'no se pudo encontrar'})
     }
 }
 
 async function add(req: Request, res: Response){
     try{
-        const si_o_no = await em.getConnection().execute(`select count(*) as cont from actividad_ilegal act_il where act_il.nombre = ?;`, [req.body.nombre]);
+        const si_o_no = await em.getConnection().execute(
+            `select count(*) as cont 
+            from actividad_ilegal act_il 
+            where act_il.dia_de_la_semana = ? and act_il.hora_inicio = ? and act_il.hora_fin = ?;`, [req.body.diaDeLaSemana, req.body.horaInicio, req.body.horaFin]);
         if(si_o_no[0].cont === 0){
             const laActIlegal = em.create(ActividadIlegal, req.body)
             await em.flush()
-            res.status(201).json({message: 'actividad ilegal creada', data: laActIlegal})
+            res.status(201).json({message: 'creado correctamente'})
         }else{
-            res.status(409).json({message: 'actividad ilegal ya creada'})
+            res.status(409).json({message: 'no se pudo crear'})
         }
     } catch (error: any) {
         res.status(500).json({message : error.message})
     }
 }
+
+
+async function update(req: Request, res: Response) {
+    try{
+        const cod_actividad : any[] = [];
+        cod_actividad[0] = Number(req.params.cod_actividad)
+        const laActividadVerdadera = await em.findOne(ActividadIlegal, cod_actividad[0])
+        console.log('asa')
+        if(laActividadVerdadera === null || laActividadVerdadera.estado == 0) {
+            res.status(404).json({message: 'no se pudo modificar'})
+        } else {
+            const laActividad = em.getReference(ActividadIlegal, cod_actividad[0])
+            em.assign(laActividad, req.body)
+            await em.flush()
+            res.status(201).json({message: ' modificado'})
+        }
+    } catch (error: any) {
+        res.status(500).json({ message : error.message })
+    }
+}
+
 
 async function inscripcion(req: Request, res: Response) {
     try {
@@ -79,10 +92,10 @@ async function inscripcion(req: Request, res: Response) {
                 try{
                     const inscripcion = await em.getConnection().execute(`insert into actividad_ilegal_reclusos(actividad_ilegal_cod_act_ilegal, recluso_cod_recluso) 
                                                                             values (?, ?);`, [cod_actividad_ilegal[0], cod_recluso[0]]);
-                }catch (error: any){
+                } catch (error: any) {
                     console.log('error al hacer la inscripcion')
                 }
-                res.status(200).json({ message: 'inscripcion hecha' })
+                res.status(201).json({message: 'inscripcion hecha'})
             } else {
                 res.status(409).json({ message: 'no hay mas cupo' })
             }
@@ -91,11 +104,11 @@ async function inscripcion(req: Request, res: Response) {
             res.status(404).json({ message: 'recluso no encontrado' })
         }
         if(actividad_ilegal[0] === undefined){
-            res.status(404).json({ message: 'actividad ilegal no encontrada' })
+            res.status(405).json({ message: 'actividad ilegal no encontrada' })
         }
     }catch (error: any) {
         res.status(500).json({ message: error.message })
     }
 }
 
-export { getAll, getOne, add, inscripcion }
+export { getAll, getOne, add, update, inscripcion }

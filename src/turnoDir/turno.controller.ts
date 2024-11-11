@@ -39,9 +39,9 @@ async function add(req:Request, res:Response) {
             const turnos = await em.getConnection().execute(`insert into turno (cod_guardia_cod_guardia, cod_sector_cod_sector, turno, fecha_ini, fecha_fin)
                                                              values (?, ?, ?, ?, null);`, [req.body.cod_guardia, req.body.cod_sector, req.body.turno, finalDate]);
             await em.flush()
-            res.status(200).json({ message: 'turno creado'})
+            res.status(201).json({ data: '1'})
         } else {
-            res.status(500).json({ message: 'el guardia tiene un turno en el mismo horario, no se puede crear turno'})
+            res.status(409).json({ data: '0'})
         }
     } catch (error: any) {
         res.status(404).json({ message: error.message})
@@ -51,9 +51,10 @@ async function add(req:Request, res:Response) {
 async function terminarAsignacionDeTurno(req:Request, res:Response) {
     try{
         const cod_guardia =  Number.parseInt(req.params.cod_guardia)
-        const turnos = await em.getConnection().execute(`select count(*) as cont
-                                                         from turno t 
-                                                         where t.fecha_fin is null and t.cod_guardia_cod_guardia = ? and t.cod_sector_cod_sector = ? and t.turno = ?;`, [req.body.cod_guardia, req.body.cod_sector, req.body.turno]);
+        const turnos = await em.getConnection().execute(
+            `select count(*) as cont
+             from turno t 
+             where t.fecha_fin is null and t.cod_guardia_cod_guardia = ? and t.cod_sector_cod_sector = ? and t.turno = ?;`, [req.body.cod_guardia, req.body.cod_sector, req.body.turno]);
         console.log(turnos)
         if(turnos[0].cont === 1){                                                 
             const today = new Date();
@@ -66,9 +67,9 @@ async function terminarAsignacionDeTurno(req:Request, res:Response) {
                 set fecha_fin = ?
                 where cod_guardia_cod_guardia = ? and cod_sector_cod_sector = ? and turno = ? and fecha_fin is null;`, [finalDate, req.body.cod_guardia, req.body.cod_sector, req.body.turno]);
             await em.flush()
-            res.status(200).json({ message: 'turno finalizado'})
+            res.status(201).json({ data: '1'})
         } else {
-            res.status(404).json({ message: 'no existen turnos con esas especificaciones'})
+            res.status(404).json({ data: '0'})
         }
     } catch (error: any) {
         res.status(500).json({message : error.message})

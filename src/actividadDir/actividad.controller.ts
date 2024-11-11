@@ -36,22 +36,13 @@ async function getAll(req:Request, res:Response){
     }
 }
 
-async function getSome(req:Request, res:Response){
-    try{
-        const actividades = await em.find(Actividad, { nombre: '%req.params.nombreParcial%' })
-        res.status(201).json({ message: 'las actividades:', data: actividades})
-    } catch (error: any) {
-        res.status(404).json({ message: 'error'})
-    }
-}
-
 async function getOne(req: Request, res: Response){
     try {
         const cod_actividad =  Number.parseInt(req.params.cod_actividad)
         const laActividad = await em.findOneOrFail(Actividad, { cod_actividad }, {populate: ['reclusos']})
-        res.status(201).json({ data: laActividad, message: 'actividad encontrada.'} )
+        res.status(201).json({ data: laActividad} )
     } catch (error: any){
-        res.status(404).json({ message: 'no se encontro la actividad buscada'})
+        res.status(404).json({ data: '0'})
     }
 }
 
@@ -76,13 +67,13 @@ async function add(req: Request, res: Response){
                         insert into actividad_reclusos (actividad_cod_actividad, recluso_cod_recluso) values (?, ?);`, [laActividad.cod_actividad, cant_habilitados[key].rec])
                     await em.flush()
                 })
-                res.status(201).json({message: 'actividad creada', data: laActividad})
+                res.status(201).json({ data: '1'})
             }
             if(si_o_no[0].cont === 1){
-                res.status(409).json({message: 'actividad coincide con otra en registro'})
+                res.status(409).json({ data: '0'})
             }
         } else {
-            res.status(404).json({message: 'no existen suficientes reclusos que cumplan las condiciones establecidas'})
+            res.status(404).json({ data: '2'})
         }
     } catch (error: any) {
         res.status(500).json({message : error.message})
@@ -94,19 +85,20 @@ async function update(req: Request, res: Response) {
         const cod_actividad : any[] = [];
         cod_actividad[0] = Number(req.params.cod_actividad)
         const laActividadVerdadera = await em.findOne(Actividad, cod_actividad[0])
-        if (laActividadVerdadera == null) {
-            res.status(400).json({ message: 'La actividad buscada no coincide con ninguna de las registradas'})
+        if(laActividadVerdadera == null) {
+            res.status(400).json({ data: '0'})
+        } else {
+            const laActividad = em.getReference(Actividad, cod_actividad[0])
+            em.assign(laActividad, req.body)
+            await em.flush()
+            res.status(201).json({data: '1'})
         }
-        const laActividad = em.getReference(Actividad, cod_actividad[0])
-        em.assign(laActividad, req.body)
-        await em.flush()
-        res.status(200).json({message: 'actividad modificada'})
     } catch (error: any) {
-        res.status(500).json({message : 'error'})
+        res.status(500).json({ message : error.message })
     }
 }
 
-export { getAll, getOne, add, update, getSome, sanitizarInputDeActividad }
+export { getAll, getOne, add, update, sanitizarInputDeActividad }
 
 
 

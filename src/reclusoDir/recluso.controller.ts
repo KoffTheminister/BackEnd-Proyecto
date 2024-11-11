@@ -40,9 +40,8 @@ async function getSome(req : Request, res : Response){
 
 async function getOne(req: Request, res: Response){
     try {
-        const cod_recluso =  Number.parseInt(req.params.cod_recluso) 
-        const elRecluso = await em.findOneOrFail(Recluso, { cod_recluso })
-        res.status(201).json({ data: elRecluso } )
+        const rec = await em.getConnection().execute(`select * from recluso rec where rec.dni = ?;`, [req.params.dni]);
+        res.status(201).json({ data: rec } )
     } catch (error: any){
         res.status(404).json({ message: error.message})
     }
@@ -55,9 +54,9 @@ async function add(req: Request, res: Response){
         if(rec[0] === undefined){
             const elRecluso = await em.create(Recluso, req.body) 
             await em.flush()
-            res.status(201).json({message: 'recluso creado', data: elRecluso})
+            res.status(201).json({data: '1'})
         }else{
-            res.status(409).json({message: 'recluso ya creado', data: rec[0].cod_recluso})
+            res.status(409).json({ data: `codigo de recluso: ${rec[0].cod_recluso}`})
         }
     } catch (error: any) {
         res.status(500).json({message : error.message})
