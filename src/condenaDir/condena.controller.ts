@@ -21,9 +21,11 @@ async function add(req: Request, res: Response){
         const month = today.getMonth() + 1;
         let year = today.getFullYear();
         let finalDate = `${year}-${month}-${day}`
+        console.log(req.body)
         let auc = await em.getConnection().execute(`insert into condena (cod_recluso_cod_recluso, fecha_ini, fecha_fin_estimada, fecha_fin_real) 
                                                     values (?, ?, ?, ?);`, [req.body.cod_recluso, finalDate, null, null]);
         await em.flush()
+        /*
         Object.keys(req.body).forEach(async (key) => {
             if(key !== "cod_recluso"){
                 console.log('in')
@@ -33,6 +35,23 @@ async function add(req: Request, res: Response){
                 await em.flush()
             }
         })
+        */
+
+        /*
+        Object.keys(req.body.cod_sentencias).forEach(async (cod) => {
+            let auc = await em.getConnection().execute(`insert into condena_sentencias (condena_cod_recluso_cod_recluso, condena_fecha_ini, sentencia_cod_sentencia) 
+                                                        values (?, ?, ?);`, [req.body.cod_recluso, finalDate, req.body.cod_sentencias[cod]]);
+            //await em.flush()
+        })
+        */
+
+        for (const cod of Object.keys(req.body.cod_sentencias)) {
+            await em.getConnection().execute(
+                `insert into condena_sentencias (condena_cod_recluso_cod_recluso, condena_fecha_ini, sentencia_cod_sentencia) 
+                 values (?, ?, ?);`, 
+                [req.body.cod_recluso, finalDate, req.body.cod_sentencias[cod]]
+            );
+        }
 
         let max = await em.getConnection().execute(`select max(sen.orden_de_gravedad) as max
                                                     from sentencia sen
@@ -51,7 +70,7 @@ async function add(req: Request, res: Response){
         console.log(cod_sector)
         let cod_celdas = await em.getConnection().execute(`select c.cod_celda as cod, c.capacidad, count(e.cod_celda_cod_celda)
                                                            from celda c
-                                                           inner join estadia e on c.cod_celda = e.cod_celda_cod_celda
+                                                           left join estadia e on c.cod_celda = e.cod_celda_cod_celda
                                                            where e.fecha_fin is null and c.cod_sector_cod_sector = ?
                                                            group by c.cod_celda
                                                            having c.capacidad > count(e.cod_celda_cod_celda)
@@ -60,7 +79,7 @@ async function add(req: Request, res: Response){
         let estadia = await em.getConnection().execute(`insert into estadia (cod_recluso_cod_recluso, cod_celda_cod_celda, cod_celda_cod_sector_cod_sector, fecha_ini, fecha_fin)
                                                         values (?, ?, ?, ?, null);`, [req.body.cod_recluso, cod_celdas[0].cod, cod_sector[0].cod_sector, finalDate]);
         await em.flush()
-        res.status(201).json({ message: 'condena creada' })
+        res.status(201).json({ status: 201 })
     } catch (error: any) {
         res.status(500).json({message : error.message})
     }

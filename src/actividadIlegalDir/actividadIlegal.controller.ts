@@ -18,9 +18,9 @@ function sanitizarInputDeActividadIlegal(req : Request, res : Response, next: Ne
 async function getAll(req:Request, res:Response){
     try{
         const actividadesIlegales = await em.getConnection().execute(`select * from actividad_ilegal act_il where act_il.estado = 1;`);
-        res.status(201).json({ message: 'las actividades ilegales:', data: actividadesIlegales})
+        res.status(201).json({ status: 201, data: actividadesIlegales})
     } catch (error: any) {
-        res.status(404).json({ message: 'error'})
+        res.status(404).json({ status: 404 })
     }
 }
 
@@ -28,9 +28,9 @@ async function getOne(req: Request, res: Response){
     try {
         const cod_act_ilegal =  Number.parseInt(req.params.cod_actividad_ilegal)
         const laActIlegal = await em.findOneOrFail(ActividadIlegal, { cod_act_ilegal })
-        res.status(201).json({ data: laActIlegal, message: 'actividad ilegal encontrada'} )
+        res.status(201).json({ data: laActIlegal, status: 201} )
     } catch (error: any){
-        res.status(404).json({message: 'no se pudo encontrar'})
+        res.status(404).json({status: 404})
     }
 }
 
@@ -43,9 +43,9 @@ async function add(req: Request, res: Response){
         if(si_o_no[0].cont === 0){
             const laActIlegal = em.create(ActividadIlegal, req.body)
             await em.flush()
-            res.status(201).json({message: 'creado correctamente'})
+            res.status(201).json({status: 201})
         }else{
-            res.status(409).json({message: 'no se pudo crear'})
+            res.status(404).json({status: 404})
         }
     } catch (error: any) {
         res.status(500).json({message : error.message})
@@ -56,16 +56,17 @@ async function add(req: Request, res: Response){
 async function update(req: Request, res: Response) {
     try{
         const cod_actividad : any[] = [];
-        cod_actividad[0] = Number(req.params.cod_actividad)
+        cod_actividad[0] = Number(req.params.cod_act_ilegal)
         const laActividadVerdadera = await em.findOne(ActividadIlegal, cod_actividad[0])
-        console.log('asa')
-        if(laActividadVerdadera === null || laActividadVerdadera.estado == 0) {
-            res.status(404).json({message: 'no se pudo modificar'})
+        if(laActividadVerdadera === null) {
+            res.status(404).json({status: 404})
+        } else if (laActividadVerdadera.estado == 0) {
+            res.status(409).json({status: 409})
         } else {
             const laActividad = em.getReference(ActividadIlegal, cod_actividad[0])
             em.assign(laActividad, req.body)
             await em.flush()
-            res.status(201).json({message: ' modificado'})
+            res.status(201).json({status: 201})
         }
     } catch (error: any) {
         res.status(500).json({ message : error.message })
@@ -92,19 +93,20 @@ async function inscripcion(req: Request, res: Response) {
                 try{
                     const inscripcion = await em.getConnection().execute(`insert into actividad_ilegal_reclusos(actividad_ilegal_cod_act_ilegal, recluso_cod_recluso) 
                                                                             values (?, ?);`, [cod_actividad_ilegal[0], cod_recluso[0]]);
+                    res.status(201).json({status: 201})
                 } catch (error: any) {
-                    console.log('error al hacer la inscripcion')
+                    res.status(201).json({status: 408})
                 }
-                res.status(201).json({message: 'inscripcion hecha'})
+
             } else {
-                res.status(409).json({ message: 'no hay mas cupo' })
+                res.status(201).json({status: 409})
             }
         }
         if(elReclusoVerdadero === null){
-            res.status(404).json({ message: 'recluso no encontrado' })
+            res.status(404).json({ status: 404 })
         }
         if(actividad_ilegal[0] === undefined){
-            res.status(405).json({ message: 'actividad ilegal no encontrada' })
+            res.status(405).json({ status: 405 })
         }
     }catch (error: any) {
         res.status(500).json({ message: error.message })

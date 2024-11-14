@@ -28,24 +28,24 @@ async function logIn(req: Request, res: Response){
         const elAdmin = await em.findOneOrFail(Administrador, { cod_administrador })
         if(elAdmin.contrasenia === req.body.contrasenia){
             if(elAdmin.cod_administrador === 11){
-                res.status(202).json({ message: 'ok' } )
+                res.status(202).json({ status: 202} )
             } else {
-                res.status(201).json({ message: 'ok' } )
+                res.status(201).json({  status: 202 } )
             }
-        }else{
-            res.status(401).json({ message: 'contraseña incorrecta' } )
+        } else {
+            res.status(401).json({ status: 401} )
         }
     } catch (error: any){
-        res.status(404).json({ message: 'no encontrado' } )
+        res.status(404).json({ status: 404 } )
     }
 }
 
 async function getAll(req:Request, res:Response){
     try{
         const administradores = await em.getConnection().execute(`select * from administrador admin where admin.fecha_fin_contrato is null;`);
-        res.status(201).json({ message: 'los administradores:', data: administradores})
+        res.status(201).json({ status: 201, data: administradores})
     } catch (error: any) {
-        res.status(404).json({ message: 'error get all'})
+        res.status(404).json({  status: 404})
     }
 }
 
@@ -53,7 +53,7 @@ async function getOne(req: Request, res: Response){
     try {
         const cod_administrador =  Number.parseInt(req.params.cod_administrador) 
         const elGuardia = await em.findOne(Administrador, { cod_administrador })
-        res.status(201).json({ data: elGuardia } )
+        res.status(201).json({  status: 201, data: elGuardia } )
     } catch (error: any){
         res.status(500).json({ message: error.message})
     }

@@ -8,18 +8,18 @@ em.getRepository(Sector)
 async function getAll(req:Request, res:Response){
     try{
         const sectores = await em.find(Sector, {})
-        res.status(201).json({ message: 'los sectores:', data: sectores})
+        res.status(201).json({ status: 201, data: sectores})
     } catch (error: any) {
-        res.status(404).json({ message: 'error get all'})
+        res.status(404).json({ status: 404})
     }
 }
 
 async function getSome(req : Request, res : Response){
     try{
         const sectores = await em.find(Sector, { nombre: '%req.params.nombreParcial%'})
-        res.status(201).json({ data: sectores })
+        res.status(201).json({ status: 201, data: sectores })
     } catch (error: any) {
-        res.status(404).json({ message: error.message})
+        res.status(404).json({ status: 201})
     }
 }
 
@@ -27,9 +27,9 @@ async function getOne(req: Request, res: Response){
     try {
         const cod_sector =  Number.parseInt(req.params.cod_sector) 
         const elSector = await em.findOneOrFail(Sector, { cod_sector })
-        res.status(201).json({ data: elSector } )
+        res.status(201).json({ status: 201, data: elSector } )
     } catch (error: any){
-        res.status(404).json({ message: 'Sectoraasd no encontrado'})
+        res.status(404).json({status: 404})
     }
 }
 
@@ -40,9 +40,9 @@ async function getCeldas(req: Request, res: Response){
             select *
             from celda
             where cod_sector_cod_sector = ?;`, [cod_sector])
-        res.status(201).json({ data: lasCeldas} )
+        res.status(201).json({ status: 201, data: lasCeldas} )
     } catch (error: any){
-        res.status(404).json({ message: error.message })
+        res.status(404).json({status: 404 })
     }
 }
 
@@ -55,10 +55,10 @@ async function agregar_sentencia_a_sector(req : Request, res : Response){
                     insert into sector_sentencias (sector_cod_sector, sentencia_cod_sentencia) values (?, ?);`, [cod_sector, req.body[key]])
                 await em.flush()
             } catch(error:any){
-
+                res.status(409).json( res.status(409) )
             }
         })
-        res.status(201).json({ data: 'agregadas' })
+        res.status(201).json({ status: 201, data: 'agregadas' })
     } catch (error: any) {
         res.status(404).json({ message: error.message})
     }

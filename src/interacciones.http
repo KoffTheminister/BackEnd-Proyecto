@@ -71,9 +71,9 @@ POST http://localhost:8080/reclusos
 Content-Type: application/json
 
 {
-    "nombre": "Ignacio",
-    "apellido": "Koffler", 
-    "dni": 45655988, 
+    "nombre": "Ia",
+    "apellido": "Ka", 
+    "dni": 450987, 
     "fecha_nac": "2004-06-10" 
 }
 
@@ -87,7 +87,7 @@ Content-Type: application/json
 GET http://localhost:8080/guardias 
 
 ### get guardia
-GET http://localhost:8080/guardias/7
+GET http://localhost:8080/guardias/45655988
 
 ### post guardia
 POST http://localhost:8080/guardias 
@@ -96,12 +96,17 @@ Content-Type: application/json
 {
     "nombre": "Ignacio",
     "apellido": "Chaparro", 
-    "dni": 45655986, 
+    "dni": 45655, 
     "fechaIniContrato": "2004-06-10" 
 }
 
 ### finalizar contrato
-PUT http://localhost:8080/guardias/finalizarContratoDe7
+PUT http://localhost:8080/guardias/finalizarContrato
+Content-Type: application/json
+
+{
+    "cod_guardia": 1343
+}
 
 
 
@@ -171,7 +176,7 @@ Content-Type: application/json
 }
 
 ### inscribir a act ilegal :cod_act_ilegal&:cod_recluso
-POST http://localhost:8080/actividadesIlegales/inscripcion/9&5
+POST http://localhost:8080/actividadesIlegales/inscripcion/9&28
 
 
 
@@ -185,14 +190,14 @@ POST http://localhost:8080/condenas
 Content-Type: application/json
 
 {
-    "cod_recluso": 2,
-    "cod_sentencia1": 10,
-    "cod_sentencia2": 8,
-    "cod_sentencia3": 9
+    "cod_recluso": 42,
+    "cod_sentencias": [1,4,5]
 }
 
 ### finalizar condenas
 PUT http://localhost:8080/condenas/finalizarCondenas
+
+
 
 
 
@@ -210,8 +215,72 @@ Content-Type: application/json
 
 {
     "cod_administrador": 11,
-    "contrasenia": "muajaja"
+    "contrasenia": "muajaj"
 }
+
+
+
+
+### get talleres
+GET http://localhost:8080/talleres
+
+### get actividad
+GET http://localhost:8080/talleres/5
+
+### POST an actividad
+POST http://localhost:8080/talleres
+Content-Type: application/json
+
+{
+    "nombre": "re",
+    "descripcion": "recolectamos naranjas", 
+    "locacion": "arboleda del sector 1", 
+    "diaDeLaSemana": 4, 
+    "horaInicio": 23, 
+    "horaFin": 24,
+    "estado": 1
+}
+
+### inscripcion :cod_taller&:cod_recluso
+POST http://localhost:8080/talleres/inscripcion/1&12
+
+### modificar taller
+PUT http://localhost:8080/talleres/5
+Content-Type: application/json
+
+{
+    "nombre": "recoleccion de kiwis radioactivos",
+    "descripcion": "recolectamos kiwis radioactivos", 
+    "locacion": "arboleda del sector 1", 
+    "diaDeLaSemana": 4, 
+    "horaInicio": 23, 
+    "horaFin": 24,
+    "estado": 0
+}
+
+
+
+
+
+
+
+### get all sentencias
+GET http://localhost:8080/sentencias
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

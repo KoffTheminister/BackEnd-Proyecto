@@ -5,7 +5,7 @@ export const tallerRouter = Router()
 
 tallerRouter.get('/', getAll)
 tallerRouter.get('/:cod_taller', getOne)
-tallerRouter.post('/', add)
+tallerRouter.post('/', sanitizarInputDeTaller, add)
 tallerRouter.post('/inscripcion/:cod_taller&:cod_recluso', inscripcion)
 tallerRouter.put('/:cod_taller', sanitizarInputDeTaller, update)
 

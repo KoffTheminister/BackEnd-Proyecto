@@ -23,40 +23,49 @@ function sanitizarInputDeRecluso(req: Request, res: Response, next: NextFunction
 async function getAll(req:Request, res:Response){
     try{
         const reclusos = await em.find(Recluso, {})
-        res.status(201).json({ message: 'los reclusos:', data: reclusos})
+        res.status(201).json({ status: 201, data: reclusos})
     } catch (error: any) {
-        res.status(404).json({ message: 'error get all'})
+        res.status(404).json({ status: 404 })
     }
 }
 
 async function getSome(req : Request, res : Response){
     try{
         const reclusos = await em.find(Recluso, { nombre: '%req.params.nombreParcial%'})
-        res.status(201).json({ data: reclusos })
+        res.status(201).json({ status: 201, data: reclusos })
     } catch (error: any) {
-        res.status(404).json({ message: error.message})
+        res.status(404).json({ status: 404})
     }
 }
 
 async function getOne(req: Request, res: Response){
     try {
         const rec = await em.getConnection().execute(`select * from recluso rec where rec.dni = ?;`, [req.params.dni]);
-        res.status(201).json({ data: rec } )
+        console.log(rec[0])
+        if(rec[0] !== undefined){
+            res.status(201).json({ status: 201, data: rec[0] } )
+        }else{
+            res.status(404).json({ status: 404 })
+        }
     } catch (error: any){
-        res.status(404).json({ message: error.message})
+        res.status(500).json({ status: 500, message: error.message})
     }
 }
 
 async function add(req: Request, res: Response){
     try{
         const rec = await em.getConnection().execute(`select * from recluso rec where rec.dni = ?;`, [req.body.dni]);
-        console.log(rec[0])
         if(rec[0] === undefined){
-            const elRecluso = await em.create(Recluso, req.body) 
+            const elRecluso = await em.create(Recluso, req.body)
             await em.flush()
-            res.status(201).json({data: '1'})
+            res.status(201).json({ status: 201, data: elRecluso.cod_recluso })
         }else{
-            res.status(409).json({ data: `codigo de recluso: ${rec[0].cod_recluso}`})
+            const condena_si_o_no = await em.getConnection().execute(`select count(*) cont from condena where cod_recluso_cod_recluso = ? and fecha_fin_real is null;`, [req.body.dni]);
+            if(condena_si_o_no[0].cont === 0){
+                res.status(201).json({  status: 202, data: rec[0].cod_recluso})
+            } else {
+                res.status(201).json({  status: 203, data: rec[0].cod_recluso})
+            }
         }
     } catch (error: any) {
         res.status(500).json({message : error.message})

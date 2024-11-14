@@ -39,9 +39,9 @@ async function add(req:Request, res:Response) {
             const turnos = await em.getConnection().execute(`insert into turno (cod_guardia_cod_guardia, cod_sector_cod_sector, turno, fecha_ini, fecha_fin)
                                                              values (?, ?, ?, ?, null);`, [req.body.cod_guardia, req.body.cod_sector, req.body.turno, finalDate]);
             await em.flush()
-            res.status(201).json({ data: '1'})
+            res.status(201).json({ status : 201})
         } else {
-            res.status(409).json({ data: '0'})
+            res.status(409).json({ status : 409})
         }
     } catch (error: any) {
         res.status(404).json({ message: error.message})
