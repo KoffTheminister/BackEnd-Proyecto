@@ -45,7 +45,7 @@ async function add(req: Request, res: Response){
             await em.flush()
             res.status(201).json({status: 201})
         }else{
-            res.status(404).json({status: 404})
+            res.status(409).json({status: 409})
         }
     } catch (error: any) {
         res.status(500).json({message : error.message})

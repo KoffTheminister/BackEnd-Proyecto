@@ -60,7 +60,10 @@ async function add(req: Request, res: Response){
             await em.flush()
             res.status(201).json({ status: 201, data: elRecluso.cod_recluso })
         }else{
-            const condena_si_o_no = await em.getConnection().execute(`select count(*) cont from condena where cod_recluso_cod_recluso = ? and fecha_fin_real is null;`, [req.body.dni]);
+            const condena_si_o_no = await em.getConnection().execute(`select count(*) cont 
+                                                                    from condena c
+                                                                    inner join recluso r on c.cod_recluso_cod_recluso = r.cod_recluso
+                                                                    where dni = ? and c.fecha_fin_real is null;`, [req.body.dni]);
             if(condena_si_o_no[0].cont === 0){
                 res.status(201).json({  status: 202, data: rec[0].cod_recluso})
             } else {

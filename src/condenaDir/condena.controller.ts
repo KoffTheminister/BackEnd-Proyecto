@@ -25,25 +25,6 @@ async function add(req: Request, res: Response){
         let auc = await em.getConnection().execute(`insert into condena (cod_recluso_cod_recluso, fecha_ini, fecha_fin_estimada, fecha_fin_real) 
                                                     values (?, ?, ?, ?);`, [req.body.cod_recluso, finalDate, null, null]);
         await em.flush()
-        /*
-        Object.keys(req.body).forEach(async (key) => {
-            if(key !== "cod_recluso"){
-                console.log('in')
-                let auc = await em.getConnection().execute(`insert into condena_sentencias (condena_cod_recluso_cod_recluso, condena_fecha_ini, sentencia_cod_sentencia) 
-                                                            values (?, ?, ?);`, [req.body.cod_recluso, finalDate, req.body[key]]);
-                console.log('out')
-                await em.flush()
-            }
-        })
-        */
-
-        /*
-        Object.keys(req.body.cod_sentencias).forEach(async (cod) => {
-            let auc = await em.getConnection().execute(`insert into condena_sentencias (condena_cod_recluso_cod_recluso, condena_fecha_ini, sentencia_cod_sentencia) 
-                                                        values (?, ?, ?);`, [req.body.cod_recluso, finalDate, req.body.cod_sentencias[cod]]);
-            //await em.flush()
-        })
-        */
 
         for (const cod of Object.keys(req.body.cod_sentencias)) {
             await em.getConnection().execute(
