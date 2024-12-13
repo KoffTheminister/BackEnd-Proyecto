@@ -36,7 +36,7 @@ export class Recluso {
 
     @ManyToOne(() => Celda, { nullable: true, unique: true})
     celda ?: Celda | null
-
+    /*
     get_condena_activa(){
         let i = 0
         while(i = 0, i < this.condenas.length, i++){
@@ -46,5 +46,5 @@ export class Recluso {
         }
         return null
     }
-    
+    */
 }

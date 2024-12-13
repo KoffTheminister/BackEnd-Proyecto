@@ -37,7 +37,7 @@ async function get_one(req: Request, res: Response){
 
 async function add(req: Request, res: Response){
     try{
-        const la_act_ilegal = await em.findOne(Actividad_Ilegal, {dia_de_la_semana: req.body.diaDeLaSemana, hora_inicio: req.body.horaInicio, hora_fin: req.body.horaFin, estado: true})
+        const la_act_ilegal = await em.findOne(Actividad_Ilegal, {dia_de_la_semana: req.body.dia_de_la_semana, hora_inicio: req.body.hora_inicio, hora_fin: req.body.hora_fin, estado: true})
         /*
         const si_o_no = await em.getConnection().execute(
             `select count(*) as cont 
@@ -63,7 +63,7 @@ async function update(req: Request, res: Response) {
         const la_actividad_verdadera = await em.findOne(Actividad_Ilegal, cod_actividad[0])
         if(la_actividad_verdadera === null) {
             res.status(404).json({status: 404})
-        } else if (la_actividad_verdadera.estado == 0) {
+        } else if (la_actividad_verdadera.estado == false) {
             res.status(409).json({status: 409})
         } else {
             const laActividad = em.getReference(Actividad_Ilegal, cod_actividad[0])

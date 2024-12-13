@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from "express"
 import { orm } from "../shared/db/orm.js"
 import { Recluso } from "./recluso.entity.js"
 import { Condena } from "../condena/condena.entity.js"
-import { encontrar_condena_actual } from "../condena/condena.controller.js"
 
 const em = orm.em
 em.getRepository(Recluso)
@@ -81,12 +80,14 @@ async function add(req: Request, res: Response){
                                                                     inner join recluso r on c.cod_recluso_cod_recluso = r.cod_recluso
                                                                     where dni = ? and c.fecha_fin_real is null;`, [req.body.dni]);
             */
-           const condena = encontrar_condena_actual(rec)
+            //const condena = rec.get_condena_activa()
+            /*
             if(condena == null){
                 res.status(201).json({  status: 202, data: rec.cod_recluso})
             } else {
                 res.status(201).json({  status: 203, data: rec.cod_recluso})
             }
+            */
         }
     } catch (error: any) {
         res.status(500).json({message : error.message})

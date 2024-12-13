@@ -56,7 +56,7 @@ async function add(req: Request, res: Response){
         }
         */
         const mis_sentencias = await get_sentencias_especificas(req.body.cod_sentencias)
-        nueva_condena.agregar_sentencias(mis_sentencias)
+        //nueva_condena.agregar_sentencias(mis_sentencias)
         /*
         let max = await em.getConnection().execute(`select max(sen.orden_de_gravedad) as max
                                                     from sentencia sen
@@ -110,7 +110,11 @@ async function add(req: Request, res: Response){
 async function finalizar_condenas(req:Request, res:Response){
     try{
         const today = new Date();
-        let condenas = await em.find(Condena, {fecha_fin_real: null, fecha_fin_estimada: { $lt: today }}, {populate: ['cod_recluso']})
+        const condenas = await em.find(
+            Condena, 
+            {fecha_fin_real: null, fecha_fin_estimada: { $lt: today }}, 
+            //{ populate: ['cod_recluso'] } tiraba error
+        )
         let reclusos:any = []
         condenas.forEach(una_condena => {
             reclusos.push(una_condena.cod_recluso)
@@ -144,11 +148,7 @@ async function finalizar_condenas(req:Request, res:Response){
     }
 }
 
-async function encontrar_condena_actual(recluso: Recluso) {
-    return await em.findOne(Condena, {fecha_fin_real: null, cod_recluso: recluso})
-}
-
-export { get_all, add, finalizar_condenas, sanitizar_input_de_condena, encontrar_condena_actual }
+export { get_all, add, finalizar_condenas, sanitizar_input_de_condena }
 
 
 

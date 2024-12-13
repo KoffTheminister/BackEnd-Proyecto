@@ -5,7 +5,7 @@ export const actividad_router = Router()
 
 actividad_router.get('/', get_all)
 actividad_router.get('/:cod_actividad', get_one)
-actividad_router.post('/', add) // sanitizarInputDeActividad, add)
-actividad_router.put('/:cod_actividad', sanitizar_input_de_actividad, update)
+actividad_router.post('/', sanitizar_input_de_actividad, add)
+actividad_router.put('/:cod_actividad', update)
 
 

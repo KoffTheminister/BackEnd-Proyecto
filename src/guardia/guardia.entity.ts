@@ -20,7 +20,7 @@ export class Guardia {
 
     @Property({ nullable: true})
     fecha_fin_contrato ?: Date | null
-
+    /*
     async desvincular_turnos(){
         const today = new Date();
         get_from_guardia(this).then(los_turnos => los_turnos.forEach(un_turno => {
@@ -29,4 +29,5 @@ export class Guardia {
             }
         }))
     }
+    */
 }

@@ -21,7 +21,7 @@ export class Celda {
     reclusos = new Collection<Recluso>(this);
 
     [PrimaryKeyProp] !: ['cod_celda', 'cod_sector'];
-
+    /*
     tengo_disponibilidad(){
         if(this.reclusos.length < this.capacidad){
             return true
@@ -51,7 +51,7 @@ export class Celda {
             return false
         }
     }
-
+    */
 }   
 
 

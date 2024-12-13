@@ -20,7 +20,7 @@ export class Sector {
 
     @OneToMany(() => Celda, (celda) => celda.cod_sector, { unique : false, nullable : false, cascade: [Cascade.ALL]})
     celdas = new Collection<Celda>(this);
-
+    /*
     agregar_sentencias(unas_sentencias: Sentencia[]){
         let sentencias_agregadas = new Collection<Sentencia>(this);
         unas_sentencias.forEach(una_sentencia => {
@@ -69,5 +69,6 @@ export class Sector {
         }
         return bool
     }
+    */
 }
 

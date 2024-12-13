@@ -33,7 +33,10 @@ async function get_one(req: Request, res: Response){
 
 async function get_sectores_con_sentencia(la_sentencia: Sentencia){
     let sectores_con_sentencia: any[] = []
-    const sectores = await em.find(Sector, {}, {populate: ['celdas', 'sentencias']})
+    const sectores = await em.find(Sector, 
+        {}, 
+        //{populate: ['celdas', 'sentencias']} tiraba error
+    )
     let i = 0
     let bool = true
     sectores.forEach(un_sector => {
@@ -58,11 +61,14 @@ async function get_celdas(req: Request, res: Response){
 async function agregar_sentencia_a_sector(req : Request, res : Response){
     try{
         const cod_sector =  Number.parseInt(req.params.cod_sector) 
-        const el_sector = await em.findOne(Sector, { cod_sector }, {populate: ['sentencias']})
+        const el_sector = await em.findOne(Sector, 
+            { cod_sector }, 
+            //populate: ['sentencias']} tiraba error
+        )
         if(el_sector != null){
             const las_sentencias = await get_sentencias_especificas(req.body.sentencias)
-            const sentencias_agregadas = el_sector.agregar_sentencias(las_sentencias)
-            res.status(201).json({ status: 201, data: sentencias_agregadas})
+            //const sentencias_agregadas = el_sector.agregar_sentencias(las_sentencias)
+            //res.status(201).json({ status: 201, data: sentencias_agregadas})
         }
     } catch (error: any) {
         res.status(404).json({ message: error.message})

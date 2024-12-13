@@ -1,13 +1,10 @@
 import { Request, Response, NextFunction } from "express"
 import { Actividad } from "./actividad.entity.js"
 import { orm } from "../shared/db/orm.js"
-import { EntityManager, EntityRepository } from '@mikro-orm/mysql'
 import { Recluso } from "../recluso/recluso.entity.js"
-import { QueryBuilder } from "@mikro-orm/mysql"
 import { get_sector } from "../sector/sector.controller.js"
 
-const em: EntityManager = orm.em as EntityManager;
-const qb = em.createQueryBuilder(Actividad);
+const em = orm.em
 //const qb = orm.em.createQueryBuilder(Publisher);
 
 function sanitizar_input_de_actividad(req : Request, res : Response, next: NextFunction){
@@ -50,7 +47,7 @@ async function get_all(req:Request, res:Response){
 async function get_one(req: Request, res: Response){
     try {
         const cod_actividad =  Number.parseInt(req.params.cod_actividad)
-        const laActividad = await em.findOneOrFail(Actividad, { cod_actividad: cod_actividad }, {populate: ['reclusos']})
+        const laActividad = await em.findOneOrFail(Actividad, { cod_actividad: cod_actividad }) 
         res.status(201).json({ status: 201, data: laActividad} )
     } catch (error: any){
         res.status(404).json({ status: 404})
