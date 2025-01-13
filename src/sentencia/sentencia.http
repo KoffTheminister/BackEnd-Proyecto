@@ -1,0 +1,17 @@
+### get all sentencias
+GET http://localhost:8080/sentencias
+
+### get a sentencia
+GET http://localhost:8080/sentencias/14
+
+### post una sentencia
+POST http://localhost:8080/sentencias/
+Content-Type: application/json
+
+{
+    "nombre": "pensar que uruguay no es una provincia de argentina",
+    "descripcion": "aguante uruguay", 
+    "duracion_anios": 80,
+    "orden_de_gravedad": 52
+}
+

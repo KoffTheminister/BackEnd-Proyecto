@@ -1,0 +1,53 @@
+### get administradores
+GET http://localhost:8080/administradores
+
+### get administrador
+GET http://localhost:8080/administradores/4
+
+
+### log in de administrador
+POST http://localhost:8080/administradores/logIn
+Content-Type: application/json
+
+{
+    "cod_administrador": 3,
+    "contrasenia": "123"
+}
+
+### log in de administrador especial
+POST http://localhost:8080/administradores/logIn
+Content-Type: application/json
+
+{
+    "cod_administrador": 4,
+    "contrasenia": "muajaja"
+}
+
+### POST an admin
+POST http://localhost:8080/administradores/
+Content-Type: application/json
+
+{
+    "nombre": "Juan Estevan",
+    "apellido": "Garcia",
+    "dni": 34343438,
+    "fecha_ini_contrato": "2024-09-09",
+    "fecha_fin_contrato": null,
+    "contrasenia": "123"
+}
+
+
+### POST el admin especial
+POST http://localhost:8080/administradores/
+Content-Type: application/json
+
+{
+    "nombre": "Heinz",
+    "apellido": "Doofenschmirtz",
+    "dni": 34343433,
+    "fecha_ini_contrato": "2024-09-09",
+    "fecha_fin_contrato": null,
+    "contrasenia": "muajaja"
+}
+
+

@@ -1,0 +1,25 @@
+### get all guardias
+GET http://localhost:8080/guardias 
+
+### get guardia
+GET http://localhost:8080/guardias/45655
+
+### post guardia
+POST http://localhost:8080/guardias 
+Content-Type: application/json
+
+{
+    "nombre": "Ignacio",
+    "apellido": "Chaparro"
+}
+
+### finalizar contrato
+PUT http://localhost:8080/guardias/finalizarContrato
+Content-Type: application/json
+
+{
+    "cod_guardia": 2
+}
+
+
+

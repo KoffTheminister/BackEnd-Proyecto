@@ -14,14 +14,14 @@ export class Sector {
 
     @Property({ nullable: false, unique: false})
     descripcion !: string
-
-    @ManyToMany(() => Sentencia, (sentencia) => sentencia.sectores, { unique : false, nullable : false, cascade: [Cascade.ALL], owner: true})
+    
+    @ManyToMany(() => Sentencia, (sentencia) => sentencia.sectores, { unique : false, nullable : false, cascade: [Cascade.CANCEL_ORPHAN_REMOVAL, Cascade.PERSIST, Cascade.MERGE ], owner: true})
     sentencias = new Collection<Sentencia>(this);
 
     @OneToMany(() => Celda, (celda) => celda.cod_sector, { unique : false, nullable : false, cascade: [Cascade.ALL]})
     celdas = new Collection<Celda>(this);
-    /*
-    agregar_sentencias(unas_sentencias: Sentencia[]){
+    
+    public agregar_sentencias(unas_sentencias: Sentencia[]){
         let sentencias_agregadas = new Collection<Sentencia>(this);
         unas_sentencias.forEach(una_sentencia => {
             let i = 0
@@ -39,7 +39,7 @@ export class Sector {
         return sentencias_agregadas
     }
 
-    conseguir_celda_libre(): Celda | null{
+    public conseguir_celda_libre(): Celda | null{
         let b = true
         let i = 0
         while(i = 0, i < this.celdas.length && b == true, i++){
@@ -49,8 +49,8 @@ export class Sector {
         }
         return null
     }
-
-    conseguir_reclusos_con_edad(edad_minima: number){
+    
+    public conseguir_reclusos_con_edad(edad_minima: number){
         let c = 0
         let reclusos_habiles : any[] = []
         while(c = 0, c < this.celdas.length, c++){
@@ -59,7 +59,7 @@ export class Sector {
         return reclusos_habiles
     }
 
-    encarcelar_recluso(un_recluso: Recluso){
+    public encarcelar_recluso(un_recluso: Recluso){
         let c = 0
         let bool = true
         while(c = 0, c < this.celdas.length && bool == true, c++){
@@ -69,6 +69,6 @@ export class Sector {
         }
         return bool
     }
-    */
+    
 }
 

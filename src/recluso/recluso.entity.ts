@@ -31,20 +31,25 @@ export class Recluso {
     @ManyToMany(() => Actividad_Ilegal, (act_ilegal) => act_ilegal.reclusos, { unique : false, nullable : true, owner: false})
     actividades_ilegales = new Collection<Actividad_Ilegal>(this);
 
-    @OneToMany(() => Condena, (condena) => condena.cod_recluso, { unique : false, nullable : true})
+    @OneToMany(() => Condena, (condena) => condena.cod_recluso, { unique : false, nullable : true })
     condenas = new Collection<Condena>(this)
 
     @ManyToOne(() => Celda, { nullable: true, unique: true})
     celda ?: Celda | null
-    /*
-    get_condena_activa(){
+    
+    public get_condena_activa(){
         let i = 0
-        while(i = 0, i < this.condenas.length, i++){
-            if(this.condenas[i].fecha_fin_real == null){
-                return this.condenas[i]
+        try{
+            console.log(this)
+            while(i = 0, i < this.condenas.length, i++){
+                if(this.condenas[i].fecha_fin_real == null){
+                    return this.condenas[i]
+                }
             }
+        } catch (error: any){
+            console.log(error.message)
         }
         return null
     }
-    */
+    
 }

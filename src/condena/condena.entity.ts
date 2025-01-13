@@ -9,10 +9,6 @@ import { Collection } from "@mikro-orm/core";
 export class Condena {
     @ManyToOne(() => Recluso, { nullable: false,  primary: true })
     cod_recluso !: Rel<Recluso>
-    /*
-    @ManyToOne(() => CharacterClass, { nullable: false })
-    characterClass!: Rel<CharacterClass>
-    */
 
     @PrimaryKey({primary : true, unique : false, nullable : false})
     fecha_ini !: Date
@@ -28,8 +24,8 @@ export class Condena {
     //sentencias !: Sentencia[]
 
     [PrimaryKeyProp] !: ['cod_recluso', 'fecha_ini'];
-    /*
-    agregar_sentencias(unas_sentencias: Sentencia[]){
+    
+    public agregar_sentencias(unas_sentencias: Sentencia[]){
         let duracion_en_anios = 0
         unas_sentencias.forEach(una_sentencia => {
             this.sentencias.add(una_sentencia)
@@ -38,6 +34,6 @@ export class Condena {
         this.fecha_ini.setFullYear(this.fecha_ini.getFullYear() + duracion_en_anios);
 
     }
-    */
+    
 }
 

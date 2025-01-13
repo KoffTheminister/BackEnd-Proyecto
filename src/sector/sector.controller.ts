@@ -40,6 +40,7 @@ async function get_sectores_con_sentencia(la_sentencia: Sentencia){
     let i = 0
     let bool = true
     sectores.forEach(un_sector => {
+        console.log('holi')
         if(un_sector.sentencias.contains(la_sentencia)){
             sectores_con_sentencia.push(un_sector)
         }
@@ -67,8 +68,8 @@ async function agregar_sentencia_a_sector(req : Request, res : Response){
         )
         if(el_sector != null){
             const las_sentencias = await get_sentencias_especificas(req.body.sentencias)
-            //const sentencias_agregadas = el_sector.agregar_sentencias(las_sentencias)
-            //res.status(201).json({ status: 201, data: sentencias_agregadas})
+            const sentencias_agregadas = el_sector.agregar_sentencias(las_sentencias)
+            res.status(201).json({ status: 201, data: sentencias_agregadas})
         }
     } catch (error: any) {
         res.status(404).json({ message: error.message})

@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from "express"
 import { Actividad_Ilegal } from "./actividad_ilegal.entity.js"
 import { Recluso } from "../recluso/recluso.entity.js"
 import { orm } from "../shared/db/orm.js"
-import { ConstraintViolationException } from "@mikro-orm/core"
 
 const em = orm.em
 

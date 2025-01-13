@@ -1,0 +1,19 @@
+### get all
+GET http://localhost:8080/sectores
+
+### get one
+GET http://localhost:8080/sectores/1
+
+### get celdas
+GET http://localhost:8080/sectores/celdas/1
+
+### agregar sentencias a sector, es importante que los campos tengan nombres diferentes
+POST http://localhost:8080/sectores/agregarSentenciasEn1
+Content-Type: application/json
+
+{
+    "cod_sentencia1": 10,
+    "cod_sentencia2": 8,
+    "cod_sentencia3": 9
+}
+

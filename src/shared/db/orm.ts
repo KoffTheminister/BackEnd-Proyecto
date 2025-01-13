@@ -4,7 +4,7 @@ import { MySqlDriver } from '@mikro-orm/mysql';
 
 const config = {
     //type: "mysql", //comente esta linea porque me tiraba error
-    driver: MySqlDriver, // Provide the driver class here
+    driver: MySqlDriver,
     entities: ['dist/**/*.entity.js'],
     entitiesTs: ['src/**/*.entity.ts'],
     dbName: 'libertant',
@@ -13,13 +13,14 @@ const config = {
     allowedGlobalContext: true,
     debug: true,
     
+    
     schemaGenerator: { // nunca utilizar en produccion, solo en la etapa de desarrollo
         disableForeignKeys: true,
         createForeignKeyConstraints: true,
         ignoreSchema: []
     }
     
-};
+}
   
 export const orm = await MikroORM.init(config);
 

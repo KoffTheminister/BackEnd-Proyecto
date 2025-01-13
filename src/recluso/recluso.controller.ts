@@ -19,6 +19,7 @@ function sanitizar_input_de_recluso(req: Request, res: Response, next: NextFunct
             return res.status(409).json({message: `el atributo ${key} esta faltando`})
         }
     })
+
     const fecha_nac = new Date(req.body.sanitized_input.fecha_nac);
     const today = new Date()
     let años = today.getFullYear() - fecha_nac.getFullYear();
@@ -66,12 +67,17 @@ async function get_one(req: Request, res: Response){
 
 async function add(req: Request, res: Response){
     try{
-        const dni = Number.parseInt(req.body.dni)
+        const dni = Number.parseInt(req.body.sanitized_input.dni)
         const rec = await em.findOne(Recluso, {dni: dni})
         //const rec = await em.getConnection().execute(`select * from recluso rec where rec.dni = ?;`, [req.body.dni]);
         if(rec === null){
             const el_recluso = await em.create(Recluso, req.body)
             await em.flush()
+            const recluso = await em.findOne(Recluso, { cod_recluso: el_recluso.cod_recluso });
+            if (recluso != null) {
+                await recluso.condenas.init(); // Initialize the collection
+                console.log('hi')
+            }
             res.status(201).json({ status: 201, data: el_recluso.cod_recluso })
         }else{
             /*
@@ -80,14 +86,14 @@ async function add(req: Request, res: Response){
                                                                     inner join recluso r on c.cod_recluso_cod_recluso = r.cod_recluso
                                                                     where dni = ? and c.fecha_fin_real is null;`, [req.body.dni]);
             */
-            //const condena = rec.get_condena_activa()
-            /*
+            
+            const condena = rec.get_condena_activa()
             if(condena == null){
                 res.status(201).json({  status: 202, data: rec.cod_recluso})
             } else {
                 res.status(201).json({  status: 203, data: rec.cod_recluso})
             }
-            */
+            
         }
     } catch (error: any) {
         res.status(500).json({message : error.message})
@@ -95,8 +101,8 @@ async function add(req: Request, res: Response){
 }
 
 async function buscar_recluso(cod_recluso: number){
-    const recluso = em.findOne(Recluso, {cod_recluso: cod_recluso})
-    //const rec = await em.getConnection().execute(`select * from recluso rec where rec.dni = ?;`, [req.params.dni]);
+    const recluso = await em.findOne(Recluso, {cod_recluso: cod_recluso})
+    //const rec = await em.getConnection().execute(`select * from recluso rec where rec.cod_recluso = ?;`, [cod_recluso]);
     return recluso
 
 }

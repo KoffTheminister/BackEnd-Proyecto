@@ -10,21 +10,21 @@ function sanitizar_input_de_sentencia(req : Request, res : Response, next: NextF
         nombre: req.body.nombre,
         descripcion: req.body.descripcion, 
         duracion_anios: req.body.duracion_anios,
-        duracion_meses: req.body.duracion_meses,
         orden_de_gravedad: req.body.orden_de_gravedad
     }
-    Object.keys(req.body.sanitizedInput).forEach((key) => {
-        if (req.body.sanitizedInput[key] === undefined) {
+
+    Object.keys(req.body.sanitized_input).forEach((key) => {
+        if (req.body.sanitized_input[key] === undefined) {
             return res.status(400).json({message: 'faltan atributos'})
         }
     })
-    
+
     next()
 }
 
 async function get_all(req : Request, res : Response){
     try{
-        const sentencias = await em.find(Sentencia, {})
+        const sentencias = await em.find(Sentencia, {}, { orderBy: {'orden_de_gravedad': 'DESC'}})
         //const sentencias = await em.getConnection().execute(`select * from sentencia s order by orden_de_gravedad desc;`);
         res.status(201).json({ data: sentencias})
     } catch (error: any) {
@@ -35,32 +35,41 @@ async function get_all(req : Request, res : Response){
 async function get_one(req: Request, res: Response){
     try {
         const cod_sentencia =  Number.parseInt(req.params.cod_sentencia) //
-        const la_sentencia = get_sentencia(cod_sentencia)
+        const la_sentencia = await get_sentencia(cod_sentencia)
         //const la_sentencia = await em.findOne(Sentencia, { cod_sentencia: cod_sentencia })
-        if(la_sentencia == null){
+        if(la_sentencia != null){
+            console.log(la_sentencia)
             res.status(201).json({ data: la_sentencia} ) 
-        } else{
+        } else {
             res.status(404).json({ message: 'no encontrada'} )
         }
     } catch (error: any){
-        res.status(500).json({ message: 'error'})
+        res.status(500).json({ message: error.message})
     }
 }
 
 async function add(req: Request, res: Response){
     try{
-        const sentencia_con_mismo_orden_gravedad_y_nombre = await em.findOne(Sentencia, { $or: [{orden_de_gravedad: req.body.sanitizedInput.orden_de_gravedad}, {nombre: req.body.sanitizedInput.nombre}]})
+        const sentencia_con_mismo_orden_gravedad_o_nombre = await em.findOne(Sentencia, { $or: [{orden_de_gravedad: req.body.sanitized_input.orden_de_gravedad}, {nombre: req.body.sanitized_input.nombre}]})
         /*
         const sentencia_con_mismo_orden_gravedad = await em.getConnection().execute(`select count(*) as cont 
             from sentencia s 
             where s.orden_de_gravedad = ? or s.nombre = ?;`, [req.body.sanitizedInput.orden_de_gravedad, req.body.sanitizedInput.nombre]);
         */
-        if(sentencia_con_mismo_orden_gravedad_y_nombre != null){
-            const laSentencia = em.create(Sentencia, req.body.sanitizedInput)
+        if(sentencia_con_mismo_orden_gravedad_o_nombre == null){
+            const la_sentencia = em.create(Sentencia, req.body.sanitized_input)
             await em.flush()
+            /*
+            await la_sentencia.condenas.init()
+            await la_sentencia.sectores.init()
+            */
+            await em.flush()
+            console.log(la_sentencia)
             res.status(201).json({message: 'sentencia creada'})
-        } else {
-            res.status(409).json({message: 'orden de gravedad o nombre concuerda con uno ya en existencia.'})
+        } else if(sentencia_con_mismo_orden_gravedad_o_nombre.orden_de_gravedad == req.body.sanitized_input.orden_de_gravedad) {
+            res.status(409).json({status: 409, message: 'orden de gravedad concuerda con uno ya en existencia.'})
+        } else if(sentencia_con_mismo_orden_gravedad_o_nombre.nombre == req.body.sanitized_input.nombre) {
+            res.status(409).json({status: 410, message: 'nombre concuerda con uno ya en existencia.'})
         }
     } catch (error: any) {
         res.status(500).json({message : error}) 

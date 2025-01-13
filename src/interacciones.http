@@ -1,22 +1,3 @@
-### get all
-GET http://localhost:8080/sectores
-
-### get one
-GET http://localhost:8080/sectores/1
-
-### get celdas
-GET http://localhost:8080/sectores/celdas/1
-
-### agregar sentencias a sector, es importante que los campos tengan nombres diferentes
-POST http://localhost:8080/sectores/agregarSentenciasEn1
-Content-Type: application/json
-
-{
-    "cod_sentencia1": 10,
-    "cod_sentencia2": 8,
-    "cod_sentencia3": 9
-}
-
 
 
 
@@ -71,44 +52,29 @@ POST http://localhost:8080/reclusos
 Content-Type: application/json
 
 {
-    "nombre": "Ia",
-    "apellido": "Ka", 
-    "dni": 450987, 
+    "nombre": "Juan",
+    "apellido": "Esteban", 
+    "dni": 123445, 
     "fecha_nac": "2004-06-10" 
 }
 
 
 
 
+### get all
+GET http://localhost:8080/condenas
 
-
-
-### get all guardias
-GET http://localhost:8080/guardias 
-
-### get guardia
-GET http://localhost:8080/guardias/45655988
-
-### post guardia
-POST http://localhost:8080/guardias 
+### agregar sentencias a sector, es importante que los campos tengan nombres diferentes
+POST http://localhost:8080/condenas
 Content-Type: application/json
 
 {
-    "nombre": "Ignacio",
-    "apellido": "Chaparro", 
-    "dni": 45655, 
-    "fechaIniContrato": "2004-06-10" 
+    "cod_recluso": 3,
+    "cod_sentencias": [1,4,5]
 }
 
-### finalizar contrato
-PUT http://localhost:8080/guardias/finalizarContrato
-Content-Type: application/json
-
-{
-    "cod_guardia": 1343
-}
-
-
+### finalizar condenas
+PUT http://localhost:8080/condenas/finalizarCondenas
 
 
 
@@ -182,41 +148,6 @@ POST http://localhost:8080/actividadesIlegales/inscripcion/9&28
 
 
 
-### get all
-GET http://localhost:8080/condenas
-
-### agregar sentencias a sector, es importante que los campos tengan nombres diferentes
-POST http://localhost:8080/condenas
-Content-Type: application/json
-
-{
-    "cod_recluso": 42,
-    "cod_sentencias": [1,4,5]
-}
-
-### finalizar condenas
-PUT http://localhost:8080/condenas/finalizarCondenas
-
-
-
-
-
-
-### get administradores
-GET http://localhost:8080/administradores
-
-### get administrador
-GET http://localhost:8080/administradores/1
-
-
-### POST a recluso
-POST http://localhost:8080/administradores/logIn
-Content-Type: application/json
-
-{
-    "cod_administrador": 11,
-    "contrasenia": "muajaj"
-}
 
 
 
@@ -263,9 +194,6 @@ Content-Type: application/json
 
 
 
-
-### get all sentencias
-GET http://localhost:8080/sentencias
 
 
 

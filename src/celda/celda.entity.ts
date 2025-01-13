@@ -1,6 +1,5 @@
 import { Entity, PrimaryKey, Property, Rel, ManyToOne, PrimaryKeyProp, OneToMany, Cascade, Collection} from "@mikro-orm/core";
 import { Sector } from "../sector/sector.entity.js";
-import { update } from "../actividad_ilegal/actividad_ilegal.controller.js";
 import { Recluso } from "../recluso/recluso.entity.js";
 
 @Entity()
@@ -21,16 +20,16 @@ export class Celda {
     reclusos = new Collection<Recluso>(this);
 
     [PrimaryKeyProp] !: ['cod_celda', 'cod_sector'];
-    /*
-    tengo_disponibilidad(){
+    
+    public tengo_disponibilidad(){
         if(this.reclusos.length < this.capacidad){
             return true
         } else {
             return false
         }
     }
-
-    conseguir_reclusos_con_edad(edad_minima: number){
+    
+    public conseguir_reclusos_con_edad(edad_minima: number){
         let r = 0
         let reclusos_habiles : any[] = []
         while(r = 0, r < this.reclusos.length, r++){
@@ -42,8 +41,8 @@ export class Celda {
         }
         return reclusos_habiles
     }
-
-    encarcelar_recluso(un_recluso: Recluso){
+    
+    public encarcelar_recluso(un_recluso: Recluso){
         if(this.capacidad > this.reclusos.length){
             this.reclusos.add(un_recluso)
             return true
@@ -51,7 +50,7 @@ export class Celda {
             return false
         }
     }
-    */
+    
 }   
 
 

@@ -7,13 +7,12 @@ import { buscar_recluso, get_one } from "../recluso/recluso.controller.js"
 import { get_sentencias_especificas } from "../sentencia/sentencia.controller.js"
 import { get_sectores_con_sentencia } from "../sector/sector.controller.js"
 
-//// kofler != no es una empresa de choclates 
 const em = orm.em
 const con = em.getRepository(Condena)
 
 async function sanitizar_input_de_condena(req:Request, res:Response, next: NextFunction) {
     const today = new Date();
-    const el_recluso_verdadero = buscar_recluso(req.body.cod_recluso)
+    const el_recluso_verdadero = await buscar_recluso(req.body.cod_recluso)
 
     if(el_recluso_verdadero != null && req.body.cod_sentencias.length != 0){
         req.body.sanitized_input = {
@@ -42,6 +41,7 @@ async function get_all(req:Request, res:Response){
 
 async function add(req: Request, res: Response){
     try{
+        console.log(req.body.sanitized_input)
         const nueva_condena = em.create(Condena, req.body.sanitized_input)
         await em.flush()
         /*

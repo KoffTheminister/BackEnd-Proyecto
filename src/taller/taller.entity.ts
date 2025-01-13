@@ -16,7 +16,7 @@ export class Taller {
     locacion !: string
 
     @Property({ nullable: false})
-    dia_de_la_semana !: number  // no vamos a guardar el nombre del dia de la semana, hay que transformarlo siempre y no tiene sentido. pero si vamos a mantener el numero
+    dia_de_la_semana !: number
     
     @Property({ nullable: false})
     hora_inicio !: number
@@ -27,7 +27,7 @@ export class Taller {
     @Property({nullable: false})
     estado !: 1
 
-    @ManyToMany(() => Recluso, (recluso) => recluso.talleres, { unique : false, nullable : false, cascade: [Cascade.ALL], owner: true})
+    @ManyToMany(() => Recluso, (recluso) => recluso.talleres, { unique : false, nullable : false, cascade: [Cascade.PERSIST], owner: true})
     reclusos = new Collection<Recluso>(this);
     //reclusos !: Recluso[]
 }   
