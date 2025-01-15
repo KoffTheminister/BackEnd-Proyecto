@@ -9,9 +9,10 @@ POST http://localhost:8080/sentencias/
 Content-Type: application/json
 
 {
-    "nombre": "pensar que uruguay no es una provincia de argentina",
+    "nombre": "pensar que paraguay no es una provincia de argentina",
     "descripcion": "aguante uruguay", 
-    "duracion_anios": 80,
-    "orden_de_gravedad": 52
+    "duracion_anios": 76,
+    "orden_de_gravedad": 576
 }
+
 
