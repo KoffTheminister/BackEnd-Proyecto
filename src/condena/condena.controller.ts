@@ -5,7 +5,7 @@ import { Condena } from "./condena.entity.js"
 import { Sentencia } from "../sentencia/sentencia.entity.js"
 import { buscar_recluso, get_one } from "../recluso/recluso.controller.js"
 import { get_sentencias_especificas } from "../sentencia/sentencia.controller.js"
-import { get_sectores_con_sentencia } from "../sector/sector.controller.js"
+//import { get_sectores_con_sentencia } from "../sector/sector.controller.js"
 
 const em = orm.em
 const con = em.getRepository(Condena)
@@ -65,13 +65,14 @@ async function add(req: Request, res: Response){
         */
         let orden_max = 0
         let la_sentencia_maxima: Sentencia = mis_sentencias[0]
-        mis_sentencias.forEach(una_sentencia => {
-            if(una_sentencia.orden_de_gravedad > orden_max){
-                orden_max = una_sentencia.orden_de_gravedad
-                let la_sentencia_maxima = una_sentencia
+        let i = 0
+        while(i = 0, i < mis_sentencias.length, i++){
+            if(mis_sentencias[i].orden_de_gravedad > orden_max){
+                orden_max = mis_sentencias[i].orden_de_gravedad
+                let la_sentencia_maxima = mis_sentencias[i]
             }
-        })
-        let los_sectores = await get_sectores_con_sentencia(la_sentencia_maxima)
+        }
+        //let los_sectores = await get_sectores_con_sentencia(la_sentencia_maxima)
         /*
         let cod_sentencia = await em.getConnection().execute(`select sen.cod_sentencia as cod
                                                               from sentencia sen
@@ -84,6 +85,7 @@ async function add(req: Request, res: Response){
         */
         let j = 0
         let bool = true
+        /*
         while(j = 0, j < los_sectores.length && bool == true, j++){
             if(los_sectores[j].encarcelar_recluso(nueva_condena.cod_recluso) == false){
                 bool = false
@@ -91,6 +93,7 @@ async function add(req: Request, res: Response){
                 res.status(201).json({ status: 201 })
             }
         }
+        */
         /*
         let cod_celdas = await em.getConnection().execute(`select c.cod_celda as cod, c.capacidad, count(e.cod_celda_cod_celda)
                                                            from celda c
@@ -116,11 +119,12 @@ async function finalizar_condenas(req:Request, res:Response){
             //{ populate: ['cod_recluso'] } tiraba error
         )
         let reclusos:any = []
-        condenas.forEach(una_condena => {
-            reclusos.push(una_condena.cod_recluso)
-            una_condena.fecha_fin_real = today
-            una_condena.cod_recluso.celda = null
-        })
+        let i = 0
+        while(i = 0, i < condenas.length, i++){
+            reclusos.push(condenas[i].cod_recluso)
+            condenas[i].fecha_fin_real = today
+            condenas[i].cod_recluso.celda = null
+        }
 
         /*
         let condenas = await em.getConnection().execute(
@@ -137,9 +141,11 @@ async function finalizar_condenas(req:Request, res:Response){
                 where fecha_fin_estimada <= curdate();`);
             */
             res.status(201).json({ data: reclusos })
-            condenas.forEach(una_condena => {
-                una_condena.cod_recluso.celda = null
-            })
+
+            let i = 0
+            while(i = 0, i < condenas.length, i++){
+                condenas[i].cod_recluso.celda = null
+            }
         } else {
             res.status(404).json({ message: 'no se tienen que terminar condenas'})
         }
