@@ -42,7 +42,7 @@ export class Sector {
             
         })
         */
-        
+        /*
         let sentencias_agregadas = new Collection<Sentencia>(this);
         unas_sentencias.forEach(una_sentencia => {
             let i = 0
@@ -59,10 +59,11 @@ export class Sector {
             }
         })
         return sentencias_agregadas
-        
+        */
     }
 
-    public conseguir_celda_libre(): Celda | null{
+    public conseguir_celda_libre(){ 
+        /*
         let b = true
         let i = 0
         while(i = 0, i < this.celdas.length && b == true, i++){
@@ -71,18 +72,23 @@ export class Sector {
             }
         }
         return null
+        */
+        
     }
 
     public conseguir_reclusos_con_edad(edad_minima: number){
+        /*
         let c = 0
         let reclusos_habiles : any[] = []
         while(c = 0, c < this.celdas.length, c++){
             reclusos_habiles.push(...this.celdas[c].conseguir_reclusos_con_edad(edad_minima))
         }
         return reclusos_habiles
+        */
     }
 
     public encarcelar_recluso(un_recluso: Recluso){
+        /*
         let c = 0
         let bool = true
         while(c = 0, c < this.celdas.length && bool == true, c++){
@@ -91,6 +97,7 @@ export class Sector {
             }
         }
         return bool
+        */
     }
     
 }
