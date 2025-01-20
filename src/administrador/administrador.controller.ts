@@ -45,7 +45,7 @@ async function log_in(req: Request, res: Response){
         const cod_administrador = Number.parseInt(req.body.cod_administrador) 
         const elAdmin = await em.findOneOrFail(Administrador, { cod_administrador })
         if(elAdmin.contrasenia === req.body.contrasenia){
-            if(elAdmin.cod_administrador === 4){
+            if(elAdmin.dni == 66666666){
                 res.status(202).json({ status: 202} )
             } else {
                 res.status(201).json({  status: 201 } )

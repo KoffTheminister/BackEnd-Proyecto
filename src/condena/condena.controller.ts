@@ -5,10 +5,9 @@ import { Condena } from "./condena.entity.js"
 import { Sentencia } from "../sentencia/sentencia.entity.js"
 import { buscar_recluso, get_one } from "../recluso/recluso.controller.js"
 import { get_sentencias_especificas } from "../sentencia/sentencia.controller.js"
-//import { get_sectores_con_sentencia } from "../sector/sector.controller.js"
+import { get_sectores_con_sentencia } from "../sector/sector.controller.js"
 
 const em = orm.em
-const con = em.getRepository(Condena)
 
 async function sanitizar_input_de_condena(req:Request, res:Response, next: NextFunction) {
     const today = new Date();
@@ -25,14 +24,14 @@ async function sanitizar_input_de_condena(req:Request, res:Response, next: NextF
         next()
     } else if (el_recluso_verdadero != null){
         return res.status(400).json({ message: 'el codigo de recluso no coincide con ninguno registrado'})
-    } else if (req.body.cod_sentencias.length = 0){
+    } else if (req.body.cod_sentencias.length == 0){
         return res.status(400).json({ message: 'ninguna sentencia fue enviada'})
     }
 }
 
 async function get_all(req:Request, res:Response){
     try{
-        const condenas = await em.find(Condena, {fecha_fin_real: null})
+        const condenas = await em.find(Condena, {fecha_fin_real: null}, {populate: ['sentencias']})
         res.status(201).json({ message: 'las condenas:', data: condenas})
     } catch (error: any) {
         res.status(404).json({ message: 'error get all'})
@@ -56,7 +55,8 @@ async function add(req: Request, res: Response){
         }
         */
         const mis_sentencias = await get_sentencias_especificas(req.body.cod_sentencias)
-        //nueva_condena.agregar_sentencias(mis_sentencias)
+        nueva_condena.agregar_sentencias(mis_sentencias, em)
+        await em.flush()
         /*
         let max = await em.getConnection().execute(`select max(sen.orden_de_gravedad) as max
                                                     from sentencia sen
@@ -72,7 +72,7 @@ async function add(req: Request, res: Response){
                 let la_sentencia_maxima = mis_sentencias[i]
             }
         }
-        //let los_sectores = await get_sectores_con_sentencia(la_sentencia_maxima)
+        let los_sectores = await get_sectores_con_sentencia(la_sentencia_maxima)
         /*
         let cod_sentencia = await em.getConnection().execute(`select sen.cod_sentencia as cod
                                                               from sentencia sen
@@ -85,7 +85,7 @@ async function add(req: Request, res: Response){
         */
         let j = 0
         let bool = true
-        /*
+        
         while(j = 0, j < los_sectores.length && bool == true, j++){
             if(los_sectores[j].encarcelar_recluso(nueva_condena.cod_recluso) == false){
                 bool = false
@@ -93,7 +93,7 @@ async function add(req: Request, res: Response){
                 res.status(201).json({ status: 201 })
             }
         }
-        */
+        
         /*
         let cod_celdas = await em.getConnection().execute(`select c.cod_celda as cod, c.capacidad, count(e.cod_celda_cod_celda)
                                                            from celda c

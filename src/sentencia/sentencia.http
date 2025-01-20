@@ -2,7 +2,7 @@
 GET http://localhost:8080/sentencias
 
 ### get a sentencia
-GET http://localhost:8080/sentencias/14
+GET http://localhost:8080/sentencias/5
 
 ### post una sentencia
 POST http://localhost:8080/sentencias/

@@ -31,13 +31,16 @@ export class Celda {
     
     public conseguir_reclusos_con_edad(edad_minima: number){
         let r = 0
-        let reclusos_habiles : any[] = []
+        let reclusos_habiles : any[] | null = []
         while(r = 0, r < this.reclusos.length, r++){
             const today = new Date()
             let anios = today.getFullYear() - this.reclusos[r].fecha_nac.getFullYear();
             if(anios >= edad_minima){
                 reclusos_habiles.push(this.reclusos[r])
             }
+        }
+        if(reclusos_habiles.length == 0){
+            reclusos_habiles = null
         }
         return reclusos_habiles
     }

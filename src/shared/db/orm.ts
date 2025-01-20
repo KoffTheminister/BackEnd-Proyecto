@@ -1,10 +1,10 @@
-import { MikroORM } from "@mikro-orm/core";
-//import { MikroORM} from "@mikro-orm/mysql";
+//import { MikroORM } from "@mikro-orm/core";
+import { MikroORM} from "@mikro-orm/mysql";
 import { SqlHighlighter } from "@mikro-orm/sql-highlighter";
 import { MySqlDriver } from '@mikro-orm/mysql';
 
 const config = {
-    //type: "mysql", //comente esta linea porque me tiraba error
+    //type: "mysql", //comente esta linea porque me tira error de vez en cuando
     driver: MySqlDriver,
     entities: ['dist/**/*.entity.js'],
     entitiesTs: ['src/**/*.entity.ts'],
@@ -22,10 +22,7 @@ const config = {
     
 }
 
-export const orm = await MikroORM.init(config);
-//export const orm = await MikroORM.init<MySqlDriver>(config);
-//const orm = await MikroORM.init<PostgreSqlDriver>({
-// }ejemplo
+export const orm = await MikroORM.init<MySqlDriver>(config);
 
 export const syncSchema = async() => {
     const generator = orm.getSchemaGenerator()

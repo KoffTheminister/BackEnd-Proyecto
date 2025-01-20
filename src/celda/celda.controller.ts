@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from "express"
+import { Request, Response } from "express"
 import { orm } from "../shared/db/orm.js"
 import { Celda } from "./celda.entity.js"
 

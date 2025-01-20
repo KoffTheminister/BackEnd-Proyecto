@@ -5,9 +5,8 @@ import { Recluso } from "../recluso/recluso.entity.js"
 import { get_sector } from "../sector/sector.controller.js"
 
 const em = orm.em
-//const qb = orm.em.createQueryBuilder(Publisher);
 
-function sanitizar_input_de_actividad(req : Request, res : Response, next: NextFunction){
+async function sanitizar_input_de_actividad(req : Request, res : Response, next: NextFunction){
     req.body.sanitized_input = {
         nombre: req.body.nombre,
         descripcion: req.body.descripcion,
@@ -27,7 +26,7 @@ function sanitizar_input_de_actividad(req : Request, res : Response, next: NextF
       }
     })
 
-    req.body.sanitized_input.cod_sector = get_sector(req.body.cod_sector)
+    req.body.sanitized_input.cod_sector = await get_sector(req.body.cod_sector)
     if(req.body.sanitized_input.cod_sector == null){
         return res.status(404).json({ message: 'sector invalido'})
     }
@@ -47,7 +46,7 @@ async function get_all(req:Request, res:Response){
 async function get_one(req: Request, res: Response){
     try {
         const cod_actividad =  Number.parseInt(req.params.cod_actividad)
-        const laActividad = await em.findOneOrFail(Actividad, { cod_actividad: cod_actividad }) 
+        const laActividad = await em.findOneOrFail(Actividad, { cod_actividad: cod_actividad , estado: true}) 
         res.status(201).json({ status: 201, data: laActividad} )
     } catch (error: any){
         res.status(404).json({ status: 404})
@@ -68,7 +67,7 @@ async function add(req: Request, res: Response){
         */             
         if(reclusos_validos.length >= req.body.sanitized_input.cantidad_minima && actividad == null){     
             req.body.sanitized_input.reclusos = reclusos_validos                 
-            const laActividad = em.create(Actividad, req.body.sanitized_input)
+            const la_actividad = await em.create(Actividad, req.body.sanitized_input)
             await em.flush()
             /*
             Object.keys(cant_habilitados).forEach(async (key) => {

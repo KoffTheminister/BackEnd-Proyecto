@@ -1,6 +1,7 @@
-import { Collection, Entity, OneToMany, PrimaryKey, Property } from "@mikro-orm/core";
-import { Turno } from "../turno/turno.entity.js";
-import { email } from "valibot";
+import { Collection, Entity, ManyToOne, OneToMany, PrimaryKey, Property, Rel } from "@mikro-orm/core";
+//import { Turno } from "../turno/turno.entity.js";
+import { Sector } from "../sector/sector.entity.js";
+import { EntityManager } from "@mikro-orm/mysql";
 
 @Entity()
 export class Guardia {
@@ -21,19 +22,24 @@ export class Guardia {
 
     @Property({ nullable: true})
     fecha_fin_contrato ?: Date | null
-
+    /*
     @OneToMany(() => Turno, (turno) => turno.cod_guardia)
     turnos = new Collection<Turno>(this)
-    
-    public desvincular_turnos(){ //metodo no verificado, se deben iniciar turnos primero
-        if(this.turnos.isInitialized()){
-            const today = new Date();
-            let i = 0
-            while(i = 0, i < this.turnos.length, i++){
-                if(this.turnos[i].fecha_fin == null){
-                    this.turnos[i].fecha_fin = today
-                }
-            }
-        }
+    */
+    @ManyToOne(() => Sector, { primary: false, nullable: true })
+    cod_sector_m ?: Rel<Sector>
+
+    @ManyToOne(() => Sector, { primary: false, nullable: true })
+    cod_sector_t ?: Rel<Sector>
+
+    @ManyToOne(() => Sector, { primary: false, nullable: true })
+    cod_sector_n ?: Rel<Sector>
+
+    async desvincular_turnos(em: EntityManager){ //metodo no verificado, se deben iniciar turnos primero
+        this.cod_sector_m = undefined
+        this.cod_sector_t = undefined
+        this.cod_sector_n = undefined
+        await em.flush()
     }
+    
 }

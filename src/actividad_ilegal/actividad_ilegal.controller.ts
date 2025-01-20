@@ -6,9 +6,20 @@ import { orm } from "../shared/db/orm.js"
 const em = orm.em
 
 function sanitizar_input_de_actividad_ilegal(req : Request, res : Response, next: NextFunction){
-    Object.keys(req.body).forEach((key) => {
+    req.body.sanitized_input = {
+        nombre: req.body.nombre,
+        descripcion: req.body.descripcion,
+        locacion: req.body.locacion,
+        dia_de_la_semana: req.body.dia_de_la_semana,
+        hora_inicio: req.body.hora_inicio,
+        hora_fin: req.body.hora_fin,
+        estado: req.body.estado,
+        cantidad_maxima: req.body.cantidad_maxima
+    }
+
+    Object.keys(req.body.sanitized_input).forEach((key) => {
       if (req.body[key] === undefined) {
-        delete req.body[key]
+        return res.status(409).json({ message: 'falta un atributo'})
       }
     })
     next()
@@ -121,4 +132,4 @@ async function inscripcion(req: Request, res: Response) {
     }
 }
 
-export { get_all, get_one, add, update, inscripcion }
+export { get_all, get_one, add, update, inscripcion, sanitizar_input_de_actividad_ilegal }

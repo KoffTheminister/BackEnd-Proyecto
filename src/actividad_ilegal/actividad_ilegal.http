@@ -1,0 +1,36 @@
+### get actividades ilegales
+GET http://localhost:8080/actividadesIlegales
+
+### get reclusos
+GET http://localhost:8080/actividadesIlegales/3
+
+### POST an actividad
+POST http://localhost:8080/actividadesIlegales
+Content-Type: application/json
+
+{
+    "nombre": "recoleccion de banans",
+    "descripcion": "recolectamos naranjas", 
+    "locacion": "arboleda del sector 1", 
+    "dia_de_la_semana": 4, 
+    "hora_inicio": 23, 
+    "hora_fin": 24,
+    "estado": 1,
+    "cantidad_maxima": 10
+}
+
+### modificar an actividad
+PUT http://localhost:8080/actividadesIlegales/9
+Content-Type: application/json
+
+{
+    "nombre": "recoleccion de naranjas radioactiva",
+    "descripcion": "recolectamos naranjas radioactivas", 
+    "locacion": "chernobyl sector 1", 
+    "estado": 1
+}
+
+### inscribir a act ilegal :cod_act_ilegal&:cod_recluso
+POST http://localhost:8080/actividadesIlegales/inscripcion/9&28
+
+

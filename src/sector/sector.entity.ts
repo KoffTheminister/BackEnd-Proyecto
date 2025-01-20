@@ -3,9 +3,7 @@ import { Sentencia } from "../sentencia/sentencia.entity.js";
 import { Collection } from "@mikro-orm/core";
 import { Celda } from "../celda/celda.entity.js";
 import { Recluso } from "../recluso/recluso.entity.js";
-import { orm } from "../shared/db/orm.js"
-
-const em = orm.em
+import { Guardia } from "../guardia/guardia.entity.js";
 
 @Entity()
 export class Sector {
@@ -23,6 +21,15 @@ export class Sector {
 
     @OneToMany(() => Celda, (celda) => celda.cod_sector, { unique : false, nullable : false, cascade: [Cascade.ALL]})
     celdas = new Collection<Celda>(this);
+
+    @ManyToMany(() => Guardia, (guardia) => guardia.cod_sector_m)
+    guardias_m = new Collection<Guardia>(this)
+
+    @ManyToMany(() => Guardia, (guardia) => guardia.cod_sector_t)
+    guardias_t = new Collection<Guardia>(this)
+
+    @ManyToMany(() => Guardia, (guardia) => guardia.cod_sector_n)
+    guardias_n = new Collection<Guardia>(this)
 
     public agregar_sentencias(unas_sentencias: Sentencia[]){
         /*
@@ -42,7 +49,7 @@ export class Sector {
             
         })
         */
-        /*
+    
         let sentencias_agregadas = new Collection<Sentencia>(this);
         unas_sentencias.forEach(una_sentencia => {
             let i = 0
@@ -59,11 +66,11 @@ export class Sector {
             }
         })
         return sentencias_agregadas
-        */
+        
     }
-
+    
     public conseguir_celda_libre(){ 
-        /*
+        
         let b = true
         let i = 0
         while(i = 0, i < this.celdas.length && b == true, i++){
@@ -72,23 +79,26 @@ export class Sector {
             }
         }
         return null
-        */
         
     }
-
+    
     public conseguir_reclusos_con_edad(edad_minima: number){
-        /*
+        
         let c = 0
         let reclusos_habiles : any[] = []
         while(c = 0, c < this.celdas.length, c++){
-            reclusos_habiles.push(...this.celdas[c].conseguir_reclusos_con_edad(edad_minima))
+            let reclusos_habiles = this.celdas[c].conseguir_reclusos_con_edad(edad_minima)
+            if(reclusos_habiles != null){
+                reclusos_habiles.push(...reclusos_habiles)
+            }
         }
-        return reclusos_habiles
-        */
-    }
 
+        return reclusos_habiles
+        
+    }
+    
     public encarcelar_recluso(un_recluso: Recluso){
-        /*
+
         let c = 0
         let bool = true
         while(c = 0, c < this.celdas.length && bool == true, c++){
@@ -97,7 +107,7 @@ export class Sector {
             }
         }
         return bool
-        */
+        
     }
     
 }

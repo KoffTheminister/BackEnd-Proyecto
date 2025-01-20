@@ -2,8 +2,7 @@ import { Entity, ManyToOne, Property, Rel, PrimaryKeyProp, PrimaryKey, ManyToMan
 import { Recluso } from "../recluso/recluso.entity.js";
 import { Sentencia } from "../sentencia/sentencia.entity.js";
 import { Collection } from "@mikro-orm/core";
-
-
+import { EntityManager } from "@mikro-orm/mysql";
 
 @Entity()
 export class Condena {
@@ -25,15 +24,18 @@ export class Condena {
 
     [PrimaryKeyProp] !: ['cod_recluso', 'fecha_ini'];
     
-    public agregar_sentencias(unas_sentencias: Sentencia[]){
+    async agregar_sentencias(unas_sentencias: Sentencia[], em: EntityManager){
         let duracion_en_anios = 0
         unas_sentencias.forEach(una_sentencia => {
             this.sentencias.add(una_sentencia)
             duracion_en_anios += una_sentencia.duracion_anios
         })
-        this.fecha_ini.setFullYear(this.fecha_ini.getFullYear() + duracion_en_anios);
-
+        this.fecha_fin_estimada = new Date()
+        this.fecha_fin_estimada.setFullYear(this.fecha_fin_estimada.getFullYear() + duracion_en_anios);
+        await em.flush()
+        console.log(this)
     }
     
 }
+
 

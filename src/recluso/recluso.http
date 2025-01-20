@@ -1,0 +1,18 @@
+### get reclusos
+GET http://localhost:8080/reclusos
+
+### get reclusos
+GET http://localhost:8080/reclusos/77777777
+
+### POST a recluso
+POST http://localhost:8080/reclusos
+Content-Type: application/json
+
+{
+    "nombre": "Juan",
+    "apellido": "Esteban", 
+    "dni": 1234458, 
+    "fecha_nac": "2004-06-10" 
+}
+
+# verificar cuando el recluso tiene condenas

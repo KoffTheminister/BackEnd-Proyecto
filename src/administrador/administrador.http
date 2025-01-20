@@ -10,7 +10,7 @@ POST http://localhost:8080/administradores/logIn
 Content-Type: application/json
 
 {
-    "cod_administrador": 3,
+    "cod_administrador": 1,
     "contrasenia": "123"
 }
 
@@ -19,7 +19,7 @@ POST http://localhost:8080/administradores/logIn
 Content-Type: application/json
 
 {
-    "cod_administrador": 4,
+    "cod_administrador": 2,
     "contrasenia": "muajaja"
 }
 
@@ -44,7 +44,7 @@ Content-Type: application/json
 {
     "nombre": "Heinz",
     "apellido": "Doofenschmirtz",
-    "dni": 34343433,
+    "dni": 66666666,
     "fecha_ini_contrato": "2024-09-09",
     "fecha_fin_contrato": null,
     "contrasenia": "muajaja"

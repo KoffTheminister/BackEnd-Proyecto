@@ -1,0 +1,35 @@
+### get actividades
+GET http://localhost:8080/actividades
+
+### get actividad
+GET http://localhost:8080/actividades/3
+
+### POST an actividad
+POST http://localhost:8080/actividades
+Content-Type: application/json
+
+{
+    "nombre": "recoleccion de naranjas",
+    "descripcion": "recolectamos naranjas", 
+    "locacion": "arboleda del sector 1", 
+    "dia_de_la_semana": 4, 
+    "hora_inicio": 23, 
+    "hora_fin": 24,
+    "estado": 1,
+    "cantidad_minima": 10,
+    "edad_minima": 18, 
+    "cod_sector": 1
+}
+
+### modificar an actividad
+PUT http://localhost:8080/actividades/3
+Content-Type: application/json
+
+{
+    "nombre": "recoleccion de naranjas radioactiva",
+    "descripcion": "recolectamos naranjas radioactivas", 
+    "locacion": "chernobyl sector 1", 
+    "estado": 1
+}
+
+

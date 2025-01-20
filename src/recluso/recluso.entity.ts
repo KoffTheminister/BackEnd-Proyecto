@@ -1,5 +1,5 @@
 import { Entity, PrimaryKey, Property, ManyToMany, Cascade, Collection, ManyToOne, OneToMany } from "@mikro-orm/core";
-import { Actividad } from "../actividaddir/actividad.entity.js";
+import { Actividad } from "../actividad/actividad.entity.js";
 import { Taller } from "../taller/taller.entity.js";
 import { Actividad_Ilegal } from "../actividad_ilegal/actividad_ilegal.entity.js";
 import { Condena } from "../condena/condena.entity.js";
