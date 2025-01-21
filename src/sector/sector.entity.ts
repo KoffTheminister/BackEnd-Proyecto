@@ -3,7 +3,8 @@ import { Sentencia } from "../sentencia/sentencia.entity.js";
 import { Collection } from "@mikro-orm/core";
 import { Celda } from "../celda/celda.entity.js";
 import { Recluso } from "../recluso/recluso.entity.js";
-import { Guardia } from "../guardia/guardia.entity.js";
+import { Turno } from "../turno/turno.entity.js";
+import { EntityManager } from "@mikro-orm/mysql";
 
 @Entity()
 export class Sector {
@@ -22,54 +23,28 @@ export class Sector {
     @OneToMany(() => Celda, (celda) => celda.cod_sector, { unique : false, nullable : false, cascade: [Cascade.ALL]})
     celdas = new Collection<Celda>(this);
 
-    @ManyToMany(() => Guardia, (guardia) => guardia.cod_sector_m)
-    guardias_m = new Collection<Guardia>(this)
+    @OneToMany(() => Turno, (turno) => turno.cod_sector)
+    turnos = new Collection<Turno>(this)
 
-    @ManyToMany(() => Guardia, (guardia) => guardia.cod_sector_t)
-    guardias_t = new Collection<Guardia>(this)
-
-    @ManyToMany(() => Guardia, (guardia) => guardia.cod_sector_n)
-    guardias_n = new Collection<Guardia>(this)
-
-    public agregar_sentencias(unas_sentencias: Sentencia[]){
-        /*
-        let sentencias_agregadas = new Collection<Sentencia>(this);
-        this.sentencias.init()
-        unas_sentencias.forEach(una_sentencia => {
-            this.sentencias.add(una_sentencia)
-            //em.flush()
-            
-            try{
-                this.sentencias.add(una_sentencia)
-                em.flush()
-                sentencias_agregadas.add(una_sentencia)
-            }catch(error: any){
-
-            }
-            
-        })
-        */
-    
-        let sentencias_agregadas = new Collection<Sentencia>(this);
-        unas_sentencias.forEach(una_sentencia => {
-            let i = 0
-            let ok = true
-            while(i = 0, i < this.sentencias.length && ok == true, i++){
-                console.log('holi')
-                if(una_sentencia == this.sentencias[i]){
-                    ok = false
+    async agregar_sentencias(unas_sentencias: Sentencia[], em: EntityManager){
+        let i = 0;
+        while (i < unas_sentencias.length) {
+            try {
+                if(!(this.sentencias.contains(unas_sentencias[i]))){
+                    this.sentencias.add(unas_sentencias[i])
+                    await em.flush();
+                    i++
+                } else {
+                    unas_sentencias.splice(i, 1)
                 }
+            } catch (error: any) {
+                console.log(error.message)
             }
-            if(ok == true){
-                this.sentencias.add(una_sentencia)
-                sentencias_agregadas.add(una_sentencia)
-            }
-        })
-        return sentencias_agregadas
-        
+        }
+        return unas_sentencias
     }
-    
-    public conseguir_celda_libre(){ 
+
+    public conseguir_celda_libre(){
         
         let b = true
         let i = 0
@@ -92,7 +67,6 @@ export class Sector {
                 reclusos_habiles.push(...reclusos_habiles)
             }
         }
-
         return reclusos_habiles
         
     }

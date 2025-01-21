@@ -8,37 +8,11 @@ GET http://localhost:8080/sectores/1
 GET http://localhost:8080/sectores/celdas/5
 
 ### agregar sentencias a sector, es importante que los campos tengan nombres diferentes
-POST http://localhost:8080/sectores/agregarSentenciasEn1
+POST http://localhost:8080/sectores/agregarSentencias
 Content-Type: application/json
 
 {
     "cod_sector": 5,
-    "cod_sentencias": [10, 8, 9]
+    "cod_sentencias": [1, 2, 3, 6, 8]
 }
 
-
-### get all de un sector en particular
-GET http://localhost:8080/turnos/1
-
-### get all turnos
-GET http://localhost:8080/turnos
-
-### crear turno
-POST http://localhost:8080/turnos/  
-Content-Type: application/json
-
-{
-    "cod_guardia": 6,
-    "cod_sector": 1,
-    "turno": "N"
-}
-
-### dar de baja un turno la diferencia con el de arriba es que este es put y el otro es post
-PUT http://localhost:8080/turnos/
-Content-Type: application/json
-
-{
-    "cod_guardia": 6,
-    "cod_sector": 1,
-    "turno": "N"
-}

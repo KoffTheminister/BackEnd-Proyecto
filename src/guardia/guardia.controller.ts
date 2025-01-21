@@ -90,7 +90,7 @@ async function finalizar_contrato(req: Request, res: Response){
             const today = new Date()
             el_guardia.fecha_fin_contrato = today
             //const modif = await em.getConnection().execute(`update guardia set fecha_fin_contrato = ? where cod_guardia = ?;`, [finalDate, cod_guardia]);
-            el_guardia.desvincular_turnos()
+            el_guardia.desvincular_turnos(em)
             //let modif3 = await em.getConnection().execute(`update turno set fecha_fin = ? where cod_guardia_cod_guardia = ?;`, [finalDate, si_o_no[0].cod_guardia]);
             await em.flush()
             res.status(201).json({status: 201})

@@ -1,0 +1,23 @@
+### get all de un sector en particular
+GET http://localhost:8080/sectores/turnos/1
+
+### crear turno
+POST http://localhost:8080/sectores/turnos
+Content-Type: application/json
+
+{
+    "cod_guardia": 1,
+    "cod_sector": 3,
+    "turno": "T"
+}
+
+
+### dar de baja un turno la diferencia con el de arriba es que este es put y el otro es post
+PUT http://localhost:8080/sectores/turnos
+Content-Type: application/json
+
+{
+    "cod_guardia": 1,
+    "cod_sector": 1,
+    "turno": "N"
+}

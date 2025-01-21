@@ -1,5 +1,5 @@
 import { Collection, Entity, ManyToOne, OneToMany, PrimaryKey, Property, Rel } from "@mikro-orm/core";
-//import { Turno } from "../turno/turno.entity.js";
+import { Turno } from "../turno/turno.entity.js";
 import { Sector } from "../sector/sector.entity.js";
 import { EntityManager } from "@mikro-orm/mysql";
 
@@ -22,23 +22,12 @@ export class Guardia {
 
     @Property({ nullable: true})
     fecha_fin_contrato ?: Date | null
-    /*
+
     @OneToMany(() => Turno, (turno) => turno.cod_guardia)
     turnos = new Collection<Turno>(this)
-    */
-    @ManyToOne(() => Sector, { primary: false, nullable: true })
-    cod_sector_m ?: Rel<Sector>
-
-    @ManyToOne(() => Sector, { primary: false, nullable: true })
-    cod_sector_t ?: Rel<Sector>
-
-    @ManyToOne(() => Sector, { primary: false, nullable: true })
-    cod_sector_n ?: Rel<Sector>
 
     async desvincular_turnos(em: EntityManager){ //metodo no verificado, se deben iniciar turnos primero
-        this.cod_sector_m = undefined
-        this.cod_sector_t = undefined
-        this.cod_sector_n = undefined
+        this.turnos = new Collection<Turno>(this)
         await em.flush()
     }
     
