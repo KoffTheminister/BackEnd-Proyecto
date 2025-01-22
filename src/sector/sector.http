@@ -2,7 +2,7 @@
 GET http://localhost:8080/sectores
 
 ### get one
-GET http://localhost:8080/sectores/1
+GET http://localhost:8080/sectores/5
 
 ### get celdas
 GET http://localhost:8080/sectores/celdas/5

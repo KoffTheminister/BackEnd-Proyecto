@@ -6,8 +6,8 @@ POST http://localhost:8080/sectores/turnos
 Content-Type: application/json
 
 {
-    "cod_guardia": 1,
-    "cod_sector": 3,
+    "cod_guardia": 6,
+    "cod_sector": 5,
     "turno": "T"
 }
 
@@ -17,7 +17,7 @@ PUT http://localhost:8080/sectores/turnos
 Content-Type: application/json
 
 {
-    "cod_guardia": 1,
+    "cod_guardia": 2,
     "cod_sector": 1,
     "turno": "N"
 }

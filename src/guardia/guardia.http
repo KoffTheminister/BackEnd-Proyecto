@@ -10,7 +10,8 @@ Content-Type: application/json
 
 {
     "nombre": "Ignacio",
-    "apellido": "Chaparro"
+    "apellido": "Chaparro",
+    "dni": 43434343
 }
 
 ### finalizar contrato
@@ -18,7 +19,7 @@ PUT http://localhost:8080/guardias/finalizarContrato
 Content-Type: application/json
 
 {
-    "cod_guardia": 2
+    "cod_guardia": 5
 }
 
 
