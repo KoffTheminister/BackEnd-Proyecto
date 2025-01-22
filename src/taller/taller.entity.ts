@@ -25,7 +25,7 @@ export class Taller {
     hora_fin !: number
 
     @Property({nullable: false})
-    estado !: 1
+    estado !: boolean
 
     @ManyToMany(() => Recluso, (recluso) => recluso.talleres, { unique : false, nullable : false, cascade: [Cascade.PERSIST], owner: true})
     reclusos = new Collection<Recluso>(this);

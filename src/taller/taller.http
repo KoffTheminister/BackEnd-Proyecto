@@ -2,36 +2,33 @@
 GET http://localhost:8080/talleres
 
 ### get actividad
-GET http://localhost:8080/talleres/5
+GET http://localhost:8080/talleres/1
 
 ### POST an actividad
 POST http://localhost:8080/talleres
 Content-Type: application/json
 
 {
-    "nombre": "re",
+    "nombre": "recolectamos naranjas",
     "descripcion": "recolectamos naranjas", 
     "locacion": "arboleda del sector 1", 
-    "diaDeLaSemana": 4, 
-    "horaInicio": 23, 
-    "horaFin": 24,
+    "dia_de_la_semana": 3, 
+    "hora_inicio": 23, 
+    "hora_fin": 24,
     "estado": 1
 }
 
 ### inscripcion :cod_taller&:cod_recluso
-POST http://localhost:8080/talleres/inscripcion/1&12
+POST http://localhost:8080/talleres/inscripcion/1&13
 
 ### modificar taller
-PUT http://localhost:8080/talleres/5
+PUT http://localhost:8080/talleres/2
 Content-Type: application/json
 
 {
     "nombre": "recoleccion de kiwis radioactivos",
     "descripcion": "recolectamos kiwis radioactivos", 
     "locacion": "arboleda del sector 1", 
-    "diaDeLaSemana": 4, 
-    "horaInicio": 23, 
-    "horaFin": 24,
-    "estado": 0
+    "estado": false
 }
 

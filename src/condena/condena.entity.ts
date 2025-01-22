@@ -18,11 +18,11 @@ export class Condena {
     @Property({unique : false, nullable : true})
     fecha_fin_real ?: Date
 
-    @ManyToMany(() => Sentencia, (sentencia) => sentencia.condenas, { unique : false, nullable : true, cascade: [Cascade.ALL], owner: true})
+    @ManyToMany(() => Sentencia, (sentencia) => sentencia.condenas, { unique : false, nullable : true, owner: true})
     sentencias = new Collection<Sentencia>(this);
     //sentencias !: Sentencia[]
 
-    [PrimaryKeyProp] !: ['cod_recluso', 'fecha_ini'];
+    [PrimaryKeyProp] !: ['cod_recluso', 'fecha_ini']
     
     async agregar_sentencias(unas_sentencias: Sentencia[], em: EntityManager){
         let duracion_en_anios = 0

@@ -1,6 +1,5 @@
 import { Entity, PrimaryKey, Property, ManyToMany } from "@mikro-orm/core";
 import { Recluso } from "../recluso/recluso.entity.js";
-import { update } from "./actividad_ilegal.controller.js";
 import { Collection } from "@mikro-orm/core";
 
 @Entity()

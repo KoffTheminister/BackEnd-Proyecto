@@ -48,8 +48,7 @@ function sanitizar_update_de_taller(req : Request, res : Response, next: NextFun
 
 async function get_all(req:Request, res:Response){
     try{
-        const talleres = await em.find(Taller, {estado: 1}, { orderBy: { dia_de_la_semana: 'asc' } })
-        //const talleres = await em.getConnection().execute(`select * from taller tall where tall.estado = 1 order by dia_de_la_semana;`);
+        const talleres = await em.find(Taller, {estado: true}, { orderBy: { dia_de_la_semana: 'asc' } })
         res.status(201).json({ status: 201, data: talleres})
     } catch (error: any) {
         res.status(404).json({ status: 404})
@@ -59,8 +58,8 @@ async function get_all(req:Request, res:Response){
 async function get_one(req: Request, res: Response){
     try {
         const cod_taller =  Number.parseInt(req.params.cod_taller)
-        const elTaller = await em.findOneOrFail(Taller, { cod_taller })
-        res.status(201).json({ data: elTaller, status: 201} )
+        const el_taller = await em.findOneOrFail(Taller, { cod_taller: cod_taller }, {populate: ['reclusos']})
+        res.status(201).json({ data: el_taller, status: 201} )
     } catch (error: any){
         res.status(404).json({ status: 404})
     }
@@ -69,14 +68,8 @@ async function get_one(req: Request, res: Response){
 async function add(req: Request, res: Response){
     try{
         const un_taller = await em.findOne(Taller, {dia_de_la_semana: req.body.sanitized_input.dia_de_la_semana, hora_inicio: req.body.sanitized_input.hora_inicio, hora_fin: req.body.sanitized_input.hora_fin})
-        /*
-        const si_o_no = await em.getConnection().execute(
-            `select count(*) as cont 
-            from taller ta 
-            where ta.dia_de_la_semana = ? and ta.hora_inicio = ? and ta.hora_fin = ?;`, [req.body.sanitizedInput.diaDeLaSemana, req.body.sanitizedInput.horaInicio, req.body.sanitizedInput.horaFin]);
-        */
         if(un_taller == null){
-            const elTaller = em.create(Taller, req.body.sanitizedInput)
+            const elTaller = em.create(Taller, req.body.sanitized_input)
             await em.flush()
             res.status(201).json({status: 201, data: elTaller})
         }else{
@@ -109,14 +102,14 @@ async function inscripcion(req: Request, res: Response) {
     try {
         const cod_taller : any[] = [];
         cod_taller[0] = Number(req.params.cod_taller)
-        const elTallerVerdadero = await em.findOne(Taller, cod_taller[0])
+        const el_taller_verdadero = await em.findOne(Taller, {cod_taller: cod_taller[0], estado: true}, {populate: ['reclusos']})
         const cod_recluso : any[] = [];
         cod_recluso[0] = Number(req.params.cod_recluso)
-        const elReclusoVerdadero = await em.findOne(Recluso, cod_recluso[0])
-        if(elReclusoVerdadero != null && elTallerVerdadero != null){
-            if(elTallerVerdadero.estado === 1){
+        const el_recluso_verdadero = await em.findOne(Recluso, cod_recluso[0])
+        if(el_recluso_verdadero != null && el_taller_verdadero != null){
+            if(el_taller_verdadero.reclusos.isInitialized()){
                 try{
-                    elTallerVerdadero.reclusos.add(elReclusoVerdadero)
+                    el_taller_verdadero.reclusos.add(el_recluso_verdadero)
                     //const inscripcion = await em.getConnection().execute(`insert into taller_reclusos(taller_cod_taller, recluso_cod_recluso) values (?, ?);`, [cod_taller[0], cod_recluso[0]]);
                     await em.flush()
                     res.status(201).json({ status: 201 })
@@ -124,14 +117,19 @@ async function inscripcion(req: Request, res: Response) {
                     res.status(409).json({ status: 409 })
                 }
             } else {
-                res.status(410).json({ status: 410})
+                el_taller_verdadero.reclusos.add(el_recluso_verdadero)
+                await em.flush()
+                res.status(201).json({status: 201})
             }
+        } else {
+            res.status(410).json({ status: 410})
         }
-        if(elReclusoVerdadero === null){
-            res.status(404).json({ status: 404 })
+
+        if(el_recluso_verdadero === null){
+            return res.status(404).json({ status: 404 })
         }
-        if(elTallerVerdadero === null){
-            res.status(404).json({ status: 403 })
+        if(el_taller_verdadero === null){
+            return res.status(404).json({ status: 403 })
         }
     }catch (error: any) {
         res.status(500).json({ message: error.message })
