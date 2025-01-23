@@ -1,6 +1,7 @@
 import { Entity, PrimaryKey, Property, Rel, ManyToOne, PrimaryKeyProp, OneToMany, Cascade, Collection} from "@mikro-orm/core";
 import { Sector } from "../sector/sector.entity.js";
 import { Recluso } from "../recluso/recluso.entity.js";
+import { EntityManager } from "@mikro-orm/mysql";
 
 @Entity()
 export class Celda {
@@ -22,35 +23,55 @@ export class Celda {
     [PrimaryKeyProp] !: ['cod_celda', 'cod_sector'];
     
     public tengo_disponibilidad(){
-        if(this.reclusos.length < this.capacidad){
-            return true
+        if(this.reclusos.isInitialized()){
+            if(this.reclusos.length < this.capacidad){
+                return true
+            } else {
+                return false
+            }
         } else {
-            return false
+            return true
         }
     }
     
-    public conseguir_reclusos_con_edad(edad_minima: number){
+    async conseguir_reclusos_con_edad(edad_minima: number){
         let r = 0
         let reclusos_habiles : any[] | null = []
-        while(r = 0, r < this.reclusos.length, r++){
-            const today = new Date()
-            let anios = today.getFullYear() - this.reclusos[r].fecha_nac.getFullYear();
-            if(anios >= edad_minima){
-                reclusos_habiles.push(this.reclusos[r])
+        const today = new Date()
+        await this.reclusos.loadItems()
+        console.log(this.reclusos)
+        if(this.reclusos.isInitialized()){
+            while(r < this.reclusos.length){
+                let anios = today.getFullYear() - this.reclusos[r].fecha_nac.getFullYear();
+                if(anios >= edad_minima){
+                    reclusos_habiles.push(this.reclusos[r])
+                }
+                r++
             }
-        }
-        if(reclusos_habiles.length == 0){
+        } else {
             reclusos_habiles = null
         }
+
         return reclusos_habiles
     }
     
-    public encarcelar_recluso(un_recluso: Recluso){
-        if(this.capacidad > this.reclusos.length){
-            this.reclusos.add(un_recluso)
-            return true
-        } else {
-            return false
+    async encarcelar_recluso(un_recluso: Recluso, em: EntityManager){
+        try{
+            if(this.reclusos.isInitialized()){
+                if(this.capacidad > this.reclusos.length){
+                    this.reclusos.add(un_recluso)
+                    await em.flush()
+                    return true
+                } else {
+                    return false
+                }
+            } else {
+                this.reclusos.add(un_recluso)
+                await em.flush()
+                return true
+            }
+        } catch(error:any){
+            console.log(error.message)
         }
     }
     

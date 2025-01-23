@@ -2,7 +2,7 @@
 GET http://localhost:8080/actividades
 
 ### get actividad
-GET http://localhost:8080/actividades/3
+GET http://localhost:8080/actividades/1
 
 ### POST an actividad
 POST http://localhost:8080/actividades
@@ -16,20 +16,20 @@ Content-Type: application/json
     "hora_inicio": 23, 
     "hora_fin": 24,
     "estado": 1,
-    "cantidad_minima": 10,
-    "edad_minima": 18, 
+    "cantidad_minima": 2,
+    "edad_minima": 1, 
     "cod_sector": 1
 }
 
 ### modificar an actividad
-PUT http://localhost:8080/actividades/3
+PUT http://localhost:8080/actividades/1
 Content-Type: application/json
 
 {
     "nombre": "recoleccion de naranjas radioactiva",
     "descripcion": "recolectamos naranjas radioactivas", 
     "locacion": "chernobyl sector 1", 
-    "estado": 1
+    "estado": false
 }
 
 

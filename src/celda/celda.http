@@ -1,0 +1,6 @@
+### get all
+GET http://localhost:8080/celdas
+
+### get one
+GET http://localhost:8080/celdas/1
+

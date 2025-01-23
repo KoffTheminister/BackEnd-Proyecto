@@ -33,7 +33,6 @@ export class Condena {
         this.fecha_fin_estimada = new Date()
         this.fecha_fin_estimada.setFullYear(this.fecha_fin_estimada.getFullYear() + duracion_en_anios);
         await em.flush()
-        console.log(this)
     }
     
 }

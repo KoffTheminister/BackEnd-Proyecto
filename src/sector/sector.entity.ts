@@ -1,4 +1,4 @@
-import { Entity, PrimaryKey, Property, ManyToMany, Cascade, OneToMany } from "@mikro-orm/core";
+import { Entity, PrimaryKey, Property, ManyToMany, Cascade, OneToMany, ConstraintViolationException } from "@mikro-orm/core";
 import { Sentencia } from "../sentencia/sentencia.entity.js";
 import { Collection } from "@mikro-orm/core";
 import { Celda } from "../celda/celda.entity.js";
@@ -57,28 +57,30 @@ export class Sector {
         
     }
     
-    public conseguir_reclusos_con_edad(edad_minima: number){
+    async conseguir_reclusos_con_edad(edad_minima: number){
         
         let c = 0
         let reclusos_habiles : any[] = []
-        while(c = 0, c < this.celdas.length, c++){
-            let reclusos_habiles = this.celdas[c].conseguir_reclusos_con_edad(edad_minima)
-            if(reclusos_habiles != null){
-                reclusos_habiles.push(...reclusos_habiles)
+        while(c < this.celdas.length){
+            let reclusos_habiles_celda = await this.celdas[c].conseguir_reclusos_con_edad(edad_minima)
+            if(reclusos_habiles_celda != null){
+                reclusos_habiles.push(...reclusos_habiles_celda)
             }
+            c++
         }
         return reclusos_habiles
         
     }
     
-    public encarcelar_recluso(un_recluso: Recluso){
+    async encarcelar_recluso(un_recluso: Recluso, em: EntityManager){
 
         let c = 0
         let bool = true
-        while(c = 0, c < this.celdas.length && bool == true, c++){
-            if(this.celdas[c].encarcelar_recluso(un_recluso) == true){
+        while(c < this.celdas.length && bool == true){
+            if(await this.celdas[c].encarcelar_recluso(un_recluso, em) == true){
                 bool = false
             }
+            c++
         }
         return bool
         

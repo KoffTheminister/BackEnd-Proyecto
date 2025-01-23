@@ -34,14 +34,14 @@ async function get_one(req: Request, res: Response){
 
 async function get_sectores_con_sentencia(la_sentencia: Sentencia){
     let sectores_con_sentencia: any[] = []
-    const sectores = await em.find(Sector, {})//, {populate: ['celdas', 'sentencias']})
+    const sectores = await em.find(Sector, {}, {populate: ['sentencias', 'celdas']})
     let i = 0
-    let bool = true
-    sectores.forEach(un_sector => {
-        if(un_sector.sentencias.contains(la_sentencia)){
-            sectores_con_sentencia.push(un_sector)
+    while(i < sectores.length){
+        if(sectores[i].sentencias.contains(la_sentencia)){
+            sectores_con_sentencia.push(sectores[i])
         }
-    })
+        i++
+    }
     return sectores_con_sentencia
 }
 

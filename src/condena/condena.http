@@ -6,8 +6,8 @@ POST http://localhost:8080/condenas
 Content-Type: application/json
 
 {
-    "cod_recluso": 13,
-    "cod_sentencias": [1,4,5]
+    "cod_recluso": 23,
+    "cod_sentencias": [1,2]
 }
 
 ### finalizar condenas

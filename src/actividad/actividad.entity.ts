@@ -38,9 +38,8 @@ export class Actividad {
     @ManyToOne(() => Sector, { nullable: true })
     cod_sector !: Rel<Sector>
 
-    @ManyToMany(() => Recluso, (recluso) => recluso.actividades, { unique : false, nullable : true, cascade: [Cascade.ALL], owner: true})
+    @ManyToMany(() => Recluso, (recluso) => recluso.actividades, { unique : false, nullable : true, cascade: [], owner: true})
     reclusos = new Collection<Recluso>(this);
-    //reclusos !: Recluso[]
 }   
 
 
