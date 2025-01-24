@@ -10,8 +10,8 @@ POST http://localhost:8080/administradores/logIn
 Content-Type: application/json
 
 {
-    "cod_administrador": 1,
-    "contrasenia": "123"
+    "cod_administrador": 6,
+    "contrasenia": "123" 
 }
 
 ### log in de administrador especial
@@ -30,7 +30,7 @@ Content-Type: application/json
 {
     "nombre": "Juan Estevan",
     "apellido": "Garcia",
-    "dni": 34343438,
+    "dni": 34343439,
     "fecha_ini_contrato": "2024-09-09",
     "fecha_fin_contrato": null,
     "contrasenia": "123"
