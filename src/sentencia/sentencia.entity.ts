@@ -22,11 +22,9 @@ export class Sentencia {
 
     @ManyToMany(() => Condena, (condena) => condena.sentencias, { unique : false, nullable : false, cascade: [Cascade.ALL], owner: false})
     condenas = new Collection<Condena>(this);
-    //condenas !: Condena[]
 
     @ManyToMany(() => Sector, (sector) => sector.sentencias, { unique : false, nullable : false, cascade: [Cascade.ALL], owner: false})
     sectores = new Collection<Sector>(this);
-    //sectores !: Sector[]
 }
 
 

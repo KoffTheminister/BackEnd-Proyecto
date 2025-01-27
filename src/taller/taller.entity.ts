@@ -4,7 +4,7 @@ import { Recluso } from "../recluso/recluso.entity.js";
 @Entity()
 export class Taller {
     @PrimaryKey({ nullable: false, unique: true, autoincrement: true})
-    cod_taller ?: number  // el !: significa que esta propiedad no puede ser nula
+    cod_taller ?: number
     
     @Property({ nullable: false})
     nombre !: string 
@@ -29,7 +29,6 @@ export class Taller {
 
     @ManyToMany(() => Recluso, (recluso) => recluso.talleres, { unique : false, nullable : false, cascade: [Cascade.PERSIST], owner: true})
     reclusos = new Collection<Recluso>(this);
-    //reclusos !: Recluso[]
 }   
 
 

@@ -40,11 +40,11 @@ export class Recluso {
     public get_condena_activa(){
         let i = 0
         try{
-            console.log(this)
-            while(i = 0, i < this.condenas.length, i++){
+            while(i < this.condenas.length){
                 if(this.condenas[i].fecha_fin_real == null){
                     return this.condenas[i]
                 }
+                i++
             }
         } catch (error: any){
             console.log(error.message)

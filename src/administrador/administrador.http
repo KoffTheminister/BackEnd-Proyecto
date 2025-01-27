@@ -1,8 +1,10 @@
 ### get administradores
 GET http://localhost:8080/administradores
+Authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RfYWRtaW5pc3RyYWRvciI6Niwibm9tYnJlIjoiSnVhbiBFc3RldmFuIiwiYXBlbGxpZG8iOiJHYXJjaWEiLCJkbmkiOjM0MzQzNDM5LCJmZWNoYV9pbmlfY29udHJhdG8iOiIyMDI0LTA5LTA5VDAwOjAwOjAwLjAwMFoiLCJmZWNoYV9maW5fY29udHJhdG8iOm51bGwsImNvbnRyYXNlbmlhIjoiJDJhJDEwJElXZFpRYTNFaUxNUUcuakNJNUpIdS5hQWwxSExEUm5OMHQvVTQ3UzBONU5SaHR0UmZteHdLIiwiaWF0IjoxNzM3OTkyMDY2LCJleHAiOjE3MzgwMDI4NjZ9.xhEMbWke4VCDzNoSoH11xqZ9DzPArERV17Ra9IiQIxg"
 
 ### get administrador
-GET http://localhost:8080/administradores/4
+GET http://localhost:8080/administradores/6
+Authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RfYWRtaW5pc3RyYWRvciI6Niwibm9tYnJlIjoiSnVhbiBFc3RldmFuIiwiYXBlbGxpZG8iOiJHYXJjaWEiLCJkbmkiOjM0MzQzNDM5LCJmZWNoYV9pbmlfY29udHJhdG8iOiIyMDI0LTA5LTA5VDAwOjAwOjAwLjAwMFoiLCJmZWNoYV9maW5fY29udHJhdG8iOm51bGwsImNvbnRyYXNlbmlhIjoiJDJhJDEwJElXZFpRYTNFaUxNUUcuakNJNUpIdS5hQWwxSExEUm5OMHQvVTQ3UzBONU5SaHR0UmZteHdLIiwiaWF0IjoxNzM3OTkyMDY2LCJleHAiOjE3MzgwMDI4NjZ9.xhEMbWke4VCDzNoSoH11xqZ9DzPArERV17Ra9IiQIxg"
 
 
 ### log in de administrador
@@ -33,7 +35,8 @@ Content-Type: application/json
     "dni": 34343439,
     "fecha_ini_contrato": "2024-09-09",
     "fecha_fin_contrato": null,
-    "contrasenia": "123"
+    "contrasenia": "123",
+    "es_especial": true
 }
 
 

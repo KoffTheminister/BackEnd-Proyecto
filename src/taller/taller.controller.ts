@@ -110,7 +110,6 @@ async function inscripcion(req: Request, res: Response) {
             if(el_taller_verdadero.reclusos.isInitialized()){
                 try{
                     el_taller_verdadero.reclusos.add(el_recluso_verdadero)
-                    //const inscripcion = await em.getConnection().execute(`insert into taller_reclusos(taller_cod_taller, recluso_cod_recluso) values (?, ?);`, [cod_taller[0], cod_recluso[0]]);
                     await em.flush()
                     res.status(201).json({ status: 201 })
                 } catch (error: any){

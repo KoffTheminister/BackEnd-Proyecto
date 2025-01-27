@@ -14,12 +14,7 @@ function sanitizar_input_de_guardia(req : Request, res : Response, next: NextFun
         fecha_ini_contrato: today,
         fecha_fin_contrato: null
     }
-    /*
-    Object.keys(req.body.sanitized_input).forEach((key) => {
-        if(req.body.sanitized_input[key] === undefined) {
-            return res.status(400).json({status: 400, message: 'faltan atributos'})
-        }
-    })*/
+
     for (const key of Object.keys(req.body.sanitized_input)) {
         if (req.body.sanitized_input[key] === undefined) {
             return res.status(400).json({ status: 400, message: 'faltan atributos' });
@@ -32,7 +27,6 @@ function sanitizar_input_de_guardia(req : Request, res : Response, next: NextFun
 async function get_all(req:Request, res:Response){
     try{
         const guardias = await em.find(Guardia, {fecha_fin_contrato: null})
-        //const guardias = await em.getConnection().execute(`select * from guardia guar where guar.fecha_fin_contrato is null;`);
         res.status(201).json({ status: 201, data: guardias})
     } catch (error: any) {
         res.status(404).json({status: 500})
@@ -43,7 +37,6 @@ async function get_one(req: Request, res: Response){
     try {
         const dni =  Number.parseInt(req.params.dni)
         const el_guardia = await em.findOne(Guardia, {dni: dni})
-        //const elGuardia = await em.getConnection().execute(`select * from guardia gua where gua.dni = ?;`, [dni]);
         if(el_guardia != null){
             res.status(201).json({ status: 201, data: el_guardia } )
         } else {

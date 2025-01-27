@@ -22,6 +22,10 @@ export class Administrador {
 
     @Property({nullable: false})
     contrasenia !: string
+
+    @Property({nullable: false})
+    es_especial !: boolean
+    
 }   
 
 

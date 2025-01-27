@@ -40,7 +40,7 @@ app.use((_, res) => {
     return res.status(404).send({ message: 'Resource not found' })
 })
 
-await syncSchema()  // solo en etapas de desarrollo  
+//await syncSchema()  // solo en etapas de desarrollo  
   
 // listen
 app.listen(8080, () => {

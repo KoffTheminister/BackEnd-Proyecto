@@ -33,7 +33,6 @@ export class Actividad_Ilegal {
 
     @ManyToMany(() => Recluso, (recluso) => recluso.actividades_ilegales, { unique : false, nullable : false, owner: true})
     reclusos = new Collection<Recluso>(this);
-    //reclusos !: Recluso[]
 }   
 
 

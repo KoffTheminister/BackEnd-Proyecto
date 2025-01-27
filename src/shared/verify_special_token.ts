@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express"
 import jwt from 'jsonwebtoken'
 import { JwtPayload } from "jsonwebtoken"
-import { JWT_SECRET } from "./configjwt.js"
+import { JWT_SECRET_SPECIAL } from "./configjwt.js"
 
 
 export async function verificar_token(req: Request, res: Response, next: NextFunction){
@@ -13,7 +13,7 @@ export async function verificar_token(req: Request, res: Response, next: NextFun
     }
     try{
         
-        const decoded = jwt.verify(token, JWT_SECRET) as JwtPayload & {
+        const decoded = jwt.verify(token, JWT_SECRET_SPECIAL) as JwtPayload & {
             cod_administrador: number;
             nombre: string;
             apellido: string;
@@ -29,7 +29,6 @@ export async function verificar_token(req: Request, res: Response, next: NextFun
             dni: decoded.dni,
             fecha_ini_contrato: decoded.fecha_ini_contrato,
             fecha_fin_contrato: decoded.fecha_fin_contrato,
-            //contrasenia: req.body.contrasenia
             contrasenia: decoded.contrasenia
         }
         
@@ -39,8 +38,4 @@ export async function verificar_token(req: Request, res: Response, next: NextFun
         res.status(401).json({status: 401})
     }
 }
-
-
-
-
 

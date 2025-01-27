@@ -20,7 +20,6 @@ export class Condena {
 
     @ManyToMany(() => Sentencia, (sentencia) => sentencia.condenas, { unique : false, nullable : true, owner: true})
     sentencias = new Collection<Sentencia>(this);
-    //sentencias !: Sentencia[]
 
     [PrimaryKeyProp] !: ['cod_recluso', 'fecha_ini']
     

@@ -3,7 +3,7 @@ import { orm } from "../shared/db/orm.js"
 import { Administrador } from "./administrador.entity.js"
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
-import { JWT_SECRET } from "../shared/configjwt.js"
+import { JWT_SECRET, JWT_SECRET_SPECIAL } from "../shared/configjwt.js"
 
 
 const em = orm.em
@@ -16,15 +16,16 @@ function sanitizar_input_de_administrador(req: Request, res: Response, next: Nex
         dni: req.body.dni,
         fecha_ini_contrato: req.body.fecha_ini_contrato,
         fecha_fin_contrato: req.body.fecha_fin_contrato,
-        contrasenia: req.body.contrasenia
+        contrasenia: req.body.contrasenia,
+        es_especial: req.body.es_especial
     }
 
-    Object.keys(req.body.sanitized_input).forEach((key) => {
-        if(req.body.sanitized_input[key] === undefined){
-            delete req.body.sanitized_input[key]
-            return res.status(400).json({message: 'a field is missing'})
+    for (const key of Object.keys(req.body.sanitized_input)) {
+        if (req.body.sanitized_input[key] == undefined) {
+            return res.status(400).json({ status: 400, message: 'a field is missing' });
         }
-    })
+    }
+
     next()
 }
 
@@ -74,7 +75,6 @@ async function log_in_jwt(req: Request, res: Response){
     try{
         const cod_administrador = Number.parseInt(req.body.cod_administrador) 
         const el_admin = await em.findOneOrFail(Administrador, { cod_administrador })
-        //const el_admin_data = el_admin.?toJSON()
         if(el_admin == null){
             return res.status(404).json({ status: 404 } )
         }
@@ -83,17 +83,30 @@ async function log_in_jwt(req: Request, res: Response){
         if(!(await bcrypt.compare(req.body.contrasenia, el_admin.contrasenia))){
             return res.status(409).json({ status: 409})
         }
-        console.log('aqui')
-        const token = jwt.sign({
-            cod_administrador: el_admin.cod_administrador,
-            nombre: el_admin.nombre,
-            apellido: el_admin.apellido,
-            dni: el_admin.dni,
-            fecha_ini_contrato: el_admin.fecha_ini_contrato,
-            fecha_fin_contrato: el_admin.fecha_fin_contrato,
-            contrasenia: el_admin.contrasenia
-        }, JWT_SECRET, {expiresIn:'3h'})
-        res.json(token)
+        
+        if(el_admin.es_especial == false){
+            const token = jwt.sign({
+                cod_administrador: el_admin.cod_administrador,
+                nombre: el_admin.nombre,
+                apellido: el_admin.apellido,
+                dni: el_admin.dni,
+                fecha_ini_contrato: el_admin.fecha_ini_contrato,
+                fecha_fin_contrato: el_admin.fecha_fin_contrato,
+                contrasenia: el_admin.contrasenia
+            }, JWT_SECRET, {expiresIn:'3h'})
+            res.status(201).json(token)
+        } else {
+            const token = jwt.sign({
+                cod_administrador: el_admin.cod_administrador,
+                nombre: el_admin.nombre,
+                apellido: el_admin.apellido,
+                dni: el_admin.dni,
+                fecha_ini_contrato: el_admin.fecha_ini_contrato,
+                fecha_fin_contrato: el_admin.fecha_fin_contrato,
+                contrasenia: el_admin.contrasenia
+            }, JWT_SECRET_SPECIAL, {expiresIn:'3h'})
+            res.status(201).json(token)
+        }
     } catch(error:any){
         console.log(error.message)
         res.status(500).json({ status: 500 } )
