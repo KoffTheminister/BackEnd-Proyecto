@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { get_one, get_all, add, update, inscripcion, sanitizar_input_de_taller, sanitizar_update_de_taller } from "./taller.controller.js";
-import { verificar_token } from "../shared/verify_token.js";
+import { verificar_token } from "../shared/verification_tools/verify_token.js";
 
 export const taller_router = Router()
 

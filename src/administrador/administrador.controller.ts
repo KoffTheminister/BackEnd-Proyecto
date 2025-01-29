@@ -3,11 +3,13 @@ import { orm } from "../shared/db/orm.js"
 import { Administrador } from "./administrador.entity.js"
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
-import { JWT_SECRET, JWT_SECRET_SPECIAL } from "../shared/configjwt.js"
+import { JWT_SECRET, JWT_SECRET_SPECIAL } from "../shared/verification_tools/configjwt.js"
 
 
 const em = orm.em
 em.getRepository(Administrador)
+
+const SALT_ROUNDS = 10
 
 function sanitizar_input_de_administrador(req: Request, res: Response, next: NextFunction){
     req.body.sanitized_input = {
@@ -20,8 +22,8 @@ function sanitizar_input_de_administrador(req: Request, res: Response, next: Nex
         es_especial: req.body.es_especial
     }
 
-    for (const key of Object.keys(req.body.sanitized_input)) {
-        if (req.body.sanitized_input[key] == undefined) {
+    for (const key of Object.keys(req.body.sanitized_input)){
+        if(req.body.sanitized_input[key] === undefined){ //NO cambiar el === a ==
             return res.status(400).json({ status: 400, message: 'a field is missing' });
         }
     }
@@ -30,9 +32,7 @@ function sanitizar_input_de_administrador(req: Request, res: Response, next: Nex
 }
 
 async function hash_contra(contrasenia: string){
-    const salt_rounds = 10
-    const hashed_contra = await bcrypt.hash(contrasenia, salt_rounds);
-    return hashed_contra
+    return await bcrypt.hash(contrasenia, SALT_ROUNDS);
 }
 
 async function add(req: Request, res: Response){
@@ -74,7 +74,7 @@ async function log_in(req: Request, res: Response){
 async function log_in_jwt(req: Request, res: Response){
     try{
         const cod_administrador = Number.parseInt(req.body.cod_administrador) 
-        const el_admin = await em.findOneOrFail(Administrador, { cod_administrador })
+        const el_admin = await em.findOne(Administrador, { cod_administrador })
         if(el_admin == null){
             return res.status(404).json({ status: 404 } )
         }

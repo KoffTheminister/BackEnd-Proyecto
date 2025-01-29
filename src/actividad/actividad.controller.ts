@@ -3,6 +3,7 @@ import { Actividad } from "./actividad.entity.js"
 import { orm } from "../shared/db/orm.js"
 import { Recluso } from "../recluso/recluso.entity.js"
 import { get_sector } from "../sector/sector.controller.js"
+import { validar_nueva_actividad } from "./actividad.schema.js"
 
 const em = orm.em
 
@@ -25,7 +26,13 @@ async function sanitizar_input_de_actividad(req : Request, res : Response, next:
         }
     }
 
-    req.body.sanitized_input.cod_sector = await get_sector(req.body.cod_sector)
+    const incoming = await validar_nueva_actividad(res.locals.sanitized_input)
+    if(!incoming.success){
+        return res.status(400).json({status: 400, message: incoming.issues})
+    }
+    req.body.sanitized_input = incoming.output
+
+    req.body.sanitized_input.cod_sector = await get_sector(req.body.sanitized_input.cod_sector)
     if(req.body.sanitized_input.cod_sector == null){
         return res.status(404).json({ message: 'sector invalido'})
     }

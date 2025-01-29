@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { get_all, add, finalizar_condenas, sanitizar_input_de_condena} from "./condena.controller.js";
-import { verificar_token } from "../shared/verify_token.js";
+import { verificar_token } from "../shared/verification_tools/verify_token.js";
 
 export const condena_router = Router()
 

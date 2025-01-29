@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { get_from_sector, add_turno, end_turno, sanitizar_input_de_turno } from "./turno.controller.js";
-import { verificar_token } from "../shared/verify_token.js";
+import { verificar_token } from "../shared/verification_tools/verify_token.js";
 
 export const turno_router = Router()
 

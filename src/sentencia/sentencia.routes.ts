@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { get_all, get_one, add, sanitizar_input_de_sentencia } from "./sentencia.controller.js";
-import { verificar_token } from "../shared/verify_token.js";
+import { verificar_token } from "../shared/verification_tools/verify_token.js";
 
 export const sentencia_router = Router()
 

@@ -1,18 +1,23 @@
 ### get reclusos
 GET http://localhost:8080/reclusos
+Authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RfYWRtaW5pc3RyYWRvciI6MSwibm9tYnJlIjoiSnVhbiBFc3RldmFuIiwiYXBlbGxpZG8iOiJHYXJjaWEiLCJkbmkiOjM0MzQzNDM5LCJmZWNoYV9pbmlfY29udHJhdG8iOiIyMDI0LTA5LTA5VDAwOjAwOjAwLjAwMFoiLCJmZWNoYV9maW5fY29udHJhdG8iOiIyMDI0LTA5LTA5VDAwOjAwOjAwLjAwMFoiLCJjb250cmFzZW5pYSI6IiQyYSQxMCRrQ3hLS2I5MWFGVW8yUWhQRWgvL01lbDlXWVFhTG1YVUpnVGhHeDRLMzFPaFhJVmMwbnl0VyIsImlhdCI6MTczODE1OTU1NiwiZXhwIjoxNzM4MTcwMzU2fQ.Ad403O1_7J9FU1O5mSfxXyhZEMEzU5vmFjRqzdpi9vA"
+
 
 ### get reclusos
-GET http://localhost:8080/reclusos/77777777
+GET http://localhost:8080/reclusos/45655982
+Authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RfYWRtaW5pc3RyYWRvciI6MSwibm9tYnJlIjoiSnVhbiBFc3RldmFuIiwiYXBlbGxpZG8iOiJHYXJjaWEiLCJkbmkiOjM0MzQzNDM5LCJmZWNoYV9pbmlfY29udHJhdG8iOiIyMDI0LTA5LTA5VDAwOjAwOjAwLjAwMFoiLCJmZWNoYV9maW5fY29udHJhdG8iOiIyMDI0LTA5LTA5VDAwOjAwOjAwLjAwMFoiLCJjb250cmFzZW5pYSI6IiQyYSQxMCRrQ3hLS2I5MWFGVW8yUWhQRWgvL01lbDlXWVFhTG1YVUpnVGhHeDRLMzFPaFhJVmMwbnl0VyIsImlhdCI6MTczODE1OTU1NiwiZXhwIjoxNzM4MTcwMzU2fQ.Ad403O1_7J9FU1O5mSfxXyhZEMEzU5vmFjRqzdpi9vA"
+
 
 ### POST a recluso
 POST http://localhost:8080/reclusos
+Authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RfYWRtaW5pc3RyYWRvciI6MSwibm9tYnJlIjoiSnVhbiBFc3RldmFuIiwiYXBlbGxpZG8iOiJHYXJjaWEiLCJkbmkiOjM0MzQzNDM5LCJmZWNoYV9pbmlfY29udHJhdG8iOiIyMDI0LTA5LTA5VDAwOjAwOjAwLjAwMFoiLCJmZWNoYV9maW5fY29udHJhdG8iOiIyMDI0LTA5LTA5VDAwOjAwOjAwLjAwMFoiLCJjb250cmFzZW5pYSI6IiQyYSQxMCRrQ3hLS2I5MWFGVW8yUWhQRWgvL01lbDlXWVFhTG1YVUpnVGhHeDRLMzFPaFhJVmMwbnl0VyIsImlhdCI6MTczODE1OTU1NiwiZXhwIjoxNzM4MTcwMzU2fQ.Ad403O1_7J9FU1O5mSfxXyhZEMEzU5vmFjRqzdpi9vA"
 Content-Type: application/json
 
 {
-    "nombre": "Juan",
-    "apellido": "Esteban", 
-    "dni": 1234458, 
-    "fecha_nac": "2004-06-10" 
+    "nombre": "Chompa",
+    "apellido": "Carrizo", 
+    "dni": 45655982, 
+    "fecha_nac": "2004-06-10"
 }
 
 # verificar cuando el recluso tiene condenas

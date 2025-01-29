@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { get_all, get_one, update, add, sanitizar_input_de_actividad } from "./actividad.controller.js";
-import { verificar_token } from "../shared/verify_token.js";
+import { verificar_token } from "../shared/verification_tools/verify_token.js";
 
 export const actividad_router = Router()
 

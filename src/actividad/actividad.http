@@ -1,5 +1,7 @@
 ### get actividades
 GET http://localhost:8080/actividades
+Authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RfYWRtaW5pc3RyYWRvciI6MSwibm9tYnJlIjoiSnVhbiBFc3RldmFuIiwiYXBlbGxpZG8iOiJHYXJjaWEiLCJkbmkiOjM0MzQzNDM5LCJmZWNoYV9pbmlfY29udHJhdG8iOiIyMDI0LTA5LTA5VDAwOjAwOjAwLjAwMFoiLCJmZWNoYV9maW5fY29udHJhdG8iOiIyMDI0LTA5LTA5VDAwOjAwOjAwLjAwMFoiLCJjb250cmFzZW5pYSI6IiQyYSQxMCRrQ3hLS2I5MWFGVW8yUWhQRWgvL01lbDlXWVFhTG1YVUpnVGhHeDRLMzFPaFhJVmMwbnl0VyIsImlhdCI6MTczODAxMzU1MywiZXhwIjoxNzM4MDI0MzUzfQ.Fpvb10Ytjsfhn_iCTjNLqnGhJrjWSZzunkncHS-Pb1c"
+
 
 ### get actividad
 GET http://localhost:8080/actividades/1
@@ -15,7 +17,7 @@ Content-Type: application/json
     "dia_de_la_semana": 4, 
     "hora_inicio": 23, 
     "hora_fin": 24,
-    "estado": 1,
+    "estado": true,
     "cantidad_minima": 2,
     "edad_minima": 1, 
     "cod_sector": 1

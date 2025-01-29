@@ -2,16 +2,17 @@ import { Request, Response, NextFunction } from "express"
 import { orm } from "../shared/db/orm.js"
 import { Recluso } from "./recluso.entity.js"
 import { Condena } from "../condena/condena.entity.js"
+import { validar_incoming_recluso } from "./recluso.schema.js"
 
 const em = orm.em
 em.getRepository(Recluso)
 
-function sanitizar_input_de_recluso(req: Request, res: Response, next: NextFunction){
+async function sanitizar_input_de_recluso(req: Request, res: Response, next: NextFunction){
     req.body.sanitized_input = {
         nombre: req.body.nombre,
         apellido: req.body.apellido,
         dni: req.body.dni,
-        fecha_nac: req.body.fecha_nac
+        fecha_nac: new Date(req.body.fecha_nac)
     }
     Object.keys(req.body.sanitized_input).forEach((key) => {
         if(req.body.sanitized_input[key] === undefined){
@@ -19,10 +20,15 @@ function sanitizar_input_de_recluso(req: Request, res: Response, next: NextFunct
             return res.status(409).json({message: `el atributo ${key} esta faltando`})
         }
     })
+    const incoming = await validar_incoming_recluso(req.body.sanitized_input)
+    if (!incoming.success){
+        console.log(incoming.issues)
+        return res.status(400).json({message: incoming.issues[0].message})
+    }
+    req.body.sanitized_input = incoming.output
 
-    const fecha_nac = new Date(req.body.sanitized_input.fecha_nac);
     const today = new Date()
-    let años = today.getFullYear() - fecha_nac.getFullYear();
+    let años = today.getFullYear() - req.body.sanitized_input.fecha_nac.getFullYear();
     if(años < 16){
         return res.status(409).json({ message: 'el recluso ingresado tiene menos de 16 años por lo que no puede ingresar.'})
     }
