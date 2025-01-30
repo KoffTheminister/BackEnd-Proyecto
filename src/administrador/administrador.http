@@ -1,10 +1,10 @@
 ### get administradores
 GET http://localhost:8080/administradores
-Authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RfYWRtaW5pc3RyYWRvciI6Mywibm9tYnJlIjoiSnVhbiBFc3RldmFuIiwiYXBlbGxpZG8iOiJHYXJjaWEiLCJkbmkiOjM0MzQzNDM2LCJmZWNoYV9pbmlfY29udHJhdG8iOiIyMDI0LTA5LTA5VDAwOjAwOjAwLjAwMFoiLCJmZWNoYV9maW5fY29udHJhdG8iOm51bGwsImNvbnRyYXNlbmlhIjoiJDJhJDEwJDUvTXI2NmdwQUxSTEVwY0pudmFFanVFemJJdGdXUnQ3Mm81RlJoMGJXMDNuYlN0SEJtT2tpIiwiaWF0IjoxNzM4MTYyNzQzLCJleHAiOjE3MzgxNzM1NDN9.FbPem7ShMgacB-JimduZa5IomMbfISsjgstIxGCzMmc"
+Authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RfYWRtaW5pc3RyYWRvciI6OSwibm9tYnJlIjoiSnVhbiIsImFwZWxsaWRvIjoiR2FyY2lhIiwiZG5pIjozNDM0MzQzMSwiZmVjaGFfaW5pX2NvbnRyYXRvIjoiMjAyNC0wOS0wOVQwMDowMDowMC4wMDBaIiwiZmVjaGFfZmluX2NvbnRyYXRvIjpudWxsLCJjb250cmFzZW5pYSI6IiQyYSQxMCRUQTJIZmRoeHMxUC5GeC9EUkxKMGtPczNzM2dpQURMRmYxN29vV0k4bjNkNXUzR0dLV2hqSyIsImlhdCI6MTczODI2MTMyNSwiZXhwIjoxNzM4MjcyMTI1fQ.fRwqIl6yjA1EsSYzBUcYL2HGCn2S8B5lYzYIBtJC10w"
 
 ### get administrador
 GET http://localhost:8080/administradores/3
-Authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RfYWRtaW5pc3RyYWRvciI6Mywibm9tYnJlIjoiSnVhbiBFc3RldmFuIiwiYXBlbGxpZG8iOiJHYXJjaWEiLCJkbmkiOjM0MzQzNDM2LCJmZWNoYV9pbmlfY29udHJhdG8iOiIyMDI0LTA5LTA5VDAwOjAwOjAwLjAwMFoiLCJmZWNoYV9maW5fY29udHJhdG8iOm51bGwsImNvbnRyYXNlbmlhIjoiJDJhJDEwJDUvTXI2NmdwQUxSTEVwY0pudmFFanVFemJJdGdXUnQ3Mm81RlJoMGJXMDNuYlN0SEJtT2tpIiwiaWF0IjoxNzM4MTYyNzQzLCJleHAiOjE3MzgxNzM1NDN9.FbPem7ShMgacB-JimduZa5IomMbfISsjgstIxGCzMmc"
+Authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RfYWRtaW5pc3RyYWRvciI6OSwibm9tYnJlIjoiSnVhbiIsImFwZWxsaWRvIjoiR2FyY2lhIiwiZG5pIjozNDM0MzQzMSwiZmVjaGFfaW5pX2NvbnRyYXRvIjoiMjAyNC0wOS0wOVQwMDowMDowMC4wMDBaIiwiZmVjaGFfZmluX2NvbnRyYXRvIjpudWxsLCJjb250cmFzZW5pYSI6IiQyYSQxMCRUQTJIZmRoeHMxUC5GeC9EUkxKMGtPczNzM2dpQURMRmYxN29vV0k4bjNkNXUzR0dLV2hqSyIsImlhdCI6MTczODI2MTMyNSwiZXhwIjoxNzM4MjcyMTI1fQ.fRwqIl6yjA1EsSYzBUcYL2HGCn2S8B5lYzYIBtJC10w"
 
 
 ### log in de administrador
@@ -12,17 +12,8 @@ POST http://localhost:8080/administradores/logIn
 Content-Type: application/json
 
 {
-    "cod_administrador": 3,
-    "contrasenia": "123" 
-}
-
-### log in de administrador especial
-POST http://localhost:8080/administradores/logIn
-Content-Type: application/json
-
-{
-    "cod_administrador": 2,
-    "contrasenia": "muajaja"
+    "cod_administrador": 9,
+    "contrasenia": "123r" 
 }
 
 ### POST an admin
@@ -30,27 +21,13 @@ POST http://localhost:8080/administradores/
 Content-Type: application/json
 
 {
-    "nombre": "Juan Estevan",
+    "nombre": "Juan",
     "apellido": "Garcia",
-    "dni": 34343436,
+    "dni": 34343431,
     "fecha_ini_contrato": "2024-09-09",
     "fecha_fin_contrato": null,
-    "contrasenia": "123",
-    "es_especial": false
-}
-
-
-### POST el admin especial
-POST http://localhost:8080/administradores/
-Content-Type: application/json
-
-{
-    "nombre": "Heinz",
-    "apellido": "Doofenschmirtz",
-    "dni": 66666666,
-    "fecha_ini_contrato": "2024-09-09",
-    "fecha_fin_contrato": null,
-    "contrasenia": "muajaja"
+    "contrasenia": "123r",
+    "es_especial": true
 }
 
 

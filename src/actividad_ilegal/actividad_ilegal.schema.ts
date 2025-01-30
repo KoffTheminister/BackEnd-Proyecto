@@ -14,27 +14,27 @@ const ERR_HORA = `La hora debe de estar entre ${HORA_MIN} y ${HORA_MAX}`
 const ERR_CANT = `La cantidad minima minima debe ser dos`
 
 const nombre = v.pipe(
-    v.string(),
-    v.minLength(NAME_LEN_MIN, ERR_NAME_LEN),
-    v.maxLength(NAME_LEN_MAX, ERR_NAME_LEN)
+  v.string(),
+  v.minLength(NAME_LEN_MIN, ERR_NAME_LEN),
+  v.maxLength(NAME_LEN_MAX, ERR_NAME_LEN)
 )
 
 const descripcion = v.pipe(
-    v.string(),
-    v.minLength(DES_LEN_MIN, ERR_DES_LEN),
-    v.maxLength(DES_LEN_MAX, ERR_DES_LEN)
+  v.string(),
+  v.minLength(DES_LEN_MIN, ERR_DES_LEN),
+  v.maxLength(DES_LEN_MAX, ERR_DES_LEN)
 )
 
 const locacion = v.pipe(
-    v.string(),
-    v.minLength(LOC_LEN_MIN, ERR_LOC_LEN),
-    v.maxLength(LOC_LEN_MAX, ERR_LOC_LEN)
+  v.string(),
+  v.minLength(LOC_LEN_MIN, ERR_LOC_LEN),
+  v.maxLength(LOC_LEN_MAX, ERR_LOC_LEN)
 )
 
 const dia_de_la_semana = v.pipe(
-    v.number(),
-    v.minValue(1, ERR_DIA_RANGE),
-    v.maxValue(7, ERR_DIA_RANGE),
+  v.number(),
+  v.minValue(1, ERR_DIA_RANGE),
+  v.maxValue(7, ERR_DIA_RANGE),
 )
 
 const hora_inicio = v.pipe(
@@ -49,31 +49,23 @@ const hora_fin = v.pipe(
     v.maxValue(HORA_MAX, ERR_HORA),
 )
 
-const edad_minima = v.pipe(
+const cantidad_maxima = v.pipe(
     v.number(),
-    v.minValue(EDAD_MIN, ERR_EDAD_LEN),
-    v.maxValue(EDAD_MAX, ERR_EDAD_LEN),
+    v.integer()
 )
 
-const cantidad_minima = v.pipe(
-    v.number(),
-    v.minValue(2, ERR_CANT)
-)
-
-
-const actividad_schema = v.object({
+const actividad_ilegal_schema = v.object({
     nombre: nombre,
     descripcion: descripcion,
     locacion: locacion,
-    estado: v.boolean(),
     dia_de_la_semana: dia_de_la_semana,
     hora_inicio: hora_inicio,
     hora_fin: hora_fin,
-    cantidad_minima: cantidad_minima,
-    cod_sector: v.number()
+    estado: v.boolean(),
+    cantidad_maxima: cantidad_maxima
 })
 
-const actividad_schema_for_update = v.object({
+const actividad_ilegal_schema_for_update = v.object({
     nombre: nombre,
     descripcion: descripcion,
     locacion: locacion,
@@ -81,6 +73,6 @@ const actividad_schema_for_update = v.object({
 })
 
 
-export const validar_nueva_actividad = v.safeParserAsync(actividad_schema)
-export const validar_update_actividad = v.safeParserAsync(actividad_schema_for_update)
+export const validar_nueva_actividad_ilegal = v.safeParserAsync(actividad_ilegal_schema)
+export const validar_update_actividad_ilegal = v.safeParserAsync(actividad_ilegal_schema_for_update)
 

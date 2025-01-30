@@ -26,7 +26,7 @@ async function sanitizar_input_de_actividad(req : Request, res : Response, next:
         }
     }
 
-    const incoming = await validar_nueva_actividad(res.locals.sanitized_input)
+    const incoming = await validar_nueva_actividad(req.body.sanitized_input)
     if(!incoming.success){
         return res.status(400).json({status: 400, message: incoming.issues})
     }

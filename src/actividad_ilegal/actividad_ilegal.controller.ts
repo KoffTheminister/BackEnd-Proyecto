@@ -2,10 +2,11 @@ import { Request, Response, NextFunction } from "express"
 import { Actividad_Ilegal } from "./actividad_ilegal.entity.js"
 import { Recluso } from "../recluso/recluso.entity.js"
 import { orm } from "../shared/db/orm.js"
+import { validar_nueva_actividad_ilegal, validar_update_actividad_ilegal } from "./actividad_ilegal.schema.js"
 
 const em = orm.em
 
-function sanitizar_input_de_actividad_ilegal(req : Request, res : Response, next: NextFunction){
+async function sanitizar_input_de_actividad_ilegal(req : Request, res : Response, next: NextFunction){
     req.body.sanitized_input = {
         nombre: req.body.nombre,
         descripcion: req.body.descripcion,
@@ -13,15 +14,22 @@ function sanitizar_input_de_actividad_ilegal(req : Request, res : Response, next
         dia_de_la_semana: req.body.dia_de_la_semana,
         hora_inicio: req.body.hora_inicio,
         hora_fin: req.body.hora_fin,
-        estado: req.body.estado,
+        estado: true,
         cantidad_maxima: req.body.cantidad_maxima
     }
 
-    Object.keys(req.body.sanitized_input).forEach((key) => {
-      if (req.body[key] === undefined) {
-        return res.status(409).json({ message: 'falta un atributo'})
-      }
-    })
+    for (const key of Object.keys(req.body.sanitized_input)){
+        if(req.body.sanitized_input[key] === undefined){ //NO cambiar el === a ==
+            return res.status(400).json({ status: 400,  message: `Falta el campo ${key}` });
+        }
+    }
+    
+    const incoming = await validar_nueva_actividad_ilegal(req.body.sanitized_input)
+    if(!incoming.success){
+        return res.status(400).json({status: 400, message: incoming.issues})
+    }
+    req.body.sanitized_input = incoming.output    
+    
     next()
 }
 
@@ -61,6 +69,11 @@ async function add(req: Request, res: Response){
 
 async function update(req: Request, res: Response) {
     try{
+        const incoming = await validar_update_actividad_ilegal(req.body)
+        if(!incoming.success){
+            return res.status(400).json({status: 400, message: incoming.issues})
+        }
+        req.body = incoming.output    
         const cod_actividad : any[] = [];
         cod_actividad[0] = Number(req.params.cod_act_ilegal)
         const la_actividad_verdadera = await em.findOne(Actividad_Ilegal, {cod_act_ilegal: cod_actividad[0], estado: true})

@@ -14,8 +14,7 @@ Content-Type: application/json
     "locacion": "arboleda del sector 1", 
     "dia_de_la_semana": 3, 
     "hora_inicio": 23, 
-    "hora_fin": 24,
-    "estado": 1
+    "hora_fin": 24
 }
 
 ### inscripcion :cod_taller&:cod_recluso

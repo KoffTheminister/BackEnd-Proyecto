@@ -33,7 +33,7 @@ async function get_all(req:Request, res:Response){
         const condenas = await em.find(Condena, {fecha_fin_real: null}, {populate: ['sentencias']})
         res.status(201).json({ message: 'las condenas:', data: condenas})
     } catch (error: any) {
-        res.status(404).json({ message: 'error get all'})
+        res.status(500).json({ message: error.message})
     }
 }
 
@@ -95,7 +95,7 @@ async function finalizar_condenas(req:Request, res:Response){
             res.status(404).json({ message: 'no se tienen que terminar condenas'})
         }
     } catch (error: any) {
-        res.status(400).json({ message: 'error'})
+        res.status(500).json({ message: error.message})
     }
 }
 

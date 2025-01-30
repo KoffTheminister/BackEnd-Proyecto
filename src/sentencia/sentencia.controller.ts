@@ -15,7 +15,7 @@ function sanitizar_input_de_sentencia(req : Request, res : Response, next: NextF
 
     Object.keys(req.body.sanitized_input).forEach((key) => {
         if (req.body.sanitized_input[key] === undefined) {
-            return res.status(400).json({message: 'faltan atributos'})
+            return res.status(400).json({ message: `Falta el campo ${key}` })
         }
     })
 

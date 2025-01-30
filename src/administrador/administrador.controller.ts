@@ -4,6 +4,7 @@ import { Administrador } from "./administrador.entity.js"
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
 import { JWT_SECRET, JWT_SECRET_SPECIAL } from "../shared/verification_tools/configjwt.js"
+import { validar_incoming_administrador } from "./administrador.schema.js"
 
 
 const em = orm.em
@@ -11,22 +12,28 @@ em.getRepository(Administrador)
 
 const SALT_ROUNDS = 10
 
-function sanitizar_input_de_administrador(req: Request, res: Response, next: NextFunction){
+async function sanitizar_input_de_administrador(req: Request, res: Response, next: NextFunction){
+    console.log('here')
     req.body.sanitized_input = {
         nombre: req.body.nombre,
         apellido: req.body.apellido,
         dni: req.body.dni,
-        fecha_ini_contrato: req.body.fecha_ini_contrato,
-        fecha_fin_contrato: req.body.fecha_fin_contrato,
+        fecha_ini_contrato: new Date(req.body.fecha_ini_contrato),
         contrasenia: req.body.contrasenia,
         es_especial: req.body.es_especial
     }
 
     for (const key of Object.keys(req.body.sanitized_input)){
         if(req.body.sanitized_input[key] === undefined){ //NO cambiar el === a ==
-            return res.status(400).json({ status: 400, message: 'a field is missing' });
+            return res.status(400).json({ status: 400,  message: `Falta el campo ${key}` });
         }
     }
+    const incoming = await validar_incoming_administrador(req.body.sanitized_input)
+        if (!incoming.success){
+            console.log(incoming.issues)
+            return res.status(400).json({message: incoming.issues[0].message})
+        }
+    req.body.sanitized_input = incoming.output
 
     next()
 }

@@ -1,38 +1,70 @@
-/*
 import * as v from 'valibot'
 
-const [FRANCH_NAME_LEN_MIN, FRANCH_TAG_NAME_LEN_MAX] = [3, 30]
-const ERR_NAME_LEN = `Name must be between ${FRANCH_NAME_LEN_MIN} and ${FRANCH_TAG_NAME_LEN_MAX}`
-const ERR_ENTER_ID = 'Must provide an object ID'
+const ERR_DIA_RANGE = 'El numero que representa al dia de la semana cuando ocurre la actividad debe estar entre 1 y 7'
+const [NAME_LEN_MIN, NAME_LEN_MAX] = [8, 40]
+const [DES_LEN_MIN, DES_LEN_MAX] = [0, 100]
+const [LOC_LEN_MIN, LOC_LEN_MAX] = [10, 70]
+const [EDAD_MIN, EDAD_MAX] = [16, 80]
+const [HORA_MIN, HORA_MAX] = [0, 24]
+const ERR_NAME_LEN = `El nombre del taller debe tener entre ${NAME_LEN_MIN} y ${NAME_LEN_MAX} caracteres.`
+const ERR_DES_LEN = `La descripcion del taller debe tener entre ${DES_LEN_MIN} y ${DES_LEN_MAX} caracteres.`
+const ERR_LOC_LEN = `La locacion del taller debe tener entre ${LOC_LEN_MIN} y ${LOC_LEN_MAX} caracteres.`
+const ERR_HORA = `La hora debe de estar entre ${HORA_MIN} y ${HORA_MAX}`
 
-const id = v.pipe(
-    v.number(ERR_ENTER_ID),
-    v.integer(ERR_ENTER_ID)
-  )
-
-const franchName = v.pipe(
-    v.string(),
-    v.minLength(FRANCH_NAME_LEN_MIN, ERR_NAME_LEN),
-    v.maxLength(FRANCH_TAG_NAME_LEN_MAX, ERR_NAME_LEN)
+const nombre = v.pipe(
+  v.string(),
+  v.minLength(NAME_LEN_MIN, ERR_NAME_LEN),
+  v.maxLength(NAME_LEN_MAX, ERR_NAME_LEN)
 )
 
-const franchSchema = v.object({
-    name: franchName,
-    games: v.optional(v.array(v.array(id)))
+const descripcion = v.pipe(
+  v.string(),
+  v.minLength(DES_LEN_MIN, ERR_DES_LEN),
+  v.maxLength(DES_LEN_MAX, ERR_DES_LEN)
+)
+
+const locacion = v.pipe(
+  v.string(),
+  v.minLength(LOC_LEN_MIN, ERR_LOC_LEN),
+  v.maxLength(LOC_LEN_MAX, ERR_LOC_LEN)
+)
+
+const dia_de_la_semana = v.pipe(
+  v.number(),
+  v.minValue(1, ERR_DIA_RANGE),
+  v.maxValue(7, ERR_DIA_RANGE),
+)
+
+const hora_inicio = v.pipe(
+    v.number(),
+    v.minValue(HORA_MIN, ERR_HORA),
+    v.maxValue(HORA_MAX, ERR_HORA),
+)
+
+const hora_fin = v.pipe(
+    v.number(),
+    v.minValue(HORA_MIN, ERR_HORA),
+    v.maxValue(HORA_MAX, ERR_HORA),
+)
+
+const actividad_ilegal_schema = v.object({
+    nombre: nombre,
+    descripcion: descripcion,
+    locacion: locacion,
+    dia_de_la_semana: dia_de_la_semana,
+    hora_inicio: hora_inicio,
+    hora_fin: hora_fin,
+    estado: v.boolean()
 })
 
-export const validateFranchise = v.safeParserAsync(franchSchema)
+const actividad_ilegal_schema_for_update = v.object({
+    nombre: nombre,
+    descripcion: descripcion,
+    locacion: locacion,
+    estado: v.boolean()
+})
 
 
+export const validar_nuevo_taller = v.safeParserAsync(actividad_ilegal_schema)
+export const validar_update_taller = v.safeParserAsync(actividad_ilegal_schema_for_update)
 
-
-{
-    "nombre": "re",
-    "descripcion": "recolectamos naranjas", 
-    "locacion": "arboleda del sector 1", 
-    "diaDeLaSemana": 4, 
-    "horaInicio": 23, 
-    "horaFin": 24,
-    "estado": 1
-}
-*/

@@ -49,13 +49,12 @@ async function get_from_sector(req:Request, res:Response){
         const cod_sector =  Number.parseInt(req.params.cod_sector)
         let el_sector = await get_sector(cod_sector)
         if(el_sector != null){
-            console.log(el_sector.turnos)
             res.status(201).json({ status: 201, data: el_sector.turnos} )
         } else {
             res.status(404).json({ status: 404 })
         }
     } catch (error: any){
-        res.status(404).json({status: 404})
+        res.status(500).json({status: 500})
     }
 }
 

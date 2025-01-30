@@ -2,11 +2,12 @@ import { Request, Response, NextFunction } from "express"
 import { orm } from "../shared/db/orm.js"
 import { Taller } from "./taller.entity.js"
 import { Recluso } from "../recluso/recluso.entity.js"
+import { validar_nuevo_taller, validar_update_taller } from "./taller.schema.js"
 
 
 const em = orm.em
 
-function sanitizar_input_de_taller(req : Request, res : Response, next: NextFunction){
+async function sanitizar_input_de_taller(req : Request, res : Response, next: NextFunction){
     req.body.sanitized_input = {
         nombre: req.body.nombre,
         descripcion: req.body.descripcion,
@@ -14,14 +15,20 @@ function sanitizar_input_de_taller(req : Request, res : Response, next: NextFunc
         dia_de_la_semana: req.body.dia_de_la_semana,
         hora_inicio: req.body.hora_inicio,
         hora_fin: req.body.hora_fin,
-        estado: req.body.estado
+        estado: true
     }
 
     Object.keys(req.body.sanitized_input).forEach((key) => {
         if (req.body.sanitized_input[key] === undefined) {
-            return res.status(400).json({ message: 'al menos un atributo esta faltando'})
+            return res.status(400).json({ message: `Falta el campo ${key}` })
         }
     })
+
+    const incoming = await validar_nuevo_taller(req.body.sanitized_input)
+    if(!incoming.success){
+        return res.status(400).json({status: 400, message: incoming.issues})
+    }
+    req.body.sanitized_input = incoming.output
 
     next()
 }
@@ -83,6 +90,11 @@ async function add(req: Request, res: Response){
 
 async function update(req: Request, res: Response) {
     try{
+        const incoming = await validar_nuevo_taller(req.body)
+        if(!incoming.success){
+            return res.status(400).json({status: 400, message: incoming.issues})
+        }
+        req.body = incoming.output
         const cod_taller : any[] = [];
         cod_taller[0] = Number(req.params.cod_taller)
         const elTallerVerdadero = await em.findOne(Taller, cod_taller[0])

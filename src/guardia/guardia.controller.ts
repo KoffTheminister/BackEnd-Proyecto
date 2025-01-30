@@ -1,11 +1,12 @@
 import { Request, Response, NextFunction } from "express"
 import { orm } from "../shared/db/orm.js"
 import { Guardia } from "./guardia.entity.js"
+import { validar_incoming_guardia } from "./guardia.schema.js"
 
 const em = orm.em
 em.getRepository(Guardia)
 
-function sanitizar_input_de_guardia(req : Request, res : Response, next: NextFunction){
+async function sanitizar_input_de_guardia(req : Request, res : Response, next: NextFunction){
     let today = new Date()
     req.body.sanitized_input = {
         nombre: req.body.nombre,
@@ -17,10 +18,16 @@ function sanitizar_input_de_guardia(req : Request, res : Response, next: NextFun
 
     for (const key of Object.keys(req.body.sanitized_input)) {
         if (req.body.sanitized_input[key] === undefined) {
-            return res.status(400).json({ status: 400, message: 'faltan atributos' });
+            return res.status(400).json({ status: 400, message: `Falta el campo ${key}` });
         }
     }
 
+    const incoming = await validar_incoming_guardia(req.body.sanitized_input)
+    if (!incoming.success){
+        console.log(incoming.issues)
+        return res.status(400).json({message: incoming.issues[0].message})
+    }
+    req.body.sanitized_input = incoming.output
     next()
 }
 

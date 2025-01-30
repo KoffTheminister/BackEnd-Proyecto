@@ -42,7 +42,7 @@ app.use((_, res) => {
 
 //await syncSchema()  // solo en etapas de desarrollo  
   
-// listen
+
 app.listen(8080, () => {
     console.log('server correctly running at 8080')
 })

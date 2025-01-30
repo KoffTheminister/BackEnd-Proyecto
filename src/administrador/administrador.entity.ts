@@ -17,7 +17,7 @@ export class Administrador {
     @Property({ nullable: false})
     fecha_ini_contrato !: Date
 
-    @Property({ nullable: true})
+    @Property({ nullable: true, default: null})
     fecha_fin_contrato ?: Date
 
     @Property({nullable: false})
