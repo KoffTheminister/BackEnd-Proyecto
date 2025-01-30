@@ -1,4 +1,4 @@
 # BackEnd-Proyecto
-Integrantes: Biener Guadalupe, Carrizo Gonzalo, Chaparro Ignacio, Koffler Ignacio
+Integrantes: Gonzalo Carrizo e Ignacio Koffler.
 
-los avances desde cierta entrega en adelante comienzan a estar en la rama prueba ya que por algun motivo no podemos pushear a la main
+los avances desde cierta entrega en adelante comienzan a estar en la rama "prueba" ya que por algun motivo no podemos pushear a la main.
