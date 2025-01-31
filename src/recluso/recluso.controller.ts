@@ -33,17 +33,6 @@ async function sanitizar_input_de_recluso(req: Request, res: Response, next: Nex
         return res.status(409).json({ message: 'el recluso ingresado tiene menos de 16 años por lo que no puede ingresar.'})
     }
 
-    if(req.body.sanitized_input.nombre.length > 255){
-        return res.status(409).json({ message: 'el nombre ingresado sobre pasa la cantidad de caracteres permitidos'})
-    }
-
-    if(req.body.sanitized_input.apellido.length > 255){
-        return res.status(409).json({ message: 'el apellido ingresado sobre pasa la cantidad de caracteres permitidos'})
-    }
-
-    if(req.body.sanitized_input.dni > 100000000){ //modificar esto a 130000000 en unos 20 años
-        return res.status(409).json({ message: 'el dni ingresado sobre pasa los valores posibles'})
-    }
     next()
 }
 

@@ -1,11 +1,12 @@
 import { Request, Response, NextFunction } from "express"
 import { orm } from "../shared/db/orm.js"
 import { Sentencia } from "./sentencia.entity.js"
+import { validar_nueva_sentencia } from "./sentencia.schema.js"
 
 const em = orm.em
 em.getRepository(Sentencia)
 
-function sanitizar_input_de_sentencia(req : Request, res : Response, next: NextFunction){
+async function sanitizar_input_de_sentencia(req: Request, res: Response, next: NextFunction){
     req.body.sanitized_input = {
         nombre: req.body.nombre,
         descripcion: req.body.descripcion, 
@@ -13,12 +14,16 @@ function sanitizar_input_de_sentencia(req : Request, res : Response, next: NextF
         orden_de_gravedad: req.body.orden_de_gravedad
     }
 
-    Object.keys(req.body.sanitized_input).forEach((key) => {
+    for (const key of Object.keys(req.body.sanitized_input)) {
         if (req.body.sanitized_input[key] === undefined) {
-            return res.status(400).json({ message: `Falta el campo ${key}` })
+            return res.status(400).json({ status: 400, message: `Falta el campo ${key}` });
         }
-    })
+    }
 
+    const incoming = await validar_nueva_sentencia(req.body.sanitized_input)
+    if(!incoming.success){
+        return res.status(400).json({status: 400, message: incoming.issues[0].message})
+    }
     next()
 }
 

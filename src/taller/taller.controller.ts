@@ -18,17 +18,21 @@ async function sanitizar_input_de_taller(req : Request, res : Response, next: Ne
         estado: true
     }
 
-    Object.keys(req.body.sanitized_input).forEach((key) => {
+    for (const key of Object.keys(req.body.sanitized_input)) {
         if (req.body.sanitized_input[key] === undefined) {
-            return res.status(400).json({ message: `Falta el campo ${key}` })
+            return res.status(400).json({ status: 400, message: `Falta el campo ${key}` });
         }
-    })
+    }
 
     const incoming = await validar_nuevo_taller(req.body.sanitized_input)
     if(!incoming.success){
-        return res.status(400).json({status: 400, message: incoming.issues})
+        return res.status(400).json({status: 400, message: incoming.issues[0].message})
     }
     req.body.sanitized_input = incoming.output
+
+    if(req.body.sanitized_input.hora_fin < req.body.sanitized_input.hora_inicio){
+        return res.status(400).json({ message: 'la hora de inicio es mayor a la hora de fin'})
+    }
 
     next()
 }
@@ -42,11 +46,11 @@ function sanitizar_update_de_taller(req : Request, res : Response, next: NextFun
         estado: req.body.estado  //solo estos datos pueden ser modificados
     }
 
-    Object.keys(req.body.sanitized_input).forEach((key) => {
+    for (const key of Object.keys(req.body.sanitized_input)) {
         if (req.body.sanitized_input[key] === undefined) {
             delete req.body[key]
         }
-    })
+    }
 
     next()
 }
@@ -58,7 +62,7 @@ async function get_all(req:Request, res:Response){
         const talleres = await em.find(Taller, {estado: true}, { orderBy: { dia_de_la_semana: 'asc' } })
         res.status(201).json({ status: 201, data: talleres})
     } catch (error: any) {
-        res.status(404).json({ status: 404})
+        res.status(500).json({ status: 500})
     }
 }
 
@@ -80,19 +84,19 @@ async function add(req: Request, res: Response){
             await em.flush()
             res.status(201).json({status: 201, data: elTaller})
         }else{
-            res.status(409).json({status: 409})
+            res.status(409).json({status: 409, message: 'el taller coincide en dia y horario con otro taller'})
         }
     } catch (error: any) {
         console.log(error.message)
-        res.status(500).json({message : error.message})
+        res.status(500).json({message: error.message})
     }
 }
 
 async function update(req: Request, res: Response) {
     try{
-        const incoming = await validar_nuevo_taller(req.body)
+        const incoming = await validar_update_taller(req.body)
         if(!incoming.success){
-            return res.status(400).json({status: 400, message: incoming.issues})
+            return res.status(400).json({status: 400, message: incoming.issues[0].message})
         }
         req.body = incoming.output
         const cod_taller : any[] = [];
@@ -120,27 +124,24 @@ async function inscripcion(req: Request, res: Response) {
         const el_recluso_verdadero = await em.findOne(Recluso, cod_recluso[0])
         if(el_recluso_verdadero != null && el_taller_verdadero != null){
             if(el_taller_verdadero.reclusos.isInitialized()){
-                try{
+                if(!el_taller_verdadero.reclusos.contains(el_recluso_verdadero)){
                     el_taller_verdadero.reclusos.add(el_recluso_verdadero)
                     await em.flush()
-                    res.status(201).json({ status: 201 })
-                } catch (error: any){
-                    res.status(409).json({ status: 409 })
+                    res.status(201).json({ status: 201, message: 'recluso inscripto' })
+                } else {
+                    res.status(409).json({ status: 409, message: 'recluso ya estaba inscripto con anterioridad'})
                 }
             } else {
                 el_taller_verdadero.reclusos.add(el_recluso_verdadero)
                 await em.flush()
-                res.status(201).json({status: 201})
+                res.status(201).json({status: 201, message: 'recluso inscripto' })
             }
-        } else {
-            res.status(410).json({ status: 410})
         }
-
-        if(el_recluso_verdadero === null){
-            return res.status(404).json({ status: 404 })
+        if(el_recluso_verdadero == null){
+            return res.status(404).json({ status: 404, message: 'recluso no encontrado' })
         }
-        if(el_taller_verdadero === null){
-            return res.status(404).json({ status: 403 })
+        if(el_taller_verdadero == null){
+            return res.status(404).json({ status: 404, message: 'taller no encontrado' })
         }
     }catch (error: any) {
         res.status(500).json({ message: error.message })

@@ -29,34 +29,17 @@ export class Sector {
     async agregar_sentencias(unas_sentencias: Sentencia[], em: EntityManager){
         let i = 0;
         while (i < unas_sentencias.length) {
-            try {
-                if(!(this.sentencias.contains(unas_sentencias[i]))){
-                    this.sentencias.add(unas_sentencias[i])
-                    await em.flush();
-                    i++
-                } else {
-                    unas_sentencias.splice(i, 1)
-                }
-            } catch (error: any) {
-                console.log(error.message)
+            if(!(this.sentencias.contains(unas_sentencias[i]))){
+                this.sentencias.add(unas_sentencias[i])
+                await em.flush();
+                i++
+            } else {
+                unas_sentencias.splice(i, 1)
             }
         }
         return unas_sentencias
     }
 
-    public conseguir_celda_libre(){
-        
-        let b = true
-        let i = 0
-        while(i = 0, i < this.celdas.length && b == true, i++){
-            if(this.celdas[i].tengo_disponibilidad() == true){
-                return this.celdas[i]
-            }
-        }
-        return null
-        
-    }
-    
     async conseguir_reclusos_con_edad(edad_minima: number){
         
         let c = 0
@@ -69,7 +52,6 @@ export class Sector {
             c++
         }
         return reclusos_habiles
-        
     }
     
     async encarcelar_recluso(un_recluso: Recluso, em: EntityManager){

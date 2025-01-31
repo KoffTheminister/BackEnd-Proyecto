@@ -1,33 +1,39 @@
 ### get talleres
 GET http://localhost:8080/talleres
+Authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RfYWRtaW5pc3RyYWRvciI6MTAsIm5vbWJyZSI6Ikp1YW4iLCJhcGVsbGlkbyI6IkdhcmNpYSIsImRuaSI6MzQzNDM0MzAsImZlY2hhX2luaV9jb250cmF0byI6IjIwMjQtMDktMDlUMDA6MDA6MDAuMDAwWiIsImZlY2hhX2Zpbl9jb250cmF0byI6bnVsbCwiY29udHJhc2VuaWEiOiIkMmEkMTAkVDAzdXI4eWVxVWFNSndoWlJITnVhdWNleUxuSVFXUi5OSzM5Y2NNOXpwUmx5MlJDN091VGEiLCJpYXQiOjE3MzgzMzM1OTIsImV4cCI6MTczODM0NDM5Mn0.6wW3jN148uw81E-zTzaXk49sFcESLAvEANeY9AnIUNk"
 
 ### get actividad
 GET http://localhost:8080/talleres/1
+Authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RfYWRtaW5pc3RyYWRvciI6MTAsIm5vbWJyZSI6Ikp1YW4iLCJhcGVsbGlkbyI6IkdhcmNpYSIsImRuaSI6MzQzNDM0MzAsImZlY2hhX2luaV9jb250cmF0byI6IjIwMjQtMDktMDlUMDA6MDA6MDAuMDAwWiIsImZlY2hhX2Zpbl9jb250cmF0byI6bnVsbCwiY29udHJhc2VuaWEiOiIkMmEkMTAkVDAzdXI4eWVxVWFNSndoWlJITnVhdWNleUxuSVFXUi5OSzM5Y2NNOXpwUmx5MlJDN091VGEiLCJpYXQiOjE3MzgzMzAzMDYsImV4cCI6MTczODM0MTEwNn0.cHXrjnxlV6Ouhq43NBOvsrQK4fhwb_1_1XqFeBcq0eA"
 
 ### POST an actividad
 POST http://localhost:8080/talleres
+Authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RfYWRtaW5pc3RyYWRvciI6MTAsIm5vbWJyZSI6Ikp1YW4iLCJhcGVsbGlkbyI6IkdhcmNpYSIsImRuaSI6MzQzNDM0MzAsImZlY2hhX2luaV9jb250cmF0byI6IjIwMjQtMDktMDlUMDA6MDA6MDAuMDAwWiIsImZlY2hhX2Zpbl9jb250cmF0byI6bnVsbCwiY29udHJhc2VuaWEiOiIkMmEkMTAkVDAzdXI4eWVxVWFNSndoWlJITnVhdWNleUxuSVFXUi5OSzM5Y2NNOXpwUmx5MlJDN091VGEiLCJpYXQiOjE3MzgzMzM1OTIsImV4cCI6MTczODM0NDM5Mn0.6wW3jN148uw81E-zTzaXk49sFcESLAvEANeY9AnIUNk"
 Content-Type: application/json
 
 {
     "nombre": "recolectamos naranjas",
     "descripcion": "recolectamos naranjas", 
     "locacion": "arboleda del sector 1", 
-    "dia_de_la_semana": 3, 
+    "dia_de_la_semana": 1, 
     "hora_inicio": 23, 
     "hora_fin": 24
 }
 
 ### inscripcion :cod_taller&:cod_recluso
-POST http://localhost:8080/talleres/inscripcion/1&13
+POST http://localhost:8080/talleres/inscripcion/1&6
+Authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RfYWRtaW5pc3RyYWRvciI6MTAsIm5vbWJyZSI6Ikp1YW4iLCJhcGVsbGlkbyI6IkdhcmNpYSIsImRuaSI6MzQzNDM0MzAsImZlY2hhX2luaV9jb250cmF0byI6IjIwMjQtMDktMDlUMDA6MDA6MDAuMDAwWiIsImZlY2hhX2Zpbl9jb250cmF0byI6bnVsbCwiY29udHJhc2VuaWEiOiIkMmEkMTAkVDAzdXI4eWVxVWFNSndoWlJITnVhdWNleUxuSVFXUi5OSzM5Y2NNOXpwUmx5MlJDN091VGEiLCJpYXQiOjE3MzgzMzAzMDYsImV4cCI6MTczODM0MTEwNn0.cHXrjnxlV6Ouhq43NBOvsrQK4fhwb_1_1XqFeBcq0eA"
 
 ### modificar taller
-PUT http://localhost:8080/talleres/2
+PUT http://localhost:8080/talleres/1
+Authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RfYWRtaW5pc3RyYWRvciI6MTAsIm5vbWJyZSI6Ikp1YW4iLCJhcGVsbGlkbyI6IkdhcmNpYSIsImRuaSI6MzQzNDM0MzAsImZlY2hhX2luaV9jb250cmF0byI6IjIwMjQtMDktMDlUMDA6MDA6MDAuMDAwWiIsImZlY2hhX2Zpbl9jb250cmF0byI6bnVsbCwiY29udHJhc2VuaWEiOiIkMmEkMTAkVDAzdXI4eWVxVWFNSndoWlJITnVhdWNleUxuSVFXUi5OSzM5Y2NNOXpwUmx5MlJDN091VGEiLCJpYXQiOjE3MzgzMzAzMDYsImV4cCI6MTczODM0MTEwNn0.cHXrjnxlV6Ouhq43NBOvsrQK4fhwb_1_1XqFeBcq0eA"
 Content-Type: application/json
 
 {
     "nombre": "recoleccion de kiwis radioactivos",
     "descripcion": "recolectamos kiwis radioactivos", 
-    "locacion": "arboleda del sector 1", 
-    "estado": false
+    "locacion": "arboleda del sector 2"
 }
+
+
 

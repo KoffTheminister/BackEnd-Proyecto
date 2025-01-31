@@ -1,18 +1,21 @@
 ### get all sentencias
 GET http://localhost:8080/sentencias
+Authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RfYWRtaW5pc3RyYWRvciI6MTAsIm5vbWJyZSI6Ikp1YW4iLCJhcGVsbGlkbyI6IkdhcmNpYSIsImRuaSI6MzQzNDM0MzAsImZlY2hhX2luaV9jb250cmF0byI6IjIwMjQtMDktMDlUMDA6MDA6MDAuMDAwWiIsImZlY2hhX2Zpbl9jb250cmF0byI6bnVsbCwiY29udHJhc2VuaWEiOiIkMmEkMTAkVDAzdXI4eWVxVWFNSndoWlJITnVhdWNleUxuSVFXUi5OSzM5Y2NNOXpwUmx5MlJDN091VGEiLCJpYXQiOjE3MzgyOTM3MDEsImV4cCI6MTczODMwNDUwMX0.Q5KzscefR4O3uOOr5EKFsCJvbnNQi8Yso0UJXtProIo"
 
 ### get a sentencia
 GET http://localhost:8080/sentencias/5
+Authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RfYWRtaW5pc3RyYWRvciI6MTAsIm5vbWJyZSI6Ikp1YW4iLCJhcGVsbGlkbyI6IkdhcmNpYSIsImRuaSI6MzQzNDM0MzAsImZlY2hhX2luaV9jb250cmF0byI6IjIwMjQtMDktMDlUMDA6MDA6MDAuMDAwWiIsImZlY2hhX2Zpbl9jb250cmF0byI6bnVsbCwiY29udHJhc2VuaWEiOiIkMmEkMTAkVDAzdXI4eWVxVWFNSndoWlJITnVhdWNleUxuSVFXUi5OSzM5Y2NNOXpwUmx5MlJDN091VGEiLCJpYXQiOjE3MzgyOTM3MDEsImV4cCI6MTczODMwNDUwMX0.Q5KzscefR4O3uOOr5EKFsCJvbnNQi8Yso0UJXtProIo"
 
 ### post una sentencia
-POST http://localhost:8080/sentencias/
+POST http://localhost:8080/sentencias
+Authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RfYWRtaW5pc3RyYWRvciI6MTAsIm5vbWJyZSI6Ikp1YW4iLCJhcGVsbGlkbyI6IkdhcmNpYSIsImRuaSI6MzQzNDM0MzAsImZlY2hhX2luaV9jb250cmF0byI6IjIwMjQtMDktMDlUMDA6MDA6MDAuMDAwWiIsImZlY2hhX2Zpbl9jb250cmF0byI6bnVsbCwiY29udHJhc2VuaWEiOiIkMmEkMTAkVDAzdXI4eWVxVWFNSndoWlJITnVhdWNleUxuSVFXUi5OSzM5Y2NNOXpwUmx5MlJDN091VGEiLCJpYXQiOjE3MzgyOTM3MDEsImV4cCI6MTczODMwNDUwMX0.Q5KzscefR4O3uOOr5EKFsCJvbnNQi8Yso0UJXtProIo"
 Content-Type: application/json
 
 {
-    "nombre": "pensar que paraguay no es una provincia de argentina",
-    "descripcion": "aguante uruguay", 
+    "nombre": "pensar que mexico tiene mejor futbol que otros paises",
+    "descripcion": "inclusive groelandia tiene mejor futbol que ustedes mexas bobos", 
     "duracion_anios": 76,
-    "orden_de_gravedad": 576
+    "orden_de_gravedad": 57
 }
 
 

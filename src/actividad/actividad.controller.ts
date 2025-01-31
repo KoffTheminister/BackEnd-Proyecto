@@ -44,15 +44,15 @@ async function get_all(req:Request, res:Response){
         const actividades = await em.find(Actividad, { estado: true })
         res.status(201).json({ message: 'las actividades:', data: actividades})
     } catch (error: any) {
-        res.status(404).json({ message: 'error'})
+        res.status(500).json({ message: error.message})
     }
 }
 
 async function get_one(req: Request, res: Response){
     try {
         const cod_actividad =  Number.parseInt(req.params.cod_actividad)
-        const laActividad = await em.findOneOrFail(Actividad, { cod_actividad: cod_actividad , estado: true}, {populate: ['reclusos']}) 
-        res.status(201).json({ status: 201, data: laActividad} )
+        const la_actividad = await em.findOneOrFail(Actividad, { cod_actividad: cod_actividad , estado: true}, {populate: ['reclusos']}) 
+        res.status(201).json({ status: 201, data: la_actividad} )
     } catch (error: any){
         res.status(404).json({ status: 404})
     }
@@ -68,9 +68,9 @@ async function add(req: Request, res: Response){
             await em.flush()
             res.status(201).json({ status: 201})
         } else if (reclusos_validos.length < req.body.cantidad_minima){
-            res.status(404).json({ status: 404})
+            res.status(404).json({ status: 404, message: 'no existen suficientes reclusos en el sector con la edad minima'})
         } else if (actividad != null){
-            res.status(409).json({ status: 409})
+            res.status(409).json({ status: 409, message: 'la actividad no puede ser creada debido a que pisaria a otra'})
         }
     } catch (error: any) {
         res.status(500).json({message : error.message})
@@ -81,14 +81,14 @@ async function update(req: Request, res: Response) {
     try{
         const cod_actividad : any[] = [];
         cod_actividad[0] = Number(req.params.cod_actividad)
-        const laActividadVerdadera = await em.findOne(Actividad, {cod_actividad: cod_actividad[0], estado: true})
-        if(laActividadVerdadera == null) {
-            res.status(404).json({ status: 404})
+        //const la_actividad_verdadera = await em.findOne(Actividad, {cod_actividad: cod_actividad[0], estado: true})
+        if(await em.findOne(Actividad, {cod_actividad: cod_actividad[0], estado: true}) == null) {
+            res.status(404).json({ status: 404, message: 'actividad no encontrada'})
         } else {
-            const laActividad = em.getReference(Actividad, cod_actividad[0])
-            em.assign(laActividad, req.body)
+            const la_actividad = em.getReference(Actividad, cod_actividad[0])
+            em.assign(la_actividad, req.body)
             await em.flush()
-            res.status(201).json({status: 201})
+            res.status(201).json({status: 201, message: 'actividad actualizada'})
         }
     } catch (error: any) {
         res.status(500).json({ message : error.message })

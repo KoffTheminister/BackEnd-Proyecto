@@ -16,14 +16,14 @@ async function sanitizar_input_de_turno(req: Request, res: Response, next: NextF
         cod_sector: req.body.cod_sector
     }
 
-    Object.keys(req.body.sanitized_input).forEach((key) => {
-        if(req.body.sanitized_input[key] === undefined){
-            return res.status(409)
+    for (const key of Object.keys(req.body.sanitized_input)) {
+        if (req.body.sanitized_input[key] === undefined) {
+            return res.status(400).json({ status: 400, message: `Falta el campo ${key}` });
         }
-    })
+    }
 
-    //if(!(req.body.sanitized_input.turno in turnos_posibles)){
-    if(req.body.sanitized_input.turno != 'M' && req.body.sanitized_input.turno != 'T' && req.body.sanitized_input.turno != 'N'){
+    if (!turnos_posibles.includes(req.body.sanitized_input.turno)){
+    //if(req.body.sanitized_input.turno != 'M' && req.body.sanitized_input.turno != 'T' && req.body.sanitized_input.turno != 'N'){
         return res.status(409).json({ message: 'el turno ingresado no corresponde ni con la mañana ni con la tarde ni con la noche'})
     }
     
@@ -31,7 +31,7 @@ async function sanitizar_input_de_turno(req: Request, res: Response, next: NextF
     if(cod_guardia == null){
         return res.status(404).json({ message: 'guardia no encontrado'})
     }else{
-        req.body.sanitized_input.cod_guadia = cod_guardia
+        req.body.sanitized_input.cod_guardia = cod_guardia
     }
 
     let cod_sector = await get_sector(req.body.cod_sector)
@@ -69,7 +69,7 @@ async function add_turno(req:Request, res:Response) {
             res.status(409).json({ status: 409, message: 'guardia ocupado en ese turno.'})
         }
     } catch (error: any) {
-        res.status(409).json({ status: 409, message: error.message})
+        res.status(500).json({ status: 500, message: error.message})
         console.log(error.message)
     }
 }
@@ -85,7 +85,7 @@ async function end_turno(req:Request, res:Response) {
             res.status(409).json({ status: 409, message: 'turno inexistente.'})
         }
     } catch (error: any) {
-        res.status(404).json({ message: error.message})
+        res.status(500).json({ message: error.message})
     }
 }
 

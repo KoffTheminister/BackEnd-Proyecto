@@ -1,23 +1,28 @@
 ### get all de un sector en particular
-GET http://localhost:8080/sectores/turnos/1
+GET http://localhost:8080/sectores/turnos/5
+Authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RfYWRtaW5pc3RyYWRvciI6MTAsIm5vbWJyZSI6Ikp1YW4iLCJhcGVsbGlkbyI6IkdhcmNpYSIsImRuaSI6MzQzNDM0MzAsImZlY2hhX2luaV9jb250cmF0byI6IjIwMjQtMDktMDlUMDA6MDA6MDAuMDAwWiIsImZlY2hhX2Zpbl9jb250cmF0byI6bnVsbCwiY29udHJhc2VuaWEiOiIkMmEkMTAkVDAzdXI4eWVxVWFNSndoWlJITnVhdWNleUxuSVFXUi5OSzM5Y2NNOXpwUmx5MlJDN091VGEiLCJpYXQiOjE3MzgyOTM3MDEsImV4cCI6MTczODMwNDUwMX0.Q5KzscefR4O3uOOr5EKFsCJvbnNQi8Yso0UJXtProIo"
 
 ### crear turno
 POST http://localhost:8080/sectores/turnos
+Authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RfYWRtaW5pc3RyYWRvciI6MTAsIm5vbWJyZSI6Ikp1YW4iLCJhcGVsbGlkbyI6IkdhcmNpYSIsImRuaSI6MzQzNDM0MzAsImZlY2hhX2luaV9jb250cmF0byI6IjIwMjQtMDktMDlUMDA6MDA6MDAuMDAwWiIsImZlY2hhX2Zpbl9jb250cmF0byI6bnVsbCwiY29udHJhc2VuaWEiOiIkMmEkMTAkVDAzdXI4eWVxVWFNSndoWlJITnVhdWNleUxuSVFXUi5OSzM5Y2NNOXpwUmx5MlJDN091VGEiLCJpYXQiOjE3MzgyOTM3MDEsImV4cCI6MTczODMwNDUwMX0.Q5KzscefR4O3uOOr5EKFsCJvbnNQi8Yso0UJXtProIo"
 Content-Type: application/json
 
 {
-    "cod_guardia": 6,
+    "cod_guardia": 1,
     "cod_sector": 5,
-    "turno": "T"
+    "turno": "M"
 }
 
 
 ### dar de baja un turno la diferencia con el de arriba es que este es put y el otro es post
 PUT http://localhost:8080/sectores/turnos
+Authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RfYWRtaW5pc3RyYWRvciI6MTAsIm5vbWJyZSI6Ikp1YW4iLCJhcGVsbGlkbyI6IkdhcmNpYSIsImRuaSI6MzQzNDM0MzAsImZlY2hhX2luaV9jb250cmF0byI6IjIwMjQtMDktMDlUMDA6MDA6MDAuMDAwWiIsImZlY2hhX2Zpbl9jb250cmF0byI6bnVsbCwiY29udHJhc2VuaWEiOiIkMmEkMTAkVDAzdXI4eWVxVWFNSndoWlJITnVhdWNleUxuSVFXUi5OSzM5Y2NNOXpwUmx5MlJDN091VGEiLCJpYXQiOjE3MzgyOTM3MDEsImV4cCI6MTczODMwNDUwMX0.Q5KzscefR4O3uOOr5EKFsCJvbnNQi8Yso0UJXtProIo"
 Content-Type: application/json
 
 {
-    "cod_guardia": 2,
-    "cod_sector": 1,
+    "cod_guardia": 1,
+    "cod_sector": 5,
     "turno": "N"
 }
+
+
