@@ -1,0 +1,1 @@
+export const RECAPTCHA_SECRET_KEY = 'ERTJNJbijnmdfkmkocjpdsd8937hIIhiu7UIJM77WFK'

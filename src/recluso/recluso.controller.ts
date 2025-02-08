@@ -14,12 +14,13 @@ async function sanitizar_input_de_recluso(req: Request, res: Response, next: Nex
         dni: req.body.dni,
         fecha_nac: new Date(req.body.fecha_nac)
     }
-    Object.keys(req.body.sanitized_input).forEach((key) => {
-        if(req.body.sanitized_input[key] === undefined){
-            delete req.body.sanitized_input[key]
-            return res.status(409).json({message: `el atributo ${key} esta faltando`})
+
+    for (const key of Object.keys(req.body.sanitized_input)){
+        if(req.body.sanitized_input[key] === undefined){ //NO cambiar el === a ==
+            return res.status(400).json({ status: 400,  message: `Falta el campo ${key}` });
         }
-    })
+    }
+
     const incoming = await validar_incoming_recluso(req.body.sanitized_input)
     if (!incoming.success){
         console.log(incoming.issues)

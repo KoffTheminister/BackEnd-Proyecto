@@ -28,6 +28,7 @@ async function sanitizar_input_de_administrador(req: Request, res: Response, nex
             return res.status(400).json({ status: 400,  message: `Falta el campo ${key}` });
         }
     }
+    
     const incoming = await validar_incoming_administrador(req.body.sanitized_input)
         if (!incoming.success){
             console.log(incoming.issues)
@@ -112,12 +113,13 @@ async function log_in_jwt(req: Request, res: Response){
                 fecha_fin_contrato: el_admin.fecha_fin_contrato,
                 contrasenia: el_admin.contrasenia
             }, JWT_SECRET_SPECIAL, {expiresIn:'3h'})
-            res.status(201).json(token)
+            res.status(201).json({status: 201, token: token})
         }
     } catch(error:any){
         console.log(error.message)
         res.status(500).json({ status: 500 } )
     }
+
 
 }
 

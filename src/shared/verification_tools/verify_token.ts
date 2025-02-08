@@ -7,8 +7,7 @@ import { JWT_SECRET, JWT_SECRET_SPECIAL } from "./configjwt.js"
 export async function verificar_token(req: Request, res: Response, next: NextFunction){
     let token = req.header("Authorization")?.replace('Bearer ', '').trim().replace(/^"|"$/g, '')
     if(!token){
-        res.status(401).json({status: 401, message: 'missing token'})
-        return
+        return res.status(401).json({status: 401, message: 'missing token'})
     }
     try{
         
@@ -59,7 +58,7 @@ export async function verificar_token(req: Request, res: Response, next: NextFun
             res.status(401).json({status: 401})
         }
     }
-}
+}       
 
 
 
