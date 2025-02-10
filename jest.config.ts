@@ -10,8 +10,9 @@ const config: Config.InitialOptions = {
     transform: {
         '^.+\\.ts?$': 'ts-jest'
     },
-    testMatch: ['<rootDir>/src/**/test/*.ts'],
-    collectCoverageFrom: ['src/**/*.ts', '!src/**/test/*.ts?(x)', '!**/node_modules/**'],
+    testMatch: ['<rootDir>/src/**/*.test.ts'],
+    //collectCoverageFrom: ['src/**/*.ts', '!src/**/*.test.ts?(x)', '!**/node_modules/**', '!src/shared/db/orm.ts'],
+    collectCoverageFrom: ['dist/**/*.js', '!dist/**/*.test.js?(x)', '!**/node_modules/**', '!dist/shared/db/orm.ts'],
     coverageThreshold: {
         global: {
             branches: 1,
@@ -31,5 +32,4 @@ const config: Config.InitialOptions = {
 }
 
 export default config
-
 

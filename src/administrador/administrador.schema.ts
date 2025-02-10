@@ -39,7 +39,6 @@ const contrasenia = v.pipe(
         /^(?=.*[a-zA-Z])(?=.*\d).+$/,
         ERR_BAD_PASS
     )
-    
 )
 
 const admin_schema = v.object({

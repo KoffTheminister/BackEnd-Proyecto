@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
 import { JWT_SECRET, JWT_SECRET_SPECIAL } from "../shared/verification_tools/configjwt.js"
 import { validar_incoming_administrador } from "./administrador.schema.js"
-
+//import { sum } from "./administrador.test.js"
 
 const em = orm.em
 em.getRepository(Administrador)
@@ -13,7 +13,7 @@ em.getRepository(Administrador)
 const SALT_ROUNDS = 10
 
 async function sanitizar_input_de_administrador(req: Request, res: Response, next: NextFunction){
-    console.log('here')
+    //console.log(sum(1,2))
     req.body.sanitized_input = {
         nombre: req.body.nombre,
         apellido: req.body.apellido,
@@ -80,6 +80,7 @@ async function log_in(req: Request, res: Response){
 }
 
 async function log_in_jwt(req: Request, res: Response){
+    /*
     try{
         const cod_administrador = Number.parseInt(req.body.cod_administrador) 
         const el_admin = await em.findOne(Administrador, { cod_administrador })
@@ -119,7 +120,8 @@ async function log_in_jwt(req: Request, res: Response){
         console.log(error.message)
         res.status(500).json({ status: 500 } )
     }
-
+    */
+    res.status(500).json({ status: 501 } )
 
 }
 
@@ -147,5 +149,10 @@ async function get_one(req: Request, res: Response){
         res.status(500).json({ message: error.message})
     }
 }
+
+export function sum(a: number, b: number) {
+    return a + b
+}
+
 
 export { get_all, get_one, log_in, log_in_jwt, add, sanitizar_input_de_administrador }

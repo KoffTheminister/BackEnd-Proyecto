@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from "express"
 import { orm } from "../shared/db/orm.js"
 import { Recluso } from "./recluso.entity.js"
-import { Condena } from "../condena/condena.entity.js"
 import { validar_incoming_recluso } from "./recluso.schema.js"
 
 const em = orm.em

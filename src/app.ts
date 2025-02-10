@@ -1,6 +1,7 @@
 //librerias y modulos
 import 'reflect-metadata'
 import express from 'express'
+import cors from 'cors'
 import { orm, syncSchema } from './shared/db/orm.js'
 import { RequestContext } from '@mikro-orm/core'
 import { guardia_router } from './guardia/guardia.routes.js'
@@ -19,6 +20,9 @@ import { actividad_ilegal_router } from './actividad_ilegal/actividad_ilegal.rou
 //misc
 const app = express()
 app.use(express.json())
+
+//app.use(cors())
+
 
 app.use((req, res, next) => {
     RequestContext.create(orm.em, next)
@@ -40,7 +44,7 @@ app.use((_, res) => {
     return res.status(404).send({ message: 'Resource not found' })
 })
 
-//await syncSchema()  // solo en etapas de desarrollo  
+await syncSchema()  // solo en etapas de desarrollo  
   
 
 app.listen(8080, () => {
