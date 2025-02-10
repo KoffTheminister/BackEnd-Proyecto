@@ -22,7 +22,7 @@ Content-Type: application/json
 {
     "nombre": "Juan",
     "apellido": "Garcia",
-    "dni": 3434,
+    "dni": 343,
     "fecha_ini_contrato": "2024-09-09",
     "fecha_fin_contrato": null,
     "contrasenia": "123r",
