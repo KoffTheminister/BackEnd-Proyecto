@@ -21,7 +21,7 @@ import { actividad_ilegal_router } from './actividad_ilegal/actividad_ilegal.rou
 const app = express()
 app.use(express.json())
 
-//app.use(cors())
+app.use(cors())
 
 
 app.use((req, res, next) => {
