@@ -20,23 +20,22 @@ const config = {
     highlighter: new SqlHighlighter(),
     allowedGlobalContext: true,
     debug: true,
-    
+    /*
     schemaGenerator: { // nunca utilizar en produccion, solo en la etapa de desarrollo
         disableForeignKeys: true,
         createForeignKeyConstraints: true,
         ignoreSchema: []
     }
-    
+    */
 }
-
 
 export const orm = await MikroORM.init<MySqlDriver>(config);
 //export const orm = await MikroORM.init(config);
 
 export const syncSchema = async() => {
     const generator = orm.getSchemaGenerator()
-    await generator.dropSchema()  // solo en las etapas de desarrollo
-    await generator.createSchema()  // solo en las etapas de desarrollo
+    //await generator.dropSchema()  // solo en las etapas de desarrollo
+    //await generator.createSchema()  // solo en las etapas de desarrollo
     await generator.updateSchema()
 }
 

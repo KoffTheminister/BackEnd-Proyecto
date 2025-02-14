@@ -26,7 +26,6 @@ app.use(express.json())
 
 app.use(cors())
 
-
 app.use((req, res, next) => {
     RequestContext.create(orm.em, next)
 })
@@ -47,11 +46,11 @@ app.use((_, res) => {
     return res.status(404).send({ message: 'Resource not found' })
 })
 
-//await syncSchema()  // solo en etapas de desarrollo  
+//await syncSchema()  // solo en etapas de desarrollo
   
 
 app.listen(server_port, () => {
-    console.log(`server corretly running ${server_port}`)
+    console.log(`server correctly running at port: ${server_port}`)
 })
 
 
