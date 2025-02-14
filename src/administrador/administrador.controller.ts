@@ -156,3 +156,4 @@ export function sum(a: number, b: number) {
 
 
 export { get_all, get_one, log_in, log_in_jwt, add, sanitizar_input_de_administrador }
+

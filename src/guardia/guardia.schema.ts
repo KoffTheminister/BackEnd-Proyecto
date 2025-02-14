@@ -32,6 +32,7 @@ const dni = v.pipe(
     v.maxValue(100000000, ERR_VAL)
 )
 
+
 const guardia_schema = v.object({
     nombre: nombre,
     apellido: apellido,

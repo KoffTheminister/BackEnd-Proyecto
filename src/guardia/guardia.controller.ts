@@ -40,6 +40,7 @@ async function get_all(req:Request, res:Response){
     }
 }
 
+
 async function get_one(req: Request, res: Response){
     try {
         const dni =  Number.parseInt(req.params.dni)

@@ -5,3 +5,4 @@ export const celda_router = Router()
 
 celda_router.get('/', get_all)
 celda_router.get('/:cod_celda', get_one)
+

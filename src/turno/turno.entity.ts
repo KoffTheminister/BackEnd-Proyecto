@@ -15,3 +15,4 @@ export class Turno {
 
     [PrimaryKeyProp] !: ['cod_sector', 'cod_guardia', 'turno'];
 }
+

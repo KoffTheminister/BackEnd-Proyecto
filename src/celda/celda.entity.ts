@@ -34,6 +34,7 @@ export class Celda {
         }
     }
     
+    
     async conseguir_reclusos_con_edad(edad_minima: number){
         let r = 0
         let reclusos_habiles : any[] | null = []

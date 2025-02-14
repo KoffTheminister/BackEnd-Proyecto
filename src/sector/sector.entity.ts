@@ -40,6 +40,7 @@ export class Sector {
         return unas_sentencias
     }
 
+    
     async conseguir_reclusos_con_edad(edad_minima: number){
         
         let c = 0

@@ -33,6 +33,7 @@ async function sanitizar_input_de_actividad_ilegal(req : Request, res : Response
     next()
 }
 
+
 async function sanitizar_update_de_actividad_ilegal(req : Request, res : Response, next: NextFunction){
     req.body.sanitized_input = {
         nombre: req.body.nombre,

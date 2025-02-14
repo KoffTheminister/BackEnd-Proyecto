@@ -22,6 +22,7 @@ export class Recluso {
     @Property({ nullable: false})
     fecha_nac !: Date
 
+    
     @ManyToMany(() => Actividad, (actividad) => actividad.reclusos, { unique : false, nullable : true, cascade: [Cascade.ALL], owner: false})
     actividades = new Collection<Actividad>(this)
 

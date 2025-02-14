@@ -40,6 +40,7 @@ const hora_inicio = v.pipe(
     v.maxValue(HORA_MAX, ERR_HORA),
 )
 
+
 const hora_fin = v.pipe(
     v.number(),
     v.minValue(HORA_MIN, ERR_HORA),

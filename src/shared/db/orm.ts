@@ -29,6 +29,7 @@ const config = {
     
 }
 
+
 export const orm = await MikroORM.init<MySqlDriver>(config);
 //export const orm = await MikroORM.init(config);
 

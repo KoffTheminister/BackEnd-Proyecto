@@ -20,6 +20,7 @@ async function sanitizar_input_de_actividad(req : Request, res : Response, next:
         edad_minima: req.body.edad_minima,          
     }
 
+    
     for (const key of Object.keys(req.body.sanitized_input)) {
         if (req.body.sanitized_input[key] === undefined) {
             return res.status(400).json({ status: 400, message: 'faltan atributos' });

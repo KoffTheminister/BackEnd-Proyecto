@@ -51,6 +51,7 @@ const hora_fin = v.pipe(
     v.maxValue(HORA_MAX, ERR_HORA),
 )
 
+
 const edad_minima = v.pipe(
     v.number("la edad minima debe de ser un numero"),
     v.integer("la edad minima debe de ser un entero"),

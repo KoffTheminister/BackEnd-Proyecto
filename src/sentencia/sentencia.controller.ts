@@ -36,6 +36,7 @@ async function get_all(req : Request, res : Response){
     }
 }
 
+
 async function get_one(req: Request, res: Response){
     try {
         const cod_sentencia =  Number.parseInt(req.params.cod_sentencia)

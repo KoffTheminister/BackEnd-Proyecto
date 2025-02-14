@@ -28,6 +28,8 @@ async function sanitizar_input_de_condena(req:Request, res:Response, next: NextF
     }
 }
 
+
+
 async function get_all(req:Request, res:Response){
     try{
         const condenas = await em.find(Condena, {fecha_fin_real: null}, {populate: ['sentencias']})

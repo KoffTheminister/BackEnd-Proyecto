@@ -35,6 +35,7 @@ async function sanitizar_input_de_taller(req : Request, res : Response, next: Ne
     }
 
     next()
+    
 }
 
 

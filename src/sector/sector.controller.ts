@@ -68,3 +68,4 @@ async function agregar_sentencia_a_sector(req : Request, res : Response){
 }
 
 export { get_all, get_one, get_celdas, agregar_sentencia_a_sector, get_sector, get_sectores_con_sentencia }
+

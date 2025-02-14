@@ -60,6 +60,7 @@ async function get_one(req: Request, res: Response){
     }
 }
 
+
 async function add(req: Request, res: Response){
     try{
         const dni = Number.parseInt(req.body.sanitized_input.dni)

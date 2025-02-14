@@ -10,3 +10,4 @@ actividad_router.post('/', verificar_token, sanitizar_input_de_actividad, add)
 actividad_router.put('/:cod_actividad', verificar_token, update)
 
 
+

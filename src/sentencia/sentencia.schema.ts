@@ -38,3 +38,4 @@ const sentencia_schema = v.object({
 export const validar_nueva_sentencia = v.safeParserAsync(sentencia_schema)
 
 
+

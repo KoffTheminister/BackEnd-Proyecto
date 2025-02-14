@@ -25,3 +25,4 @@ async function get_one(req: Request, res: Response){
 }
 
 export { get_one, get_all } 
+

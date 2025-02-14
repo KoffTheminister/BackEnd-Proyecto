@@ -23,6 +23,7 @@ Content-Type: application/json
     "cod_sector": 1
 }
 
+
 ### modificar an actividad
 PUT http://localhost:8080/actividades/1
 Content-Type: application/json

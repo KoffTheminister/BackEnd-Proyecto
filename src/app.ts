@@ -2,6 +2,7 @@
 import 'reflect-metadata'
 import express from 'express'
 import cors from 'cors'
+import dotenv from 'dotenv'
 import { orm, syncSchema } from './shared/db/orm.js'
 import { RequestContext } from '@mikro-orm/core'
 import { guardia_router } from './guardia/guardia.routes.js'
@@ -16,6 +17,8 @@ import { taller_router } from './taller/taller.routes.js'
 import { turno_router } from './turno/turno.routes.js'
 import { actividad_ilegal_router } from './actividad_ilegal/actividad_ilegal.routes.js'
 
+dotenv.config()
+const server_port = process.env.server_port
 
 //misc
 const app = express()
@@ -44,12 +47,13 @@ app.use((_, res) => {
     return res.status(404).send({ message: 'Resource not found' })
 })
 
-await syncSchema()  // solo en etapas de desarrollo  
+//await syncSchema()  // solo en etapas de desarrollo  
   
 
-app.listen(8080, () => {
-    console.log('server corrasdasdecdasdadstly running at 8080')
+app.listen(server_port, () => {
+    console.log(`server corretly running ${server_port}`)
 })
+
 
 
 
