@@ -151,3 +151,4 @@ async function inscripcion(req: Request, res: Response) {
 export { get_all, get_one, add, update, inscripcion, sanitizar_input_de_actividad_ilegal, sanitizar_update_de_actividad_ilegal }
 
 
+

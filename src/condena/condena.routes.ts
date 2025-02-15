@@ -9,3 +9,4 @@ condena_router.post('/', verificar_token, sanitizar_input_de_condena, add)
 condena_router.get('/finalizar_condenas', verificar_token, finalizar_condenas)
 
 
+

@@ -80,7 +80,7 @@ async function log_in(req: Request, res: Response){
 }
 
 async function log_in_jwt(req: Request, res: Response){
-    /*
+
     try{
         const cod_administrador = Number.parseInt(req.body.cod_administrador) 
         const el_admin = await em.findOne(Administrador, { cod_administrador })
@@ -120,8 +120,6 @@ async function log_in_jwt(req: Request, res: Response){
         console.log(error.message)
         res.status(500).json({ status: 500 } )
     }
-    */
-    res.status(500).json({ status: 501 } )
 
 }
 

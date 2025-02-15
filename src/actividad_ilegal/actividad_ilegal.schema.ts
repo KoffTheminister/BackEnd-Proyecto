@@ -73,3 +73,4 @@ const actividad_ilegal_schema_for_update = v.object({
 export const validar_nueva_actividad_ilegal = v.safeParserAsync(actividad_ilegal_schema)
 export const validar_update_actividad_ilegal = v.safeParserAsync(actividad_ilegal_schema_for_update)
 
+

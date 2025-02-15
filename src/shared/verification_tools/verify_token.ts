@@ -55,10 +55,11 @@ export async function verificar_token(req: Request, res: Response, next: NextFun
             next()
         } catch(error:any){
             console.log(error.message)
-            res.status(401).json({status: 401})
+            res.status(403).json({status: 403})
         }
     }
 }       
+
 
 
 

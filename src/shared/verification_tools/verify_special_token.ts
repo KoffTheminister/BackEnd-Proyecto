@@ -7,8 +7,7 @@ import { JWT_SECRET_SPECIAL } from "./configjwt.js"
 export async function verificar_special_token(req: Request, res: Response, next: NextFunction){
     let token = req.header("Authorization")?.replace('Bearer ', '').trim().replace(/^"|"$/g, '')
     if(!token){
-        res.status(401).json({status: 401, message: 'token faltante.'})
-        return
+        return res.status(401).json({status: 401, message: 'token faltante.'})
     }
     try{
   
@@ -34,9 +33,10 @@ export async function verificar_special_token(req: Request, res: Response, next:
         next()
     } catch(error: any){
         console.log(error.message)
-        res.status(401).json({status: 402, message: 'token invalida.'})
+        res.status(403).json({status: 403, message: 'token invalida.'})
     }
 }
+
 
 
 

@@ -89,3 +89,4 @@ async function buscar_recluso(cod_recluso: number){
 }
 
 export { get_all, get_one, add, sanitizar_input_de_recluso, buscar_recluso }
+

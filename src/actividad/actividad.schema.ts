@@ -94,3 +94,4 @@ const actividad_schema_for_update = v.object({
 export const validar_nueva_actividad = v.safeParserAsync(actividad_schema)
 export const validar_update_actividad = v.safeParserAsync(actividad_schema_for_update)
 
+
