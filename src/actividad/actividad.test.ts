@@ -88,6 +88,31 @@ describe("crud de actividad", () => {
         const response = await request(url_base).post("/actividades").send(new_activity).set("Authorization", `Bearer ${token}`)
         expect(response.status).toBe(400)
     })
+
+    it("should update an activity", async () => {
+        const fields_to_update = {
+            nombre: "limpiar pisos",
+            descripcion: "los reclusos deberan limpiar los pisos de el sector 4", 
+            locacion: "todo sector 4",
+            estado: true
+        }
+
+        const response = await request(url_base).put(`/actividades/1`).send(fields_to_update).set("Authorization", `Bearer ${token}`)
+        expect(response.status).toBe(201)
+    })
+
+    it("shouldn't update an activity due to nombre crossing the lenght threshold", async () => {
+        const fields_to_update = {
+            nombre: "limpiar pisosasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasd",
+            descripcion: "los reclusos deberan limpiar los pisos de el sector 4", 
+            locacion: "todo sector 4",
+            estado: true
+        }
+
+        const response = await request(url_base).put(`/actividades/1`).send(fields_to_update).set("Authorization", `Bearer ${token}`)
+        expect(response.status).toBe(201)
+    })
+
 })
 
 

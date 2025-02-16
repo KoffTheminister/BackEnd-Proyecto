@@ -83,7 +83,6 @@ async function update(req: Request, res: Response) {
     try{
         const cod_actividad : any[] = [];
         cod_actividad[0] = Number(req.params.cod_actividad)
-        //const la_actividad_verdadera = await em.findOne(Actividad, {cod_actividad: cod_actividad[0], estado: true})
         if(await em.findOne(Actividad, {cod_actividad: cod_actividad[0], estado: true}) == null) {
             res.status(404).json({ status: 404, message: 'actividad no encontrada'})
         } else {
