@@ -7,39 +7,51 @@ const ERR_BAD_PASS = 'La contrasenia debe ser compuesta por al menos una letra y
 const ERR_ONLY_LETTERS_AND_NUMBERS = 'Solo se permiten letras y numeros tanto en el apellido como en el nombre del recluso.'
 const ERR_VAL = 'no se permiten dnis que superen 100000000'
 
-const nombre = v.pipe(
-    v.string(),
-    v.minLength(NOM_APE_MIN_LEN, ERR_NOM_LEN),
-    v.maxLength(NOM_APE_MAX_LEN, ERR_NOM_LEN),
-    v.regex(
-        /^[a-zA-Z0-9]*$/,
-        ERR_ONLY_LETTERS_AND_NUMBERS
-    )
+const nombre = v.nonNullable(
+    v.pipe(
+        v.string(),
+        v.minLength(NOM_APE_MIN_LEN, ERR_NOM_LEN),
+        v.maxLength(NOM_APE_MAX_LEN, ERR_NOM_LEN),
+        v.regex(
+            /^[a-zA-Z0-9]*$/,
+            ERR_ONLY_LETTERS_AND_NUMBERS
+        )
+    ),
+    'el nombre no puede ser nulo'
 )
 
-const apellido = v.pipe(
-    v.string(),
-    v.minLength(NOM_APE_MIN_LEN, ERR_APE_LEN),
-    v.maxLength(NOM_APE_MAX_LEN, ERR_APE_LEN),
-    v.regex(
-        /^[a-zA-Z0-9]*$/,
-        ERR_ONLY_LETTERS_AND_NUMBERS
-    )
+const apellido = v.nonNullable( 
+    v.pipe(
+        v.string(),
+        v.minLength(NOM_APE_MIN_LEN, ERR_APE_LEN),
+        v.maxLength(NOM_APE_MAX_LEN, ERR_APE_LEN),
+        v.regex(
+            /^[a-zA-Z0-9]*$/,
+            ERR_ONLY_LETTERS_AND_NUMBERS
+        )
+    ),
+    'apellido no puede ser nulo'
 )
 
-const dni = v.pipe(
-    v.number(),
-    v.integer(),
-    v.maxValue(100000000, ERR_VAL)
+const dni = v.nonNullable(
+    v.pipe(
+        v.number(),
+        v.integer(),
+        v.maxValue(100000000, ERR_VAL)
+    ),
+    'dni no puede ser nulo'
 )
 
 
-const contrasenia = v.pipe(
-    v.string(),
-    v.regex(
-        /^(?=.*[a-zA-Z])(?=.*\d).+$/,
-        ERR_BAD_PASS
-    )
+const contrasenia = v.nonNullable(
+    v.pipe(
+        v.string(),
+        v.regex(
+            /^(?=.*[a-zA-Z])(?=.*\d).+$/,
+            ERR_BAD_PASS
+        )
+    ),
+    'contrasenia no puede ser nula'
 )
 
 const admin_schema = v.object({

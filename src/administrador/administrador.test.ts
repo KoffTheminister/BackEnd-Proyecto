@@ -4,19 +4,22 @@ const url_base = "http://localhost:8080"
 
 describe("crud de administrador", () => {
 
-    let token: string;
+    let token: string
+    let normal_token: string
 
     beforeAll(async () => {
-        const res = await request(url_base).post("/administradores/logIn").send({ cod_administrador: 1, contrasenia: "123r"})
+        const res = await request(url_base).post("/administradores/logIn").send({ cod_administrador: 6 , contrasenia: "123r"})
         token = res.body.token
+
+        const normal_res = await request(url_base).post("/administradores/logIn").send({ cod_administrador: 5, contrasenia: "123r"})
+        normal_token = res.body.token
     });
 
-    /*
     it("should reject request without token", async () => {
-      const res = await request(app).get("/protected-route");
+      const res = await request(url_base).get("/administradores");
       expect(res.status).toBe(401); // Unauthorized
     });
-    */
+    
 
     it("should return a list of admins", async () => {
         const response = await request(url_base).get("/administradores").set("Authorization", `Bearer ${token}`)
@@ -31,6 +34,37 @@ describe("crud de administrador", () => {
         expect(response.status).toBe(201)
         expect(!(Array.isArray(response.body.data))).toBe(true)
         expect(response.body.data).toHaveProperty("nombre")
+    })
+
+    it("should create an admin", async () => {
+        const new_admin = {
+            nombre: "Juan",
+            apellido: "Perez",
+            dni: 343436, //change this field once the test runs
+            fecha_ini_contrato: "2024-09-09",
+            fecha_fin_contrato: null,
+            contrasenia: "123r",
+            es_especial: true
+        }
+
+        const response = await request(url_base).post("/administradores").send(new_admin).set("Authorization", `Bearer ${token}`)
+        expect(response.status).toBe(201)
+        expect(response.body.data).toHaveProperty("cod_administrador")
+    })
+
+    it("should not create an admin, due to it already being inside the system.", async () => {
+        const new_admin = {
+            nombre: "Juan",
+            apellido: "Perez",
+            dni: 343434,
+            fecha_ini_contrato: "2024-09-09",
+            fecha_fin_contrato: null,
+            contrasenia: "123r",
+            es_especial: true
+        }
+
+        const response = await request(url_base).post("/administradores").send(new_admin).set("Authorization", `Bearer ${token}`)
+        expect(response.status).toBe(409)
     })
 })
 

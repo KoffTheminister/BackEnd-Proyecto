@@ -35,7 +35,7 @@ export class Recluso {
     @OneToMany(() => Condena, (condena) => condena.cod_recluso, { unique : false, nullable : true })
     condenas = new Collection<Condena>(this)
 
-    @ManyToOne(() => Celda, { nullable: true, unique: true})
+    @ManyToOne(() => Celda, { nullable: true, unique: false})
     celda ?: Celda | null
     
     public get_condena_activa(){

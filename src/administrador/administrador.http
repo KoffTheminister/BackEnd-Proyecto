@@ -1,6 +1,6 @@
 ### get administradores
 GET http://localhost:8080/administradores
-Authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RfYWRtaW5pc3RyYWRvciI6MSwibm9tYnJlIjoiSnVhbiIsImFwZWxsaWRvIjoiR2FyY2lhIiwiZG5pIjozNDMsImZlY2hhX2luaV9jb250cmF0byI6IjIwMjQtMDktMDlUMDA6MDA6MDAuMDAwWiIsImZlY2hhX2Zpbl9jb250cmF0byI6bnVsbCwiY29udHJhc2VuaWEiOiIkMmEkMTAkN3dhV3RpNWxWV2VRellUUU5jbUwyZS93dFFuZXU3S3MuYXdzTkFOdWZrMjNsVlQzRm9oUEsiLCJpYXQiOjE3Mzk2NTU5ODIsImV4cCI6MTczOTY2Njc4Mn0.EOggdYoyubXUnlZABla0V6n8rM31qUFZuNjZkglM7eM"
+Authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RfYWRtaW5pc3RyYWRvciI6MSwibm9tYnJlIjoiSnVhbiIsImFwZWxsaWRvIjoiR2FyY2lhIiwiZG5pIjozNDMsImZlY2hhX2luaV9jb250cmF0byI6IjIwMjQtMDktMDlUMDA6MDA6MDAuMDAwWiIsImZlY2hhX2Zpbl9jb250cmF0byI6bnVsbCwiY29udHJhc2VuaWEiOiIkMmEkMTAkN3dhV3RpNWxWV2VRellUUU5jbUwyZS93dFFuZXU3S3MuYXdzTkFOdWZrMjNsVlQzRm9oUEsiLCJpYXQiOjE3Mzk2NzkwNjAsImV4cCI6MTczOTY4OTg2MH0.4dOGpTQakp126UCM3NvxlGBrFJFnMKfz4Zkd_AyjivQ"
 
 ### get administrador
 GET http://localhost:8080/administradores/3
@@ -11,7 +11,7 @@ POST http://localhost:8080/administradores/logIn
 Content-Type: application/json
 
 {
-    "cod_administrador": 1,
+    "cod_administrador": 6,
     "contrasenia": "123r"
 }
 
@@ -21,12 +21,15 @@ Content-Type: application/json
 
 {
     "nombre": "Juan",
-    "apellido": "Garcia",
-    "dni": 3434,
+    "apellido": "Lopez",
+    "dni": 343445,
     "fecha_ini_contrato": "2024-09-09",
     "fecha_fin_contrato": null,
     "contrasenia": "123r",
-    "es_especial": true
+    "es_especial": false
 }
+
+
+
 
 

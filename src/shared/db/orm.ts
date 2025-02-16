@@ -12,7 +12,6 @@ const port = process.env.db_port
 const name = process.env.db_name
 
 const config = {
-    //type: "mysql", //comente esta linea porque me tira error de vez en cuando
     entities: ['dist/**/*.entity.js'],
     entitiesTs: ['src/**/*.entity.ts'],
     dbName: 'libertant',
@@ -30,7 +29,6 @@ const config = {
 }
 
 export const orm = await MikroORM.init<MySqlDriver>(config);
-//export const orm = await MikroORM.init(config);
 
 export const syncSchema = async() => {
     const generator = orm.getSchemaGenerator()

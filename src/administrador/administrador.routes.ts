@@ -8,7 +8,6 @@ export const administrador_router = Router()
 administrador_router.get('/', verificar_token, get_all)
 administrador_router.get('/:cod_administrador', verificar_special_token, get_one)
 administrador_router.post('/', sanitizar_input_de_administrador, add)
-//administrador_router.post('/logIn', log_in) 
 administrador_router.post('/logIn', log_in_jwt)
 
 

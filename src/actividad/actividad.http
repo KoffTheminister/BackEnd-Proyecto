@@ -2,12 +2,12 @@
 GET http://localhost:8080/actividades
 Authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RfYWRtaW5pc3RyYWRvciI6MSwibm9tYnJlIjoiSnVhbiBFc3RldmFuIiwiYXBlbGxpZG8iOiJHYXJjaWEiLCJkbmkiOjM0MzQzNDM5LCJmZWNoYV9pbmlfY29udHJhdG8iOiIyMDI0LTA5LTA5VDAwOjAwOjAwLjAwMFoiLCJmZWNoYV9maW5fY29udHJhdG8iOiIyMDI0LTA5LTA5VDAwOjAwOjAwLjAwMFoiLCJjb250cmFzZW5pYSI6IiQyYSQxMCRrQ3hLS2I5MWFGVW8yUWhQRWgvL01lbDlXWVFhTG1YVUpnVGhHeDRLMzFPaFhJVmMwbnl0VyIsImlhdCI6MTczODAxMzU1MywiZXhwIjoxNzM4MDI0MzUzfQ.Fpvb10Ytjsfhn_iCTjNLqnGhJrjWSZzunkncHS-Pb1c"
 
-
 ### get actividad
 GET http://localhost:8080/actividades/1
 
 ### POST an actividad
 POST http://localhost:8080/actividades
+Authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RfYWRtaW5pc3RyYWRvciI6Niwibm9tYnJlIjoiSnVhbiIsImFwZWxsaWRvIjoiR2FyY2lhIiwiZG5pIjozNDM0NCwiZmVjaGFfaW5pX2NvbnRyYXRvIjoiMjAyNC0wOS0wOVQwMDowMDowMC4wMDBaIiwiZmVjaGFfZmluX2NvbnRyYXRvIjpudWxsLCJjb250cmFzZW5pYSI6IiQyYSQxMCRJRlFhaXJxNjhKUWdhN1VJemRiMmh1THNhWkxqV1NsN0p6OFdEbmV3eTJXVFpZd29uZERPdSIsImlhdCI6MTczOTcyODk2OCwiZXhwIjoxNzM5NzM5NzY4fQ.zUXVdTJWCQXs_sLA0JndqO9tjAK-JMg8z9ike60xjcg"
 Content-Type: application/json
 
 {
@@ -18,11 +18,10 @@ Content-Type: application/json
     "hora_inicio": 23, 
     "hora_fin": 24,
     "estado": true,
-    "cantidad_minima": 2,
-    "edad_minima": 1, 
-    "cod_sector": 1
+    "cantidad_minima": 4,
+    "edad_minima": 20, 
+    "cod_sector": 4
 }
-
 
 ### modificar an actividad
 PUT http://localhost:8080/actividades/1

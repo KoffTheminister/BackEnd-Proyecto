@@ -13,7 +13,7 @@ em.getRepository(Administrador)
 const SALT_ROUNDS = 10
 
 async function sanitizar_input_de_administrador(req: Request, res: Response, next: NextFunction){
-    //console.log(sum(1,2))
+
     req.body.sanitized_input = {
         nombre: req.body.nombre,
         apellido: req.body.apellido,
@@ -22,7 +22,7 @@ async function sanitizar_input_de_administrador(req: Request, res: Response, nex
         contrasenia: req.body.contrasenia,
         es_especial: req.body.es_especial
     }
-
+    
     for (const key of Object.keys(req.body.sanitized_input)){
         if(req.body.sanitized_input[key] === undefined){ //NO cambiar el === a ==
             return res.status(400).json({ status: 400,  message: `Falta el campo ${key}` });
@@ -60,7 +60,7 @@ async function add(req: Request, res: Response){
         res.status(500).json({ status: 500 } )
     }
 }
-
+/*
 async function log_in(req: Request, res: Response){
     try {
         const cod_administrador = Number.parseInt(req.body.cod_administrador) 
@@ -78,7 +78,7 @@ async function log_in(req: Request, res: Response){
         res.status(404).json({ status: 404 } )
     }
 }
-
+*/
 async function log_in_jwt(req: Request, res: Response){
 
     try{
@@ -103,7 +103,7 @@ async function log_in_jwt(req: Request, res: Response){
                 fecha_fin_contrato: el_admin.fecha_fin_contrato,
                 contrasenia: el_admin.contrasenia
             }, JWT_SECRET, {expiresIn:'3h'})
-            res.status(201).json(token)
+            res.status(201).json({status: 201, token: token})
         } else {
             const token = jwt.sign({
                 cod_administrador: el_admin.cod_administrador,
@@ -153,5 +153,5 @@ export function sum(a: number, b: number) {
 }
 
 
-export { get_all, get_one, log_in, log_in_jwt, add, sanitizar_input_de_administrador }
+export { get_all, get_one, log_in_jwt, add, sanitizar_input_de_administrador }
 

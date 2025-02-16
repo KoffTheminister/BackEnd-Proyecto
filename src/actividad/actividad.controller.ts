@@ -17,7 +17,8 @@ async function sanitizar_input_de_actividad(req : Request, res : Response, next:
         hora_fin: req.body.hora_fin,
         estado: req.body.estado,
         cantidad_minima: req.body.cantidad_minima,
-        edad_minima: req.body.edad_minima,          
+        edad_minima: req.body.edad_minima,
+        cod_sector: req.body.cod_sector        
     }
 
     
@@ -67,7 +68,7 @@ async function add(req: Request, res: Response){
             req.body.sanitized_input.reclusos = reclusos_validos                 
             const la_actividad = await em.create(Actividad, req.body.sanitized_input)
             await em.flush()
-            res.status(201).json({ status: 201})
+            res.status(201).json({ status: 201, data: reclusos_validos})
         } else if (reclusos_validos.length < req.body.cantidad_minima){
             res.status(404).json({ status: 404, message: 'no existen suficientes reclusos en el sector con la edad minima'})
         } else if (actividad != null){
