@@ -38,19 +38,23 @@ export class Recluso {
     @ManyToOne(() => Celda, { nullable: true, unique: false})
     celda ?: Celda | null
     
-    public get_condena_activa(){
+    public tiene_condena_activa(){
         let i = 0
         try{
-            while(i < this.condenas.length){
-                if(this.condenas[i].fecha_fin_real == null){
-                    return this.condenas[i]
+            if(this.condenas.isInitialized()){
+                while(i < this.condenas.length){
+                    if(this.condenas[i].fecha_fin_real == null){
+                        return true
+                    }
+                    i++
                 }
-                i++
+            } else {
+                return false
             }
         } catch (error: any){
             console.log(error.message)
         }
-        return null
+        return false
     }
     
 }

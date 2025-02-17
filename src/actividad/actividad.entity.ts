@@ -1,4 +1,4 @@
-import { Entity, PrimaryKey, Property, ManyToMany, Cascade, ManyToOne, Rel } from "@mikro-orm/core";
+import { Entity, PrimaryKey, Property, ManyToMany, ManyToOne, Rel } from "@mikro-orm/core";
 import { Recluso } from "../recluso/recluso.entity.js";
 import { Sector } from "../sector/sector.entity.js";
 import { Collection } from "@mikro-orm/core";

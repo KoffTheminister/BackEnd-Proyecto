@@ -70,11 +70,10 @@ async function add(req: Request, res: Response){
             await em.flush()
             res.status(201).json({ status: 201, data: el_recluso.cod_recluso })
         } else {
-            const condena = rec.get_condena_activa() //chequear
-            if(condena == null){
+            if(rec.tiene_condena_activa()){
                 res.status(201).json({  status: 202, data: rec.cod_recluso})
             } else {
-                res.status(201).json({  status: 203, data: rec.cod_recluso})
+                res.status(409).json({  status: 409, data: rec.cod_recluso})
             }
             
         }

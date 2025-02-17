@@ -10,16 +10,16 @@ Authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RfYWRtaW5pc3Ry
 
 ### POST a recluso
 POST http://localhost:8080/reclusos
-Authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RfYWRtaW5pc3RyYWRvciI6MSwibm9tYnJlIjoiSnVhbiBFc3RldmFuIiwiYXBlbGxpZG8iOiJHYXJjaWEiLCJkbmkiOjM0MzQzNDM5LCJmZWNoYV9pbmlfY29udHJhdG8iOiIyMDI0LTA5LTA5VDAwOjAwOjAwLjAwMFoiLCJmZWNoYV9maW5fY29udHJhdG8iOiIyMDI0LTA5LTA5VDAwOjAwOjAwLjAwMFoiLCJjb250cmFzZW5pYSI6IiQyYSQxMCRrQ3hLS2I5MWFGVW8yUWhQRWgvL01lbDlXWVFhTG1YVUpnVGhHeDRLMzFPaFhJVmMwbnl0VyIsImlhdCI6MTczODE1OTU1NiwiZXhwIjoxNzM4MTcwMzU2fQ.Ad403O1_7J9FU1O5mSfxXyhZEMEzU5vmFjRqzdpi9vA"
+Authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RfYWRtaW5pc3RyYWRvciI6Niwibm9tYnJlIjoiSnVhbiIsImFwZWxsaWRvIjoiR2FyY2lhIiwiZG5pIjozNDM0NCwiZmVjaGFfaW5pX2NvbnRyYXRvIjoiMjAyNC0wOS0wOVQwMDowMDowMC4wMDBaIiwiZmVjaGFfZmluX2NvbnRyYXRvIjpudWxsLCJjb250cmFzZW5pYSI6IiQyYSQxMCRJRlFhaXJxNjhKUWdhN1VJemRiMmh1THNhWkxqV1NsN0p6OFdEbmV3eTJXVFpZd29uZERPdSIsImlhdCI6MTczOTgwNTEwNCwiZXhwIjoxNzM5ODE1OTA0fQ.pSV6ZKnc3LESkdJASdIuX-L6mgnvz251D0MNiSKyWOw"
 Content-Type: application/json
 
 {
-    "nombre": "Chompa",
-    "apellido": "Carrizo", 
-    "dni": 45655982, 
-    "fecha_nac": "2004-06-10"
+    "nombre": "Recluso20",
+    "apellido": "Apellido20",
+    "dni": 2020202,
+    "fecha_nac": "2004-01-01"
 }
 
-# verificar cuando el recluso tiene condenas
+
 
 

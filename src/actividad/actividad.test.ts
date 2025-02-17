@@ -31,13 +31,13 @@ describe("crud de actividad", () => {
         expect(!(Array.isArray(response.body.data))).toBe(true)
         expect(response.body.data).toHaveProperty("nombre")
     })
-    /*
+    
     it("should create an activity", async () => {
         const new_activity = {
             nombre: "limpiar pisos",
             descripcion: "los reclusos deberan limpiar los pisos de el sector 4", 
             locacion: "todo sector 4", 
-            dia_de_la_semana: 2, 
+            dia_de_la_semana: 6, 
             hora_inicio: 10, 
             hora_fin: 12,
             estado: true,
@@ -52,7 +52,7 @@ describe("crud de actividad", () => {
         expect(response.body.data.length).toBeGreaterThan(new_activity.cantidad_minima)
         expect(response.body.data[0]).toHaveProperty("dni")
     })
-    */
+    
     it("should not create an activity, due to nombre having a null value", async () => {
         const new_activity = {
             nombre: null,
