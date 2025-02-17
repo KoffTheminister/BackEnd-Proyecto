@@ -69,7 +69,7 @@ async function add(req: Request, res: Response){
             await em.flush()
             res.status(201).json({ status: 201 })
         } else {
-            if(el_guardia.fecha_fin_contrato == null){
+            if(el_guardia.esta_activo()){
                 res.status(409).json({status: 409})
             } else {
                 const today = new Date();

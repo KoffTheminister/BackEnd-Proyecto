@@ -38,6 +38,12 @@ export class Guardia {
             }
         }
     }
-    
-    
+
+    esta_activo() {
+        if(this.fecha_fin_contrato == null){
+            return true
+        } else {
+            return false
+        }
+    }
 }
