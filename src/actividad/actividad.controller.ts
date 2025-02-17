@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from "express"
 import { Actividad } from "./actividad.entity.js"
 import { orm } from "../shared/db/orm.js"
-import { Recluso } from "../recluso/recluso.entity.js"
 import { get_sector } from "../sector/sector.controller.js"
 import { validar_nueva_actividad } from "./actividad.schema.js"
 

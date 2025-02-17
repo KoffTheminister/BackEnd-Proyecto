@@ -23,8 +23,7 @@ async function sanitizar_input_de_turno(req: Request, res: Response, next: NextF
     }
 
     if (!turnos_posibles.includes(req.body.sanitized_input.turno)){
-    //if(req.body.sanitized_input.turno != 'M' && req.body.sanitized_input.turno != 'T' && req.body.sanitized_input.turno != 'N'){
-        return res.status(409).json({ message: 'el turno ingresado no corresponde ni con la mañana ni con la tarde ni con la noche'})
+        return res.status(400).json({ message: 'el turno ingresado no corresponde ni con la mañana ni con la tarde ni con la noche'})
     }
     
     let cod_guardia = await get_guardia(req.body.cod_guardia)

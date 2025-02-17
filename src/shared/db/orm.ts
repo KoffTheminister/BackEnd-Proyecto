@@ -1,4 +1,3 @@
-//import { MikroORM } from "@mikro-orm/core";
 import { MikroORM} from "@mikro-orm/mysql";
 import { SqlHighlighter } from "@mikro-orm/sql-highlighter";
 import { MySqlDriver } from '@mikro-orm/mysql';

@@ -1,10 +1,8 @@
-import { Request, Response, NextFunction } from "express"
+import { Request, Response } from "express"
 import { orm } from "../shared/db/orm.js"
 import { Sector } from "./sector.entity.js"
 import { get_sentencias_especificas } from "../sentencia/sentencia.controller.js"
 import { Sentencia } from "../sentencia/sentencia.entity.js"
-import { Celda } from "../celda/celda.entity.js"
-import { get_guardia } from "../guardia/guardia.controller.js";
 
 const em = orm.em
 em.getRepository(Sector)

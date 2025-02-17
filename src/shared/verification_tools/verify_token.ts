@@ -1,7 +1,11 @@
 import { Request, Response, NextFunction } from "express"
 import jwt from 'jsonwebtoken'
 import { JwtPayload } from "jsonwebtoken"
-import { JWT_SECRET, JWT_SECRET_SPECIAL } from "./configjwt.js"
+import dotenv from 'dotenv'
+
+dotenv.config()
+const JWT_SECRET = process.env.JWT_SECRET as string
+const JWT_SECRET_SPECIAL = process.env.JWT_SECRET_SPECIAL as string
 
 
 export async function verificar_token(req: Request, res: Response, next: NextFunction){

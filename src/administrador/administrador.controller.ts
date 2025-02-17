@@ -1,11 +1,14 @@
 import { Request, Response, NextFunction } from "express"
-import { orm } from "../shared/db/orm.js"
-import { Administrador } from "./administrador.entity.js"
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
-import { JWT_SECRET, JWT_SECRET_SPECIAL } from "../shared/verification_tools/configjwt.js"
+import dotenv from 'dotenv'
+import { orm } from "../shared/db/orm.js"
+import { Administrador } from "./administrador.entity.js"
 import { validar_incoming_administrador } from "./administrador.schema.js"
-//import { sum } from "./administrador.test.js"
+
+dotenv.config()
+const JWT_SECRET = process.env.JWT_SECRET as string
+const JWT_SECRET_SPECIAL = process.env.JWT_SECRET_SPECIAL as string
 
 const em = orm.em
 em.getRepository(Administrador)
@@ -60,25 +63,7 @@ async function add(req: Request, res: Response){
         res.status(500).json({ status: 500 } )
     }
 }
-/*
-async function log_in(req: Request, res: Response){
-    try {
-        const cod_administrador = Number.parseInt(req.body.cod_administrador) 
-        const el_admin = await em.findOneOrFail(Administrador, { cod_administrador })
-        if(el_admin.contrasenia === req.body.contrasenia){
-            if(el_admin.dni == 66666666){
-                res.status(202).json({ status: 202} )
-            } else {
-                res.status(201).json({  status: 201 } )
-            }
-        } else {
-            res.status(401).json({ status: 401} )
-        }
-    } catch (error: any){
-        res.status(404).json({ status: 404 } )
-    }
-}
-*/
+
 async function log_in_jwt(req: Request, res: Response){
 
     try{
@@ -88,7 +73,6 @@ async function log_in_jwt(req: Request, res: Response){
             return res.status(404).json({ status: 404 } )
         }
 
-        //const valid_contra = await bcrypt.compare(req.body.contresenia, el_admin.contrasenia)
         if(!(await bcrypt.compare(req.body.contrasenia, el_admin.contrasenia))){
             return res.status(409).json({ status: 409})
         }
@@ -126,7 +110,6 @@ async function log_in_jwt(req: Request, res: Response){
 async function get_all(req:Request, res:Response){
     try{
         const administradores = await em.find(Administrador, {fecha_fin_contrato: null})
-        //const administradores = await em.getConnection().execute(`select * from administrador admin where admin.fecha_fin_contrato is null;`);
         res.status(201).json({ status: 201, data: administradores})
     } catch (error: any) {
         res.status(404).json({  status: 404})
@@ -147,11 +130,6 @@ async function get_one(req: Request, res: Response){
         res.status(500).json({ message: error.message})
     }
 }
-
-export function sum(a: number, b: number) {
-    return a + b
-}
-
 
 export { get_all, get_one, log_in_jwt, add, sanitizar_input_de_administrador }
 

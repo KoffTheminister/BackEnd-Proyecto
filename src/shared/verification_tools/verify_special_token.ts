@@ -1,8 +1,10 @@
 import { Request, Response, NextFunction } from "express"
 import jwt from 'jsonwebtoken'
 import { JwtPayload } from "jsonwebtoken"
-import { JWT_SECRET_SPECIAL } from "./configjwt.js"
+import dotenv from 'dotenv'
 
+dotenv.config()
+const JWT_SECRET_SPECIAL = process.env.JWT_SECRET_SPECIAL as string
 
 export async function verificar_special_token(req: Request, res: Response, next: NextFunction){
     let token = req.header("Authorization")?.replace('Bearer ', '').trim().replace(/^"|"$/g, '')

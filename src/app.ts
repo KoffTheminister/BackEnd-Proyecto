@@ -20,7 +20,6 @@ import { actividad_ilegal_router } from './actividad_ilegal/actividad_ilegal.rou
 dotenv.config()
 const server_port = process.env.server_port
 
-//misc
 const app = express()
 app.use(express.json())
 
@@ -48,7 +47,6 @@ app.use((_, res) => {
 
 //await syncSchema()  // solo en etapas de desarrollo
   
-
 app.listen(server_port, () => {
     console.log(`server correctly running at port: ${server_port}`)
 })

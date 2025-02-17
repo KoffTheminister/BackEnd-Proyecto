@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction} from "express"
 import { orm } from "../shared/db/orm.js"
-import { Recluso } from "../recluso/recluso.entity.js"
 import { Condena } from "./condena.entity.js"
 import { Sentencia } from "../sentencia/sentencia.entity.js"
 import { buscar_recluso, get_one } from "../recluso/recluso.controller.js"

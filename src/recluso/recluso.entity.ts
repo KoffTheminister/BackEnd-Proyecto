@@ -16,17 +16,16 @@ export class Recluso {
     @Property({ nullable: false})
     apellido !: string
 
-    @Property({ nullable: false})
+    @Property({ nullable: false, unique: true})
     dni !: number
 
     @Property({ nullable: false})
     fecha_nac !: Date
 
-    
-    @ManyToMany(() => Actividad, (actividad) => actividad.reclusos, { unique : false, nullable : true, cascade: [Cascade.ALL], owner: false})
+    @ManyToMany(() => Actividad, (actividad) => actividad.reclusos, { unique : false, nullable : true, cascade: [], owner: false})
     actividades = new Collection<Actividad>(this)
 
-    @ManyToMany(() => Taller, (taller) => taller.reclusos, { unique : false, nullable : true, cascade: [Cascade.ALL], owner: false})
+    @ManyToMany(() => Taller, (taller) => taller.reclusos, { unique : false, nullable : true, cascade: [], owner: false})
     talleres = new Collection<Taller>(this)
 
     @ManyToMany(() => Actividad_Ilegal, (act_ilegal) => act_ilegal.reclusos, { unique : false, nullable : true, owner: false})
