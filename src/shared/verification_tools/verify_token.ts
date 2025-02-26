@@ -5,8 +5,6 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 const JWT_SECRET = process.env.JWT_SECRET as string
-const JWT_SECRET_SPECIAL = process.env.JWT_SECRET_SPECIAL as string
-
 
 export async function verificar_token(req: Request, res: Response, next: NextFunction){
     let token = req.header("Authorization")?.replace('Bearer ', '').trim().replace(/^"|"$/g, '')
@@ -14,7 +12,6 @@ export async function verificar_token(req: Request, res: Response, next: NextFun
         return res.status(401).json({status: 401, message: 'missing token'})
     }
     try{
-        
         const decoded = jwt.verify(token, JWT_SECRET) as JwtPayload & {
             cod_administrador: number;
             nombre: string;
@@ -22,7 +19,8 @@ export async function verificar_token(req: Request, res: Response, next: NextFun
             dni: string;
             fecha_ini_contrato: string;
             fecha_fin_contrato: string;
-            contrasenia: string
+            contrasenia: string,
+            permissions: string[]
         };
         req.administrador = {
             cod_administrador: decoded.cod_administrador,
@@ -31,36 +29,14 @@ export async function verificar_token(req: Request, res: Response, next: NextFun
             dni: decoded.dni,
             fecha_ini_contrato: decoded.fecha_ini_contrato,
             fecha_fin_contrato: decoded.fecha_fin_contrato,
-            contrasenia: decoded.contrasenia
+            contrasenia: decoded.contrasenia,
+            permissions: decoded.permissions
         }
         
         next()
     } catch(error: any){
-        try{
-            const decoded = jwt.verify(token, JWT_SECRET_SPECIAL) as JwtPayload & {
-                cod_administrador: number;
-                nombre: string;
-                apellido: string;
-                dni: string;
-                fecha_ini_contrato: string;
-                fecha_fin_contrato: string;
-                contrasenia: string
-            };
-            req.administrador = {
-                cod_administrador: decoded.cod_administrador,
-                nombre: decoded.nombre,
-                apellido: decoded.apellido,
-                dni: decoded.dni,
-                fecha_ini_contrato: decoded.fecha_ini_contrato,
-                fecha_fin_contrato: decoded.fecha_fin_contrato,
-                contrasenia: decoded.contrasenia
-            }
-
-            next()
-        } catch(error:any){
-            console.log(error.message)
-            res.status(403).json({status: 403})
-        }
+        console.log(error.message)
+        res.status(403).json({status: 403})
     }
 }       
 

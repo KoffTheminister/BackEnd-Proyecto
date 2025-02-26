@@ -8,7 +8,6 @@ import { validar_incoming_administrador } from "./administrador.schema.js"
 
 dotenv.config()
 const JWT_SECRET = process.env.JWT_SECRET as string
-const JWT_SECRET_SPECIAL = process.env.JWT_SECRET_SPECIAL as string
 
 const em = orm.em
 em.getRepository(Administrador)
@@ -85,7 +84,8 @@ async function log_in_jwt(req: Request, res: Response){
                 dni: el_admin.dni,
                 fecha_ini_contrato: el_admin.fecha_ini_contrato,
                 fecha_fin_contrato: el_admin.fecha_fin_contrato,
-                contrasenia: el_admin.contrasenia
+                contrasenia: el_admin.contrasenia,
+                permissions: ['!*']
             }, JWT_SECRET, {expiresIn:'3h'})
             res.status(201).json({status: 201, token: token})
         } else {
@@ -96,8 +96,9 @@ async function log_in_jwt(req: Request, res: Response){
                 dni: el_admin.dni,
                 fecha_ini_contrato: el_admin.fecha_ini_contrato,
                 fecha_fin_contrato: el_admin.fecha_fin_contrato,
-                contrasenia: el_admin.contrasenia
-            }, JWT_SECRET_SPECIAL, {expiresIn:'3h'})
+                contrasenia: el_admin.contrasenia,
+                permissions: ['*']
+            }, JWT_SECRET, {expiresIn:'3h'})
             res.status(201).json({status: 201, token: token})
         }
     } catch(error:any){
