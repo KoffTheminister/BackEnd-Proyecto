@@ -40,7 +40,6 @@ async function sanitizar_input_de_turno(req: Request, res: Response, next: NextF
         req.body.sanitized_input.cod_sector = cod_sector
     }
     
-    
     next()
 }
 

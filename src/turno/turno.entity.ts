@@ -13,6 +13,8 @@ export class Turno {
     @Property({ nullable: false, primary: true})
     turno !: string
 
-    [PrimaryKeyProp] !: ['cod_sector', 'cod_guardia', 'turno'];
+    [PrimaryKeyProp] !: ['cod_sector', 'cod_guardia', 'turno']
+    
 }
+
 

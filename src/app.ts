@@ -13,7 +13,6 @@ import { sector_router } from './sector/sector.routes.js'
 import { administrador_router } from './administrador/administrador.routes.js'
 import { condena_router } from './condena/condena.routes.js'
 import { recluso_router } from './recluso/recluso.routes.js'
-import { taller_router } from './taller/taller.routes.js'
 import { turno_router } from './turno/turno.routes.js'
 import { actividad_ilegal_router } from './actividad_ilegal/actividad_ilegal.routes.js'
 
@@ -37,7 +36,6 @@ app.use('/sectores', sector_router)
 app.use('/administradores', administrador_router)
 app.use('/reclusos', recluso_router)
 app.use('/condenas', condena_router)
-app.use('/talleres', taller_router)
 app.use('/sectores', sector_router)
 app.use('/celdas', celda_router)
 app.use('/sectores/turnos', turno_router)
