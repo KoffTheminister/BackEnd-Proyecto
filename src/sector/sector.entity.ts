@@ -58,14 +58,14 @@ export class Sector {
     async encarcelar_recluso(un_recluso: Recluso, em: EntityManager){
 
         let c = 0
-        let bool = true
-        while(c < this.celdas.length && bool == true){
-            if(await this.celdas[c].encarcelar_recluso(un_recluso, em) == true){
-                bool = false
+        while(c < this.celdas.length){
+            let la_celda = await this.celdas[c].encarcelar_recluso(un_recluso, em)
+            if(la_celda != null){
+                return la_celda
             }
             c++
         }
-        return bool
+        return null
         
     }
     

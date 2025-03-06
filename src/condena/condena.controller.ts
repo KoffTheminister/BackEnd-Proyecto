@@ -57,8 +57,9 @@ async function add(req: Request, res: Response){
 
         let j = 0
         while(j < los_sectores.length){
-            if(await los_sectores[j].encarcelar_recluso(nueva_condena.cod_recluso, em) == false){
-                return res.status(201).json({ status: 201 })
+            let la_celda = await los_sectores[j].encarcelar_recluso(nueva_condena.cod_recluso, em)
+            if(la_celda != null){
+                return res.status(201).json({ status: 201, celda: la_celda})
             }
             j++
         }

@@ -49,14 +49,14 @@ export class Celda {
                 if(this.capacidad > this.reclusos.length){
                     this.reclusos.add(un_recluso)
                     await em.flush()
-                    return true
+                    return this
                 } else {
-                    return false
+                    return null
                 }
             } else {
                 this.reclusos.add(un_recluso)
                 await em.flush()
-                return true
+                return this
             }
         } catch(error:any){
             console.log(error.message)
