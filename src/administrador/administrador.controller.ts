@@ -76,31 +76,17 @@ async function log_in_jwt(req: Request, res: Response){
             return res.status(409).json({ status: 409})
         }
         
-        if(el_admin.es_especial == false){
-            const token = jwt.sign({
-                cod_administrador: el_admin.cod_administrador,
-                nombre: el_admin.nombre,
-                apellido: el_admin.apellido,
-                dni: el_admin.dni,
-                fecha_ini_contrato: el_admin.fecha_ini_contrato,
-                fecha_fin_contrato: el_admin.fecha_fin_contrato,
-                contrasenia: el_admin.contrasenia,
-                permissions: ['!*']
-            }, JWT_SECRET, {expiresIn:'3h'})
-            res.status(201).json({status: 201, token: token})
-        } else {
-            const token = jwt.sign({
-                cod_administrador: el_admin.cod_administrador,
-                nombre: el_admin.nombre,
-                apellido: el_admin.apellido,
-                dni: el_admin.dni,
-                fecha_ini_contrato: el_admin.fecha_ini_contrato,
-                fecha_fin_contrato: el_admin.fecha_fin_contrato,
-                contrasenia: el_admin.contrasenia,
-                permissions: ['*']
-            }, JWT_SECRET, {expiresIn:'3h'})
-            res.status(201).json({status: 201, token: token})
-        }
+        const token = jwt.sign({
+            cod_administrador: el_admin.cod_administrador,
+            nombre: el_admin.nombre,
+            apellido: el_admin.apellido,
+            dni: el_admin.dni,
+            fecha_ini_contrato: el_admin.fecha_ini_contrato,
+            fecha_fin_contrato: el_admin.fecha_fin_contrato,
+            contrasenia: el_admin.contrasenia,
+            es_especial: el_admin.es_especial
+        }, JWT_SECRET, {expiresIn:'3h'})
+        res.status(201).json({status: 201, token: token, es_especial: el_admin.es_especial})
     } catch(error:any){
         console.log(error.message)
         res.status(500).json({ status: 500 } )

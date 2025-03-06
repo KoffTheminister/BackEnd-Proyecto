@@ -1,17 +1,17 @@
 ### get administradores
 GET http://localhost:8080/administradores
-Authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RfYWRtaW5pc3RyYWRvciI6Nywibm9tYnJlIjoiSnVhbiIsImFwZWxsaWRvIjoiTG9wZXoiLCJkbmkiOjM0MzQ0NSwiZmVjaGFfaW5pX2NvbnRyYXRvIjoiMjAyNC0wOS0wOVQwMDowMDowMC4wMDBaIiwiZmVjaGFfZmluX2NvbnRyYXRvIjpudWxsLCJjb250cmFzZW5pYSI6IiQyYSQxMCRqVmkwaFlldEtqSzNsNjlLLkFTczcuTlc3TUgxL2RKOEQ5cVhuQlZRdFNEVm5FRTFGYTlwNiIsInBlcm1pc3Npb25zIjpbIiEqIl0sImlhdCI6MTc0MDU4NTU2OCwiZXhwIjoxNzQwNTk2MzY4fQ.JRg90XPmQ2nvGw5lGMDRulpa3vwrp2OzP77oyeF4YLU"
+Authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RfYWRtaW5pc3RyYWRvciI6Niwibm9tYnJlIjoiSnVhbiIsImFwZWxsaWRvIjoiTG9wZXoiLCJkbmkiOjM0MzQ0NTMsImZlY2hhX2luaV9jb250cmF0byI6IjIwMjQtMDktMDlUMDA6MDA6MDAuMDAwWiIsImZlY2hhX2Zpbl9jb250cmF0byI6bnVsbCwiY29udHJhc2VuaWEiOiIkMmEkMTAkWWJwaTVUNTBMc3VUWUNMUjVrQ2dLT0Rvek9RTjdzSkRuY0hYVlMueThoY3JibTVqRlVxWmEiLCJwZXJtaXNzaW9ucyI6WyIqIl0sImlhdCI6MTc0MTIzMDk2NiwiZXhwIjoxNzQxMjQxNzY2fQ.S3Ef9Grlpdu1wDL7IR5PEREVI71jRKricLRPJ8-zgek"
 
 ### get administrador
 GET http://localhost:8080/administradores/1
-Authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RfYWRtaW5pc3RyYWRvciI6Nywibm9tYnJlIjoiSnVhbiIsImFwZWxsaWRvIjoiTG9wZXoiLCJkbmkiOjM0MzQ0NSwiZmVjaGFfaW5pX2NvbnRyYXRvIjoiMjAyNC0wOS0wOVQwMDowMDowMC4wMDBaIiwiZmVjaGFfZmluX2NvbnRyYXRvIjpudWxsLCJjb250cmFzZW5pYSI6IiQyYSQxMCRqVmkwaFlldEtqSzNsNjlLLkFTczcuTlc3TUgxL2RKOEQ5cVhuQlZRdFNEVm5FRTFGYTlwNiIsInBlcm1pc3Npb25zIjpbIiEqIl0sImlhdCI6MTc0MDU4NTU2OCwiZXhwIjoxNzQwNTk2MzY4fQ.JRg90XPmQ2nvGw5lGMDRulpa3vwrp2OzP77oyeF4YLU"
+Authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RfYWRtaW5pc3RyYWRvciI6Niwibm9tYnJlIjoiSnVhbiIsImFwZWxsaWRvIjoiTG9wZXoiLCJkbmkiOjM0MzQ0NTMsImZlY2hhX2luaV9jb250cmF0byI6IjIwMjQtMDktMDlUMDA6MDA6MDAuMDAwWiIsImZlY2hhX2Zpbl9jb250cmF0byI6bnVsbCwiY29udHJhc2VuaWEiOiIkMmEkMTAkWWJwaTVUNTBMc3VUWUNMUjVrQ2dLT0Rvek9RTjdzSkRuY0hYVlMueThoY3JibTVqRlVxWmEiLCJwZXJtaXNzaW9ucyI6WyIqIl0sImlhdCI6MTc0MTIzMDk2NiwiZXhwIjoxNzQxMjQxNzY2fQ.S3Ef9Grlpdu1wDL7IR5PEREVI71jRKricLRPJ8-zgek"
 
 ### log in de administrador
 POST http://localhost:8080/administradores/logIn
 Content-Type: application/json
 
 {
-    "cod_administrador": 7,
+    "cod_administrador": 6,
     "contrasenia": "123r"
 }
 
@@ -22,11 +22,11 @@ Content-Type: application/json
 {
     "nombre": "Juan",
     "apellido": "Lopez",
-    "dni": 343445,
+    "dni": 3434453,
     "fecha_ini_contrato": "2024-09-09",
     "fecha_fin_contrato": null,
     "contrasenia": "123r",
-    "es_especial": false
+    "es_especial": true
 }
 
 

@@ -11,7 +11,7 @@ declare global {
                 fecha_ini_contrato: req.body.fecha_ini_contrato,
                 fecha_fin_contrato: req.body.fecha_fin_contrato,
                 contrasenia: req.body.contrasenia,
-                permissions: req.body.permissions
+                es_especial: req.body.es_especial
             }
         }
     }

@@ -21,20 +21,7 @@ export class Celda {
     reclusos = new Collection<Recluso>(this);
 
     [PrimaryKeyProp] !: ['cod_celda', 'cod_sector'];
-    
-    public tengo_disponibilidad(){
-        if(this.reclusos.isInitialized()){
-            if(this.reclusos.length < this.capacidad){
-                return true
-            } else {
-                return false
-            }
-        } else {
-            return true
-        }
-    }
-    
-    
+
     async conseguir_reclusos_con_edad(edad_minima: number){
         let r = 0
         let reclusos_habiles : any[] | null = []

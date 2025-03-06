@@ -8,10 +8,10 @@ describe("crud de administrador", () => {
     let normal_token: string
 
     beforeAll(async () => {
-        const res = await request(url_base).post("/administradores/logIn").send({ cod_administrador: 6 , contrasenia: "123r"})
+        const res = await request(url_base).post("/administradores/logIn").send({ cod_administrador: 9 , contrasenia: "123r"})
         token = res.body.token
 
-        const normal_res = await request(url_base).post("/administradores/logIn").send({ cod_administrador: 5, contrasenia: "123r"})
+        const normal_res = await request(url_base).post("/administradores/logIn").send({ cod_administrador: 8, contrasenia: "123r"})
         normal_token = res.body.token
     });
 
@@ -40,7 +40,7 @@ describe("crud de administrador", () => {
         const new_admin = {
             nombre: "Juan",
             apellido: "Perez",
-            dni: 343436, //change this field once the test runs
+            dni: 3434356, //change this field once the test runs
             fecha_ini_contrato: "2024-09-09",
             fecha_fin_contrato: null,
             contrasenia: "123r",

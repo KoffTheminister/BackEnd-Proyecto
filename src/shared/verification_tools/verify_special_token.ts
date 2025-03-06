@@ -21,7 +21,7 @@ export async function verificar_special_token(req: Request, res: Response, next:
             fecha_ini_contrato: string;
             fecha_fin_contrato: string;
             contrasenia: string,
-            permissions: string[]
+            es_especial: boolean
         }
         req.administrador = {
             cod_administrador: decoded.cod_administrador,
@@ -31,10 +31,10 @@ export async function verificar_special_token(req: Request, res: Response, next:
             fecha_ini_contrato: decoded.fecha_ini_contrato,
             fecha_fin_contrato: decoded.fecha_fin_contrato,
             contrasenia: decoded.contrasenia,
-            permissions: decoded.permissions
+            es_especial: decoded.es_especial
         }
         console.log(req.administrador)
-        if(req.administrador.permissions.includes("*")){
+        if(req.administrador.es_especial){
             next()
         } else{
             res.status(403).json({status: 403, message: 'token invalida.'})

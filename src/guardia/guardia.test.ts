@@ -8,7 +8,7 @@ describe("crud de guardia", () => {
     let token: string
     
     beforeAll(async () => {
-        const res = await request(url_base).post("/administradores/logIn").send({ cod_administrador: 6, contrasenia: "123r"})
+        const res = await request(url_base).post("/administradores/logIn").send({ cod_administrador: 8, contrasenia: "123r"})
         token = res.body.token
     });
 
