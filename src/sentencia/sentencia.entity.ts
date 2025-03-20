@@ -20,10 +20,10 @@ export class Sentencia {
     @Property( {nullable: false, unique: false} )
     orden_de_gravedad !: number
 
-    @ManyToMany(() => Condena, (condena) => condena.sentencias, { unique : false, nullable : false, cascade: [Cascade.ALL], owner: false})
+    @ManyToMany(() => Condena, (condena) => condena.sentencias, { unique : false, nullable : true, cascade: [], owner: false})
     condenas = new Collection<Condena>(this);
 
-    @ManyToMany(() => Sector, (sector) => sector.sentencias, { unique : false, nullable : false, cascade: [Cascade.ALL], owner: false})
+    @ManyToMany(() => Sector, (sector) => sector.sentencias, { unique : false, nullable : true, cascade: [], owner: false})
     sectores = new Collection<Sector>(this);
 }
 

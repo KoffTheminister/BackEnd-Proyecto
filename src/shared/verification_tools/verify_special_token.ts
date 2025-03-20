@@ -33,7 +33,6 @@ export async function verificar_special_token(req: Request, res: Response, next:
             contrasenia: decoded.contrasenia,
             es_especial: decoded.es_especial
         }
-        console.log(req.administrador)
         if(req.administrador.es_especial){
             next()
         } else{

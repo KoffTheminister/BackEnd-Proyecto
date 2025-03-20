@@ -48,7 +48,7 @@ async function get_all(req:Request, res:Response){
 async function get_one(req: Request, res: Response){
     try {
         const dni = Number.parseInt(req.params.dni)
-        const rec = await em.findOne(Recluso, {dni: dni})
+        const rec = await em.findOne(Recluso, { dni: dni }, { populate: ['condenas']})
         if(rec != null){
             console.log(rec)
             res.status(201).json({ status: 201, data: rec } )
@@ -59,7 +59,6 @@ async function get_one(req: Request, res: Response){
         res.status(500).json({ status: 500, message: error.message})
     }
 }
-
 
 async function add(req: Request, res: Response){
     try{

@@ -1,6 +1,6 @@
 ### get administradores
 GET http://localhost:8080/administradores
-Authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RfYWRtaW5pc3RyYWRvciI6Niwibm9tYnJlIjoiSnVhbiIsImFwZWxsaWRvIjoiTG9wZXoiLCJkbmkiOjM0MzQ0NTMsImZlY2hhX2luaV9jb250cmF0byI6IjIwMjQtMDktMDlUMDA6MDA6MDAuMDAwWiIsImZlY2hhX2Zpbl9jb250cmF0byI6bnVsbCwiY29udHJhc2VuaWEiOiIkMmEkMTAkWWJwaTVUNTBMc3VUWUNMUjVrQ2dLT0Rvek9RTjdzSkRuY0hYVlMueThoY3JibTVqRlVxWmEiLCJwZXJtaXNzaW9ucyI6WyIqIl0sImlhdCI6MTc0MTIzMDk2NiwiZXhwIjoxNzQxMjQxNzY2fQ.S3Ef9Grlpdu1wDL7IR5PEREVI71jRKricLRPJ8-zgek"
+Authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RfYWRtaW5pc3RyYWRvciI6MSwibm9tYnJlIjoiSnVhbiIsImFwZWxsaWRvIjoiTG9wZXoiLCJkbmkiOjM0MzQ0NTMsImZlY2hhX2luaV9jb250cmF0byI6IjIwMjQtMDktMDlUMDA6MDA6MDAuMDAwWiIsImZlY2hhX2Zpbl9jb250cmF0byI6bnVsbCwiY29udHJhc2VuaWEiOiIkMmEkMTAkQmZDM3duTHlDMnllcVJPU2lyWVlDZU9tQTZhMExMR3VUN0VCYXkzdTJ5U1FHSFdBZ1hwckMiLCJlc19lc3BlY2lhbCI6dHJ1ZSwiaWF0IjoxNzQxOTYyNTU1LCJleHAiOjE3NDE5NzMzNTV9.i4hS2kiLY58R81oUrTlbxcz9JkBpcOSBWve-T7rXl1M"
 
 ### get administrador
 GET http://localhost:8080/administradores/1
@@ -11,7 +11,7 @@ POST http://localhost:8080/administradores/logIn
 Content-Type: application/json
 
 {
-    "cod_administrador": 6,
+    "cod_administrador": 1,
     "contrasenia": "123r"
 }
 
@@ -28,6 +28,10 @@ Content-Type: application/json
     "contrasenia": "123r",
     "es_especial": true
 }
+
+
+
+
 
 
 

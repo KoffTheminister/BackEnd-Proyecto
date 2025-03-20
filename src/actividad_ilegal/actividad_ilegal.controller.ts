@@ -26,13 +26,12 @@ async function sanitizar_input_de_actividad_ilegal(req : Request, res : Response
 
     const incoming = await validar_nueva_actividad_ilegal(req.body.sanitized_input)
     if(!incoming.success){
-        return res.status(400).json({status: 400, message: incoming.issues})
+        return res.status(400).json({status: 400, message: incoming.issues[0].message})
     }
     req.body.sanitized_input = incoming.output    
     
     next()
 }
-
 
 async function sanitizar_update_de_actividad_ilegal(req : Request, res : Response, next: NextFunction){
     req.body.sanitized_input = {
@@ -61,7 +60,11 @@ async function sanitizar_update_de_actividad_ilegal(req : Request, res : Respons
 async function get_all(req:Request, res:Response){
     try{
         const actividades_ilegales = await em.find(Actividad_Ilegal, {estado: true})
-        res.status(201).json({ status: 201, data: actividades_ilegales})
+        if(actividades_ilegales.length > 0){
+            res.status(201).json({ status: 201, data: actividades_ilegales})
+        } else {
+            res.status(404).json({ status: 404})
+        }
     } catch (error: any) {
         res.status(500).json({ status: 500 })
     }

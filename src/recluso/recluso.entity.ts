@@ -38,9 +38,7 @@ export class Recluso {
         try{
             if(this.condenas.isInitialized()){
                 while(i < this.condenas.length){
-                    if(this.condenas[i].fecha_fin_real == null){
-                        return true
-                    }
+                    if(this.condenas[i].fecha_fin_real == null) return true
                     i++
                 }
             } else {
