@@ -13,19 +13,17 @@ export class Administrador {
 
     @Property({ nullable: false})
     dni !: number
-
-    @Property({ nullable: false})
-    fecha_ini_contrato !: Date
-
-    @Property({ nullable: true, default: null})
-    fecha_fin_contrato ?: Date
-
+    
     @Property({nullable: false})
     contrasenia !: string
 
     @Property({nullable: false})
     es_especial !: boolean
     
+    toJSON(){
+        const { contrasenia, es_especial, ...safeUser } = this
+        return safeUser
+    }
 }   
 
 

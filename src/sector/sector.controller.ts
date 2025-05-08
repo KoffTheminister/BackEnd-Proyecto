@@ -3,6 +3,7 @@ import { orm } from "../shared/db/orm.js"
 import { Sector } from "./sector.entity.js"
 import { get_sentencias_especificas } from "../sentencia/sentencia.controller.js"
 import { Sentencia } from "../sentencia/sentencia.entity.js"
+import { throw500 } from "../shared/handle_server_side_errors/server_error_handler.js"
 
 const em = orm.em
 em.getRepository(Sector)
@@ -10,9 +11,13 @@ em.getRepository(Sector)
 async function get_all(req:Request, res:Response){
     try{
         const sectores = await em.find(Sector, {})
-        res.status(201).json({ status: 201, data: sectores})
+        if(sectores){
+            res.status(201).json({ status: 201, data: sectores})
+        } else {
+            res.status(404).json({ status: 404})
+        }
     } catch (error: any) {
-        res.status(404).json({ status: 404})
+        throw500(res)
     }
 }
 
@@ -23,23 +28,26 @@ async function get_sector(cod_sector: number) {
 async function get_one(req: Request, res: Response){
     try {
         const cod_sector =  Number.parseInt(req.params.cod_sector) 
-        const el_sector = await em.findOneOrFail(Sector, { cod_sector: cod_sector }, {populate: ['celdas', 'sentencias', 'turnos']})
-        res.status(201).json({ status: 201, data: el_sector } )
+        const el_sector = await em.findOne(Sector, { cod_sector: cod_sector }, {populate: ['celdas', 'sentencias', 'turnos']})
+        if(el_sector){
+            res.status(201).json({ status: 201, data: el_sector})
+        } else {
+            res.status(404).json({ status: 404})
+        }
     } catch (error: any){
-        res.status(404).json({status: 404})
+        throw500(res)
     }
 }
 
 async function get_sectores_con_sentencia(la_sentencia: Sentencia){
-    let sectores_con_sentencia: any[] = []
-    const sectores = await em.find(Sector, {}, {populate: ['sentencias', 'celdas']})
-    let i = 0
-    while(i < sectores.length){
-        if(sectores[i].sentencias.contains(la_sentencia)){
-            sectores_con_sentencia.push(sectores[i])
-        }
-        i++
-    }
+    const qb = em.createQueryBuilder(Sector, 's');
+    const sectores_con_sentencia = await qb
+      .select('*')
+      .join('s.sentencias', 'sent')
+      .joinAndSelect('s.celdas', 'cel')
+      .where({ 'sent.cod_sentencia': la_sentencia.cod_sentencia })
+      .getResult()
+    console.log(sectores_con_sentencia)
     return sectores_con_sentencia
 }
 

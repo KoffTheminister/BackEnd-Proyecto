@@ -8,8 +8,6 @@ declare global {
                 nombre: req.body.nombre,
                 apellido: req.body.apellido,
                 dni: req.body.dni,
-                fecha_ini_contrato: req.body.fecha_ini_contrato,
-                fecha_fin_contrato: req.body.fecha_fin_contrato,
                 contrasenia: req.body.contrasenia,
                 es_especial: req.body.es_especial
             }
@@ -17,16 +15,5 @@ declare global {
     }
 }
 
-/*
-const userPayload = {
-    sub: "user123",
-    role: "restricted",
-    permissions: ["component1", "component2", "component3"]
-};
 
-const adminPayload = {
-    sub: "admin456",
-    role: "admin",
-    permissions: ["*"]
-};
-*/
+

@@ -15,6 +15,7 @@ import { condena_router } from './condena/condena.routes.js'
 import { recluso_router } from './recluso/recluso.routes.js'
 import { turno_router } from './turno/turno.routes.js'
 import { actividad_ilegal_router } from './actividad_ilegal/actividad_ilegal.routes.js'
+import { verify_router } from './shared/verification_tools/verify.routes.js'
 
 dotenv.config()
 const server_port = process.env.server_port
@@ -39,6 +40,7 @@ app.use('/condenas', condena_router)
 app.use('/sectores', sector_router)
 app.use('/celdas', celda_router)
 app.use('/sectores/turnos', turno_router)
+app.use('/verificar_token', verify_router)
 app.use((_, res) => {
     return res.status(404).send({ message: 'Resource not found' })
 })

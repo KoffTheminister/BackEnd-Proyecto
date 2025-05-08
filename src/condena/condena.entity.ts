@@ -23,24 +23,6 @@ export class Condena {
 
     [PrimaryKeyProp] !: ['cod_recluso', 'fecha_ini']
     
-    async agregar_sentencias(unas_sentencias: Sentencia[], em: EntityManager){
-        /*
-        let duracion_en_anios = 0
-
-        for (const una_sentencia of unas_sentencias) {
-            this.sentencias.add(una_sentencia)
-            duracion_en_anios += una_sentencia.duracion_anios
-        }
-        await em.flush()
-
-        let fecha = new Date()
-        let la_fecha_estimada = { fecha_fin_real: new Date(fecha.setFullYear(fecha.getFullYear() + duracion_en_anios)) }
-        em.assign(this, la_fecha_estimada);
-        //await em.persistAndFlush(this)
-
-        await em.flush()
-        */
-    }
 }
 
 

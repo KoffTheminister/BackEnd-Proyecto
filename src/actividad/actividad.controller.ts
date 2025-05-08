@@ -20,23 +20,14 @@ async function sanitizar_input_de_actividad(req : Request, res : Response, next:
         cod_sector: req.body.cod_sector        
     }
 
-    
-    for (const key of Object.keys(req.body.sanitized_input)) {
-        if (req.body.sanitized_input[key] === undefined) {
-            return res.status(400).json({ status: 400, message: 'faltan atributos' });
-        }
-    }
+    for (const key of Object.keys(req.body.sanitized_input)) if(req.body.sanitized_input[key] === undefined) return res.status(400).json({ status: 400, message: `Falta el campo ${key}`});
 
     const incoming = await validar_nueva_actividad(req.body.sanitized_input)
-    if(!incoming.success){
-        return res.status(400).json({status: 400, message: incoming.issues})
-    }
+    if(!incoming.success) return res.status(400).json({status: 400, message: incoming.issues})
     req.body.sanitized_input = incoming.output
 
     req.body.sanitized_input.cod_sector = await get_sector(req.body.sanitized_input.cod_sector)
-    if(req.body.sanitized_input.cod_sector == null){
-        return res.status(404).json({ message: 'sector invalido'})
-    }
+    if(req.body.sanitized_input.cod_sector == null) return res.status(404).json({ message: 'sector invalido'})
     next()
 }
 
@@ -52,7 +43,7 @@ async function get_all(req:Request, res:Response){
 async function get_one(req: Request, res: Response){
     try {
         const cod_actividad =  Number.parseInt(req.params.cod_actividad)
-        const la_actividad = await em.findOneOrFail(Actividad, { cod_actividad: cod_actividad , estado: true}, {populate: ['reclusos']}) 
+        const la_actividad = await em.findOneOrFail(Actividad, { cod_actividad: cod_actividad , estado: true}, { populate: ['reclusos'] }) 
         res.status(201).json({ status: 201, data: la_actividad} )
     } catch (error: any){
         res.status(404).json({ status: 404})
@@ -69,7 +60,7 @@ async function add(req: Request, res: Response){
             await em.flush()
             res.status(201).json({ status: 201, data: reclusos_validos})
         } else if (reclusos_validos.length < req.body.cantidad_minima){
-            res.status(404).json({ status: 404, message: 'no existen suficientes reclusos en el sector con la edad minima'})
+            res.status(404).json({ status: 409, message: 'no existen suficientes reclusos en el sector con la edad minima'})
         } else if (actividad != null){
             res.status(409).json({ status: 409, message: 'la actividad no puede ser creada debido a que pisaria a otra'})
         }
@@ -96,6 +87,7 @@ async function update(req: Request, res: Response) {
 }
 
 export { get_all, get_one, add, update, sanitizar_input_de_actividad }
+
 
 
 

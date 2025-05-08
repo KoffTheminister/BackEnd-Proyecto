@@ -5,6 +5,7 @@ import { Sentencia } from "../sentencia/sentencia.entity.js"
 import { buscar_recluso, get_one } from "../recluso/recluso.controller.js"
 import { get_sentencias_especificas } from "../sentencia/sentencia.controller.js"
 import { get_sectores_con_sentencia } from "../sector/sector.controller.js"
+import { throw500 } from "../shared/handle_server_side_errors/server_error_handler.js"
 
 const em = orm.em
 
@@ -32,29 +33,23 @@ async function get_all(req:Request, res:Response){
         const condenas = await em.find(Condena, {fecha_fin_real: null}, {populate: ['sentencias'], orderBy: {'fecha_ini': 'DESC'}})
         res.status(201).json({ message: 'las condenas:', data: condenas})
     } catch (error: any) {
-        res.status(500).json({ message: error.message})
+        throw500(res)
     }
 }
 
 async function add(req: Request, res: Response){
     try{
         const nueva_condena = em.create(Condena, req.body.sanitized_input)
-        await em.flush()
         const mis_sentencias = await get_sentencias_especificas(req.body.cod_sentencias)
-        //await nueva_condena.agregar_sentencias(mis_sentencias, em)
-
         let duracion_en_anios = 0
         for (const una_sentencia of mis_sentencias) {
             nueva_condena.sentencias.add(una_sentencia)
             duracion_en_anios += una_sentencia.duracion_anios
         }
-        await em.flush()
         let fecha = new Date()
         let la_fecha_estimada = { fecha_fin_estimada: new Date(fecha.setFullYear(fecha.getFullYear() + duracion_en_anios)) }
-        em.assign(nueva_condena, la_fecha_estimada);
-        //await em.persistAndFlush(this)
+        await em.assign(nueva_condena, la_fecha_estimada)
         await em.flush()
-
 
         let la_sentencia_maxima: Sentencia = mis_sentencias[0]
         let i = 1
@@ -67,27 +62,25 @@ async function add(req: Request, res: Response){
         let j = 0
         while(j < los_sectores.length){
             let la_celda = await los_sectores[j].encarcelar_recluso(nueva_condena.cod_recluso, em)
-            console.log(nueva_condena)
             if(la_celda != null) return res.status(201).json({ status: 201, celda: la_celda})
             j++
         }
 
-        console.log(nueva_condena)
         await em.remove(nueva_condena)
         await em.flush() // esto es en caso de que no se encuentre lugar
         return res.status(409).json({ status: 409 })
 
-
     } catch (error: any) {
-        res.status(500).json({message : error.message})
+        console.log(error.message)
+        throw500(res)
     }
 }
 
 async function finalizar_condenas(req:Request, res:Response){
     try{
-        const today = new Date();
+        const today = new Date()
+        
         const condenas = await em.find(Condena, {fecha_fin_real: null, fecha_fin_estimada: { $lt: today }}, { populate: ['cod_recluso'] })
-
         if(condenas.length != 0){
             let reclusos:any = []
             let i = 0
@@ -108,8 +101,13 @@ async function finalizar_condenas(req:Request, res:Response){
         } else {
             res.status(404).json({ status: 404, message: 'no se tienen que terminar condenas'})
         }
+        
+        // const qb = em.createQueryBuilder(Condena);
+        // await qb.update({ fecha_fin_real: today}).where({fecha_fin_real: null, fecha_fin_estimada: { $lt: today }}) // si solo se tuviese que dar fin a la condena enteonces se
+        // podria hacer el query builder, pero en este caso tambien se tiene que terminar la estadia del recluso en la celda asi que no se puede
+        
     } catch (error: any) {
-        res.status(500).json({ message: error.message})
+        throw500(res)
     }
 }
 

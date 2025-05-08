@@ -17,13 +17,13 @@ export class Sector {
     @Property({ nullable: false, unique: false})
     descripcion !: string
     
-    @ManyToMany(() => Sentencia, (sentencia) => sentencia.sectores, { unique : false, nullable : false, cascade: [Cascade.CANCEL_ORPHAN_REMOVAL, Cascade.PERSIST, Cascade.MERGE ], owner: true})
+    @ManyToMany(() => Sentencia, (sentencia) => sentencia.sectores, { unique : false, nullable : true, cascade: [Cascade.PERSIST], owner: true})
     sentencias = new Collection<Sentencia>(this);
 
-    @OneToMany(() => Celda, (celda) => celda.cod_sector, { unique : false, nullable : false, cascade: [Cascade.ALL]})
+    @OneToMany(() => Celda, (celda) => celda.cod_sector, { unique : false, nullable : true, cascade: [Cascade.ALL]})
     celdas = new Collection<Celda>(this);
 
-    @OneToMany(() => Turno, (turno) => turno.cod_sector)
+    @OneToMany(() => Turno, (turno) => turno.cod_sector, {cascade: [Cascade.REMOVE]})
     turnos = new Collection<Turno>(this)
 
     async agregar_sentencias(unas_sentencias: Sentencia[], em: EntityManager){
@@ -40,7 +40,6 @@ export class Sector {
         return unas_sentencias
     }
 
-    
     async conseguir_reclusos_con_edad(edad_minima: number){
         
         let c = 0
@@ -60,9 +59,7 @@ export class Sector {
         let c = 0
         while(c < this.celdas.length){
             let la_celda = await this.celdas[c].encarcelar_recluso(un_recluso, em)
-            if(la_celda != null){
-                return la_celda
-            }
+            if(la_celda != null) return la_celda
             c++
         }
         return null

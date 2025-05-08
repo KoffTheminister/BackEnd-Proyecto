@@ -1,6 +1,6 @@
 ### get administradores
 GET http://localhost:8080/administradores
-Authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RfYWRtaW5pc3RyYWRvciI6MSwibm9tYnJlIjoiSnVhbiIsImFwZWxsaWRvIjoiTG9wZXoiLCJkbmkiOjM0MzQ0NTMsImZlY2hhX2luaV9jb250cmF0byI6IjIwMjQtMDktMDlUMDA6MDA6MDAuMDAwWiIsImZlY2hhX2Zpbl9jb250cmF0byI6bnVsbCwiY29udHJhc2VuaWEiOiIkMmEkMTAkQmZDM3duTHlDMnllcVJPU2lyWVlDZU9tQTZhMExMR3VUN0VCYXkzdTJ5U1FHSFdBZ1hwckMiLCJlc19lc3BlY2lhbCI6dHJ1ZSwiaWF0IjoxNzQxOTYyNTU1LCJleHAiOjE3NDE5NzMzNTV9.i4hS2kiLY58R81oUrTlbxcz9JkBpcOSBWve-T7rXl1M"
+Authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RfYWRtaW5pc3RyYWRvciI6OSwibm9tYnJlIjoiSnVhbiIsImFwZWxsaWRvIjoiTG9wZXoiLCJkbmkiOjM0MzQ0NTgzLCJjb250cmFzZW5pYSI6IiQyYSQxMCRrUG9FMFd6dW0vNnlrVFRLLkNLSVAudTNBQlN0aGFMWmIyMS8waGcwRndRQ2Z1WVZFNUxrYSIsImVzX2VzcGVjaWFsIjp0cnVlLCJpYXQiOjE3NDI1OTUxMjEsImV4cCI6MTc0MjYwNTkyMX0.lmm8d3Dd5ATk_Qdi6R4VyL-XzS_i84JdLjWk2rdnXnk"
 
 ### get administrador
 GET http://localhost:8080/administradores/1
@@ -22,9 +22,7 @@ Content-Type: application/json
 {
     "nombre": "Juan",
     "apellido": "Lopez",
-    "dni": 3434453,
-    "fecha_ini_contrato": "2024-09-09",
-    "fecha_fin_contrato": null,
+    "dni": 34344583,
     "contrasenia": "123r",
     "es_especial": true
 }

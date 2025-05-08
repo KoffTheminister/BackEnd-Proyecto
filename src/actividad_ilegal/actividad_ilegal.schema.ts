@@ -59,18 +59,9 @@ const actividad_ilegal_schema = v.object({
     dia_de_la_semana: dia_de_la_semana,
     hora_inicio: hora_inicio,
     hora_fin: hora_fin,
-    estado: v.boolean(),
     cantidad_maxima: cantidad_maxima
 })
 
-const actividad_ilegal_schema_for_update = v.object({
-    nombre: v.optional(nombre),
-    descripcion: v.optional(descripcion),
-    locacion: v.optional(locacion),
-    estado: v.optional(v.boolean())
-})
-
 export const validar_nueva_actividad_ilegal = v.safeParserAsync(actividad_ilegal_schema)
-export const validar_update_actividad_ilegal = v.safeParserAsync(actividad_ilegal_schema_for_update)
 
 

@@ -17,8 +17,6 @@ export async function verificar_token(req: Request, res: Response, next: NextFun
             nombre: string;
             apellido: string;
             dni: string;
-            fecha_ini_contrato: string;
-            fecha_fin_contrato: string;
             contrasenia: string,
             es_especial: boolean
         };
@@ -27,8 +25,6 @@ export async function verificar_token(req: Request, res: Response, next: NextFun
             nombre: decoded.nombre,
             apellido: decoded.apellido,
             dni: decoded.dni,
-            fecha_ini_contrato: decoded.fecha_ini_contrato,
-            fecha_fin_contrato: decoded.fecha_fin_contrato,
             contrasenia: decoded.contrasenia,
             es_especial: decoded.es_especial
         }

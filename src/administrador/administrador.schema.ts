@@ -58,7 +58,6 @@ const admin_schema = v.object({
     nombre: nombre,
     apellido: apellido,
     dni: dni,
-    fecha_ini_contrato: v.date(),
     contrasenia: contrasenia,
     es_especial: v.boolean()
 })

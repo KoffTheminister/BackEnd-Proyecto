@@ -1,4 +1,4 @@
-import { Collection, Entity, OneToMany, PrimaryKey, Property } from "@mikro-orm/core";
+import { Cascade, Collection, Entity, OneToMany, PrimaryKey, Property } from "@mikro-orm/core";
 import { Turno } from "../turno/turno.entity.js";
 import { EntityManager } from "@mikro-orm/mysql";
 
@@ -22,20 +22,14 @@ export class Guardia {
     @Property({ nullable: true})
     fecha_fin_contrato ?: Date | null
 
-    @OneToMany(() => Turno, (turno) => turno.cod_guardia)
+    @OneToMany(() => Turno, (turno) => turno.cod_guardia, {cascade: [Cascade.REMOVE]})
     turnos = new Collection<Turno>(this)
 
     async desvincular_turnos(em: EntityManager){
         let i = 0
         if(this.turnos.isInitialized()){
-            while (i < this.turnos.length) {
-                try {
-                    await em.remove(this.turnos[i])
-                    await em.flush()
-                } catch (error: any) {
-                    console.log(error.message)
-                }
-            }
+            await em.remove(this.turnos);
+            await em.flush()
         }
     }
 

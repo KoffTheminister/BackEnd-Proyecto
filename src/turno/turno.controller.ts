@@ -16,29 +16,15 @@ async function sanitizar_input_de_turno(req: Request, res: Response, next: NextF
         cod_sector: req.body.cod_sector
     }
 
-    for (const key of Object.keys(req.body.sanitized_input)) {
-        if (req.body.sanitized_input[key] === undefined) {
-            return res.status(400).json({ status: 400, message: `Falta el campo ${key}` });
-        }
-    }
+    for (const key of Object.keys(req.body.sanitized_input)) if(req.body.sanitized_input[key] === undefined) return res.status(400).json({ status: 400, message: `Falta el campo ${key}` })
 
-    if (!turnos_posibles.includes(req.body.sanitized_input.turno)){
-        return res.status(400).json({ message: 'el turno ingresado no corresponde ni con la mañana ni con la tarde ni con la noche'})
-    }
+    if(!turnos_posibles.includes(req.body.sanitized_input.turno)) return res.status(400).json({ message: 'el turno ingresado no corresponde ni con la mañana ni con la tarde ni con la noche'})
     
-    let cod_guardia = await get_guardia(req.body.cod_guardia)
-    if(cod_guardia == null){
-        return res.status(404).json({ message: 'guardia no encontrado'})
-    }else{
-        req.body.sanitized_input.cod_guardia = cod_guardia
-    }
+    req.body.sanitized_input.cod_guardia = get_guardia(req.body.cod_guardia)
+    if(req.body.sanitized_input.cod_guardia == null) return res.status(404).json({ message: 'guardia no encontrado'})
 
-    let cod_sector = await get_sector(req.body.cod_sector)
-    if(cod_sector == null){
-        return res.status(404).json({ message: 'sector no encontrado'})
-    }else{
-        req.body.sanitized_input.cod_sector = cod_sector
-    }
+    req.body.sanitized_input.cod_sector = await get_sector(req.body.cod_sector)
+    if(req.body.sanitized_input.cod_sector == null) return res.status(404).json({ message: 'sector no encontrado'})
     
     next()
 }
@@ -89,3 +75,5 @@ async function end_turno(req:Request, res:Response) {
 }
 
 export { get_from_sector, add_turno, end_turno, sanitizar_input_de_turno }
+
+
