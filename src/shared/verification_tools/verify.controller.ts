@@ -33,7 +33,7 @@ export function verify(req: Request, res: Response){
         //console.log(error.message)
         res.status(403).json({status: 403})
     }
-}       
+}
 
 export function verify_special(req: Request, res: Response){
     let token = req.header("Authorization")?.replace('Bearer ', '').trim().replace(/^"|"$/g, '')
@@ -69,5 +69,6 @@ export function verify_special(req: Request, res: Response){
     }
 }       
     
+
 
 

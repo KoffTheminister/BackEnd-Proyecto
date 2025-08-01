@@ -67,7 +67,6 @@ async function log_in_jwt(req: Request, res: Response){
         const cod_administrador = Number.parseInt(req.body.cod_administrador) 
         const el_admin = await em.findOne(Administrador, { cod_administrador })
         if(el_admin == null) return res.status(404).json({ status: 404 } )
-        
         if(!(await bcrypt.compare(req.body.contrasenia, el_admin.contrasenia))) return res.status(409).json({ status: 409})
         
         const token = jwt.sign({
@@ -82,7 +81,6 @@ async function log_in_jwt(req: Request, res: Response){
     } catch(error:any){
         throw500(res)
     }
-
 }
 
 async function get_all(req:Request, res:Response){

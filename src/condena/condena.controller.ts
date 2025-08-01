@@ -6,6 +6,7 @@ import { buscar_recluso, get_one } from "../recluso/recluso.controller.js"
 import { get_sentencias_especificas } from "../sentencia/sentencia.controller.js"
 import { get_sectores_con_sentencia } from "../sector/sector.controller.js"
 import { throw500 } from "../shared/handle_server_side_errors/server_error_handler.js"
+import { Recluso } from "../recluso/recluso.entity.js"
 
 const em = orm.em
 
@@ -82,22 +83,25 @@ async function finalizar_condenas(req:Request, res:Response){
         
         const condenas = await em.find(Condena, {fecha_fin_real: null, fecha_fin_estimada: { $lt: today }}, { populate: ['cod_recluso'] })
         if(condenas.length != 0){
-            let reclusos:any = []
+            let reclusos: Recluso[] = []
             let i = 0
-            await em.populate(reclusos, ['celda']);
             while(i < condenas.length){
                 reclusos.push(condenas[i].cod_recluso)
                 condenas[i].fecha_fin_real = today
-                condenas[i].cod_recluso.celda = null
                 i++
             }
-            console.log(reclusos)
-            res.status(201).json({ status: 201, data: reclusos})
-            while(i < condenas.length){
-                condenas[i].cod_recluso.celda = null
-                await em.flush()
-                i++
-            }
+
+            await em.populate(reclusos, ['celda']); // si no funca es porque no hay celdas relacionadas.
+            res.status(201).json({ status: 201, data: reclusos })
+
+            const cods = reclusos.map(r => r.cod_recluso);
+
+            await em.createQueryBuilder(Recluso)
+            .update({ celda: null })
+            .where({ cod_recluso: { $in: cods } })
+            .execute();
+
+            await em.flush();
         } else {
             res.status(404).json({ status: 404, message: 'no se tienen que terminar condenas'})
         }

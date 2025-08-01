@@ -26,10 +26,9 @@ export class Guardia {
     turnos = new Collection<Turno>(this)
 
     async desvincular_turnos(em: EntityManager){
-        let i = 0
         if(this.turnos.isInitialized()){
-            await em.remove(this.turnos);
-            await em.flush()
+            await em.remove(this.turnos.getItems());
+            await em.flush();
         }
     }
 

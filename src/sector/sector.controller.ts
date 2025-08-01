@@ -40,15 +40,9 @@ async function get_one(req: Request, res: Response){
 }
 
 async function get_sectores_con_sentencia(la_sentencia: Sentencia){
-    const qb = em.createQueryBuilder(Sector, 's');
-    const sectores_con_sentencia = await qb
-      .select('*')
-      .join('s.sentencias', 'sent')
-      .joinAndSelect('s.celdas', 'cel')
-      .where({ 'sent.cod_sentencia': la_sentencia.cod_sentencia })
-      .getResult()
-    console.log(sectores_con_sentencia)
-    return sectores_con_sentencia
+    const sectores = await em.find(Sector, { sentencias: { cod_sentencia: la_sentencia.cod_sentencia } }, {populate: ['celdas']});
+    console.log(sectores)
+    return sectores
 }
 
 async function get_celdas(req: Request, res: Response){
