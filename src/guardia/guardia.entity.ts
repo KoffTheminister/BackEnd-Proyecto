@@ -25,12 +25,12 @@ export class Guardia {
     @OneToMany(() => Turno, (turno) => turno.cod_guardia, {cascade: [Cascade.REMOVE]})
     turnos = new Collection<Turno>(this)
 
-    async desvincular_turnos(em: EntityManager){
-        if(this.turnos.isInitialized()){
-            await em.remove(this.turnos.getItems());
-            await em.flush();
-        }
-    }
+    // async desvincular_turnos(em: EntityManager){
+    //     if(this.turnos.isInitialized()){
+    //         await em.remove(this.turnos.getItems());
+    //         await em.flush();
+    //     }
+    // } ahora se hace en el controller.
 
     esta_activo() {
         if(this.fecha_fin_contrato == null){

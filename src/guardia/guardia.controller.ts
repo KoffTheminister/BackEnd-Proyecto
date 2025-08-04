@@ -86,10 +86,15 @@ async function finalizar_contrato(req: Request, res: Response){
     try{
         const cod_guardia =  Number.parseInt(req.body.cod_guardia)
         const el_guardia = await em.findOne(Guardia, { cod_guardia: cod_guardia }, {populate: ['turnos']})
+        console.log(el_guardia);
         if(el_guardia != null){
             if(el_guardia.fecha_fin_contrato == null){
                 el_guardia.fecha_fin_contrato = new Date()
-                el_guardia.desvincular_turnos(em)
+                //el_guardia.desvincular_turnos(em)
+                if(el_guardia.turnos.isInitialized()){
+                    await em.remove(el_guardia.turnos.getItems());
+                    await em.flush();
+                }
                 res.status(201).json({status: 201})
             } else {
                 res.status(409).json({status: 409})
@@ -99,6 +104,7 @@ async function finalizar_contrato(req: Request, res: Response){
         }
     } catch (error: any) {
         throw500(res)
+        console.log(error.message);
     }
 }
 

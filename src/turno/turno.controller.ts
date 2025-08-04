@@ -20,7 +20,7 @@ async function sanitizar_input_de_turno(req: Request, res: Response, next: NextF
 
     if(!turnos_posibles.includes(req.body.sanitized_input.turno)) return res.status(400).json({ message: 'el turno ingresado no corresponde ni con la mañana ni con la tarde ni con la noche'})
     
-    req.body.sanitized_input.cod_guardia = get_guardia(req.body.cod_guardia)
+    req.body.sanitized_input.cod_guardia = await get_guardia(req.body.cod_guardia)
     if(req.body.sanitized_input.cod_guardia == null) return res.status(404).json({ message: 'guardia no encontrado'})
 
     req.body.sanitized_input.cod_sector = await get_sector(req.body.cod_sector)
