@@ -6,7 +6,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 const JWT_SECRET = process.env.JWT_SECRET as string
 
-export async function verificar_token(req: Request, res: Response, next: NextFunction){
+export async function verificar_token(req: Request, res: Response, next: NextFunction | undefined){
     let token = req.header("Authorization")?.replace('Bearer ', '').trim().replace(/^"|"$/g, '')
     if(!token){
         return res.status(401).json({status: 401, message: 'missing token'})
@@ -28,11 +28,10 @@ export async function verificar_token(req: Request, res: Response, next: NextFun
             contrasenia: decoded.contrasenia,
             es_especial: decoded.es_especial
         }
-        
-        next()
+        if(next != undefined) next()
     } catch(error: any){
         console.log(error.message)
-        res.status(403).json({status: 403})
+        return res.status(403).json({status: 403})
     }
 }       
 

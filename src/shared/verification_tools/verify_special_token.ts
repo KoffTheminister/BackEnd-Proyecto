@@ -6,7 +6,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 const JWT_SECRET = process.env.JWT_SECRET as string
 
-export async function verificar_special_token(req: Request, res: Response, next: NextFunction){
+export async function verificar_special_token(req: Request, res: Response, next: NextFunction | undefined){
     let token = req.header("Authorization")?.replace('Bearer ', '').trim().replace(/^"|"$/g, '')
     if(!token){
         return res.status(401).json({status: 401, message: 'token faltante.'})
@@ -30,16 +30,19 @@ export async function verificar_special_token(req: Request, res: Response, next:
             es_especial: decoded.es_especial
         }
         if(req.administrador.es_especial){
-            next()
+            if(next != undefined) {
+                next()
+            } else {
+                return res.status(200).json({status: 200})
+            }
         } else{
-            res.status(403).json({status: 403, message: 'token invalida.'})
+            return res.status(403).json({status: 403, message: 'token invalida.'})
         }
     } catch(error: any){
         console.log(error.message)
-        res.status(403).json({status: 403, message: 'token invalida.'})
+        return res.status(403).json({status: 403, message: 'token invalida.'})
     }
 }
-
 
 
 

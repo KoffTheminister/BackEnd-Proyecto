@@ -22,7 +22,7 @@ async function get_all(req:Request, res:Response){
 }
 
 async function get_sector(cod_sector: number) {
-    return await em.findOne(Sector, { cod_sector }, {populate: ['celdas', 'sentencias', 'turnos']})
+    return await em.findOne(Sector, { cod_sector }, {populate: ['celdas', 'sentencias', 'turnos.cod_guardia']})
 }
 
 async function get_one(req: Request, res: Response){

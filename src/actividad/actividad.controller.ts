@@ -14,20 +14,25 @@ async function sanitizar_input_de_actividad(req : Request, res : Response, next:
         dia_de_la_semana: req.body.dia_de_la_semana,
         hora_inicio: req.body.hora_inicio,
         hora_fin: req.body.hora_fin,
-        estado: req.body.estado,
+        estado: true,
         cantidad_minima: req.body.cantidad_minima,
         edad_minima: req.body.edad_minima,
         cod_sector: req.body.cod_sector        
     }
-
-    for (const key of Object.keys(req.body.sanitized_input)) if(req.body.sanitized_input[key] === undefined) return res.status(400).json({ status: 400, message: `Falta el campo ${key}`});
-
+    for (const key of Object.keys(req.body.sanitized_input)) {
+        if(req.body.sanitized_input[key] === undefined){
+            return res.status(400).json({ status: 400, message: `Falta el campo ${key}`});
+        }
+    }
     const incoming = await validar_nueva_actividad(req.body.sanitized_input)
-    if(!incoming.success) return res.status(400).json({status: 400, message: incoming.issues})
+    if(!incoming.success){
+        return res.status(400).json({status: 400, message: incoming.issues[0].message})
+    }
     req.body.sanitized_input = incoming.output
 
     req.body.sanitized_input.cod_sector = await get_sector(req.body.sanitized_input.cod_sector)
     if(req.body.sanitized_input.cod_sector == null) return res.status(404).json({ message: 'sector invalido'})
+    console.log(req.body.sanitized_input)
     next()
 }
 
@@ -60,7 +65,7 @@ async function add(req: Request, res: Response){
             await em.flush()
             res.status(201).json({ status: 201, data: reclusos_validos})
         } else if (reclusos_validos.length < req.body.cantidad_minima){
-            res.status(404).json({ status: 409, message: 'no existen suficientes reclusos en el sector con la edad minima'})
+            res.status(409).json({ status: 409, message: 'no existen suficientes reclusos en el sector con la edad minima'})
         } else if (actividad != null){
             res.status(409).json({ status: 409, message: 'la actividad no puede ser creada debido a que pisaria a otra'})
         }

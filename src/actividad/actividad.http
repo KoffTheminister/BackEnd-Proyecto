@@ -7,7 +7,7 @@ GET http://localhost:8080/actividades/1
 
 ### POST an actividad
 POST http://localhost:8080/actividades
-Authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RfYWRtaW5pc3RyYWRvciI6Niwibm9tYnJlIjoiSnVhbiIsImFwZWxsaWRvIjoiR2FyY2lhIiwiZG5pIjozNDM0NCwiZmVjaGFfaW5pX2NvbnRyYXRvIjoiMjAyNC0wOS0wOVQwMDowMDowMC4wMDBaIiwiZmVjaGFfZmluX2NvbnRyYXRvIjpudWxsLCJjb250cmFzZW5pYSI6IiQyYSQxMCRJRlFhaXJxNjhKUWdhN1VJemRiMmh1THNhWkxqV1NsN0p6OFdEbmV3eTJXVFpZd29uZERPdSIsImlhdCI6MTczOTcyODk2OCwiZXhwIjoxNzM5NzM5NzY4fQ.zUXVdTJWCQXs_sLA0JndqO9tjAK-JMg8z9ike60xjcg"
+Authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2RfYWRtaW5pc3RyYWRvciI6MSwibm9tYnJlIjoiSnVhbiIsImFwZWxsaWRvIjoiTG9wZXoiLCJkbmkiOjM0MzQ0NTgzLCJjb250cmFzZW5pYSI6IiQyYSQxMCRybG1BaWV0bkJTdFRpck9SWHdHYk1lL2JqYmcxMFA0TkRMbGs2WE5JZjFIVEtGcUlicjBzSyIsImVzX2VzcGVjaWFsIjp0cnVlLCJpYXQiOjE3NTQ4NjIyODgsImV4cCI6MTc1NDg3MzA4OH0.cJPqKxnW9E6OXZ9qprQroAdSP8Kb6bawktWyR5aortA"
 Content-Type: application/json
 
 {
@@ -17,7 +17,6 @@ Content-Type: application/json
     "dia_de_la_semana": 4, 
     "hora_inicio": 23, 
     "hora_fin": 24,
-    "estado": true,
     "cantidad_minima": 4,
     "edad_minima": 20, 
     "cod_sector": 4

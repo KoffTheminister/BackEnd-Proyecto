@@ -71,18 +71,24 @@ const cod_sector = v.pipe(
 )
 
 
-const actividad_schema = v.object({
-    nombre: nombre,
-    descripcion: descripcion,
-    locacion: locacion,
-    estado: v.boolean("el estado de la actividad debe de ser un booleano"),
-    dia_de_la_semana: dia_de_la_semana,
-    hora_inicio: hora_inicio,
-    hora_fin: hora_fin,
-    edad_minima: edad_minima,
-    cantidad_minima: cantidad_minima,
-    cod_sector: cod_sector
-})
+const actividad_schema = v.pipe(
+    v.object({
+        nombre: nombre,
+        descripcion: descripcion,
+        locacion: locacion,
+        estado: v.boolean("el estado de la actividad debe de ser un booleano"),
+        dia_de_la_semana: dia_de_la_semana,
+        hora_inicio: hora_inicio,
+        hora_fin: hora_fin,
+        edad_minima: edad_minima,
+        cantidad_minima: cantidad_minima,
+        cod_sector: cod_sector
+    }),
+    v.check(
+        (data) => data.hora_inicio < data.hora_fin,
+        "La hora de inicio debe ser menor a la hora de fin"
+    )
+);
 
 const actividad_schema_for_update = v.object({
     nombre: nombre,

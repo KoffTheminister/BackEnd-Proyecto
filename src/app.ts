@@ -41,6 +41,7 @@ app.use('/sectores', sector_router)
 app.use('/celdas', celda_router)
 app.use('/sectores/turnos', turno_router)
 app.use('/verificar_token', verify_router)
+app.use('/turnos', turno_router)
 app.use((_, res) => {
     return res.status(404).send({ message: 'Resource not found' })
 })
