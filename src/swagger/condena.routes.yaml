@@ -1,0 +1,109 @@
+'/condenas':
+  get:
+    tags: [Condena]
+    summary: Buscar todas las condenas
+    operationId: get_all
+    responses:
+      '200':
+        description: Listar todas las condenas
+        content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - properties:
+                    data: 
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/Condena'
+  post:
+    tags: [Condena]
+    summary: Registrar una nueva condena
+    operationId: add
+    security:
+      - bearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - cod_recluso
+              - cod_sentencias
+            properties:
+              cod_recluso:
+                type: number
+                description: codigo del recluso asociado a la condena
+              cod_sentencias:
+                type: number[]
+                description: codigos de las sentencias asociadas a la condena
+            example:
+              cod_recluso: 1
+              cod_sentencias: [1, 2]
+                # - $ref: '#/components/schemas/ApiResponse'
+                # - properties:
+                #     data:
+                #       $ref: '#/components/schemas/Condena'
+    responses:
+      '201':
+        description: condena registrada por primera vez
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/ApiResponse'
+                - properties:
+                    data:
+                      $ref: '#/components/schemas/Condena'
+      '409':
+        description: no hay lugar en alguna celda en los sectores correspondientes a las sentencias
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiResponse'
+              example:
+                status: 409
+                message: No hay lugar en alguna celda en los sectores correspondientes a las sentencias
+                data: null
+        '400':
+          description: Bad Request - campos invalidos o faltantes
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+                example:
+                  status: 400
+                  message: Bad Request
+                  data: null
+
+'/condenas/finalizar_condenas':
+  post:
+    tags: [Condena]
+    summary: Finalizar las condenas que hayan cumplido su fecha de fin
+    operationId: finalizar_condenas
+    security:
+      - bearerAuth: []
+    responses:
+      '200':
+        description: Listar las condenas finalizadas
+        content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - properties:
+                    data: 
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/Condena'
+      '404':
+        description: No hay condenas para finalizar
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiResponse'
+              example:
+                status: 404
+                message: No hay condenas para finalizar
+                data: null

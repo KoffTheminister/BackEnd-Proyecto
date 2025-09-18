@@ -29,7 +29,7 @@ async function sanitizar_input_de_sentencia(req: Request, res: Response, next: N
 
 async function get_all(req : Request, res : Response){
     try{
-        const sentencias = await em.find(Sentencia, {}, { orderBy: {'orden_de_gravedad': 'DESC'}})
+        const sentencias = await em.find(Sentencia, {}, { orderBy: {'orden_de_gravedad': 'ASC'}})
         if(sentencias.length != null){
             res.status(201).json({ status: 201, data: sentencias})
         } else {

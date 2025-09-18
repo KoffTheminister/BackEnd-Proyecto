@@ -1,0 +1,187 @@
+'/actividades':
+  get:
+    tags: [Actividad]
+    summary: Buscar todas las actividades activas
+    operationId: get_all
+    responses:
+      '200':
+        description: Listar todas las actividades
+        content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - properties:
+                    data: 
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/Actividad'
+
+  post:
+    tags: [Actividad]
+    summary: Registrar una nueva actividad ilegal
+    operationId: add
+    security:
+      - bearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - nombre
+              - descripcion
+              - locacion
+              - dia_de_la_semana
+              - hora_inicio
+              - hora_fin
+              - cantidad_minima
+              - edad_minima
+              - cod_sector
+            properties:
+              nombre:
+                type: string
+                minLength: 8
+                maxLength: 60
+                description: nombre de la actividad
+              descripcion:
+                type: string
+                minLength: 0
+                maxLength: 100
+                description: descripcion de la actividad 
+              locacion:
+                type: string
+                minLength: 0
+                maxLength: 70
+                description: locacion de la actividad 
+              dia_de_la_semana:
+                type: number
+                description: dia de la semana (1-7) en que se realiza la actividad 
+              hora_inicio:
+                type: number
+                description: hora de inicio
+              hora_fin:
+                type: number
+                description: hora de finalizacion
+              cantidad_minima:
+                type: number
+                description: cantidad minima que deben de participar
+              edad_minima:
+                type: number
+                description: edad minima para participar
+              cod_sector:
+                type: number
+                description: codigo del sector donde se realiza la actividad
+            example:
+              nombre: 'Limpiar los baños'
+              descripcion: 'limpiar los baños del sector 3'
+              locacion: 'baños'
+              dia_de_la_semana: 6
+              hora_inicio: 22
+              hora_fin: 24
+              cantidad_minima: 5
+              edad_minima: 18
+              cod_sector: 3
+    responses:
+      '201':
+        description: Actividad registrada
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/ApiResponse'
+                - properties:
+                    data:
+                      $ref: '#/components/schemas/Actividad'
+      '409':
+        description: No existen suficientes reclusos en el sector con la edad minima
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/ApiResponseError'
+                - properties:
+                    errorCode:
+                      type: string
+                      example: no existen suficientes reclusos en el sector con la edad minima
+      '400':
+        description: Bad Request - campos invalidos o faltantes
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/ApiResponseError'
+                - properties:
+                    errorCode:
+                      type: string
+                      example: la hora de finalizacion debe ser mayor a la de inicio
+      '404':
+        description: Sector no encontrado
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/ApiResponseError'
+                - properties:
+                    errorCode:
+                      type: string
+                      example: Sector no encontrado
+             
+'/actividades/{cod}':
+  get:
+    tags: [Actividad]
+    summary: dame una actividad por codigo
+    operationId: get_one
+    parameters:
+      - cod: cod
+        in: path
+        required: true
+        description: codigo de una actividad
+        schema:
+          type: integer
+          format: int64
+    responses:
+      '201':
+        description: actividad encontrada
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/ApiResponse'
+                - properties:
+                    data:
+                      $ref: '#/components/schemas/Actividad'
+      '404':
+        description: actividad no encontrada
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiResponseError'
+  delete:
+    tags: [Actividad]
+    summary: remover una actividad por codigo
+    operationId: remove
+    security:
+      - bearerAuth: []
+    parameters:
+      - name: cod
+        in: path
+        required: true
+        description: codigo de una actividad
+        schema:
+          type: integer
+          format: int64
+    responses:
+      '201':
+        description: Actividad eliminada
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiResponse'
+      '404':
+        description: Actividad no encontrada
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiResponseError'

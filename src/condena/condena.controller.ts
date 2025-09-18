@@ -117,11 +117,3 @@ async function finalizar_condenas(req:Request, res:Response){
 
 export { get_all, add, finalizar_condenas, sanitizar_input_de_condena }
 
-
-
-
-
-
-
-
-

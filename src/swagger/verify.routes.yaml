@@ -1,0 +1,107 @@
+'/verificar_token':
+  get:
+    tags:
+      - Verificación
+    summary: Verificar token JWT
+    description: Verifica la validez de un token JWT.
+    parameters:
+      - in: header
+        name: Authorization
+        required: true
+        schema:
+          type: string
+        description: Token JWT en el formato "Bearer {token}"
+    responses:
+      '200':
+        description: Token válido
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                valid:
+                  type: boolean
+                  example: true
+                message:
+                  type: string
+                  example: "Token válido"
+      '401':
+        description: Token ausente
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                valid:
+                  type: boolean
+                  example: false
+                message:
+                  type: string
+                  example: "Token inválido o ausente"
+      '403':
+        description: Acceso denegado
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                valid:
+                  type: boolean
+                  example: false
+                message:
+                  type: string
+                  example: "Acceso denegado"
+
+'/verificar_token/especial':
+  get:
+    tags:
+      - Verificación
+    summary: Verificar token JWT especial
+    description: Verifica la validez de un token JWT especial.
+    parameters:
+      - in: header
+        name: Authorization
+        required: true
+        schema:
+          type: string
+        description: Token JWT en el formato "Bearer {token}"
+    responses:
+      '200':
+        description: Token válido
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                valid:
+                  type: boolean
+                  example: true
+                message:
+                  type: string
+                  example: "Token válido"
+      '401':
+        description: Token ausente
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                valid:
+                  type: boolean
+                  example: false
+                message:
+                  type: string
+                  example: "Token inválido o ausente"
+      '403':
+        description: Acceso denegado
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                valid:
+                  type: boolean
+                  example: false
+                message:
+                  type: string
+                  example: "Acceso denegado"

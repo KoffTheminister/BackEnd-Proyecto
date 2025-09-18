@@ -1,0 +1,167 @@
+'/administradores':
+  get:
+    tags: [Administrador]
+    summary: dame todos los administradores
+    operationId: get_all
+    responses:
+      '200':
+        description: listar todos los administradores
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/ApiResponse'
+                - properties:
+                    data:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/Administrador'
+  post:
+    tags: [Administrador]
+    summary: registrar un nuevo administrador
+    operationId: add
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - nombre
+              - apellido
+              - contrasenia
+              - dni
+              - es_especial
+            properties:
+              nombre:
+                type: string
+                minLength: 1
+                maxLength: 40
+                pattern: '^[^.].*[^.]$'
+                description: nombre del administrador
+              apellido:
+                type: string
+                minLength: 1
+                maxLength: 40
+                pattern: '^[^.].*[^.]$'
+                description: nombre del apellido
+              contrasenia:
+                type: string
+                minLength: 7
+                maxLength: 50
+                pattern: '^(?=.*[A-Za-z])(?=.*\d)(?=.*[ _\-@$!%*#?&])[A-Za-z\d _\-@$!%*#?&]{8,50}$'
+                description: contrasenia del administrador
+              dni:
+                type: number
+                description: dni del administrador
+              es_especial:
+                type: boolean
+                description: si el administrador tiene permisos especiales o no
+            example:
+              nombre: 'Juan'
+              apellido: 'Perez'
+              contrasenia: 'Password123!'
+              dni: 45687285
+              es_especial: false
+    responses:
+      '201':
+        description: Administrador creado exitosamente
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/ApiResponse'
+                - properties:
+                    data:
+                      $ref: '#/components/schemas/Administrador'
+      '409':
+        description: Administrador con el mismo DNI ya existe
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiResponseError'
+
+'/administradores/logIn':
+  post:
+    tags: [Administrador]
+    summary: log in de administrador
+    operationId: log_in_jwt
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - cod_administrador
+              - contrasenia
+            properties:
+              cod_administrador:
+                type: number
+                description: codigo del administrador
+              contrasenia:
+                type: string
+                description: contrasenia del administrador
+            example:
+              cod_administrador: 1
+              contrasenia: 'Password123!'
+    responses:
+      '201':
+        description: Login efectuado correctamente
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/ApiResponse'
+                - properties:
+                    data:
+                      type: object
+                      properties:
+                        token:
+                          type: string
+                          description: token JWT para autenticacion
+                        user:
+                          $ref: '#/components/schemas/Administrador'
+      '404':
+        description: administrador no encontrado
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiResponseError'
+      '409':
+        description: contrasenia incorrecta
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiResponseError'
+
+'/administradores/{cod_administrador}':
+  get:
+    tags: [Administrador]
+    summary: buscar un administrador por su codigo
+    operationId: get_one
+    parameters:
+      - name: cod_administrador
+        in: path
+        required: true
+        description: codigo del administrador
+        schema:
+          type: integer
+          format: int64
+    responses:
+      '201':
+        description: administrador encontrado
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/ApiResponse'
+                - properties:
+                    data:
+                      $ref: '#/components/schemas/Administrador'
+      '404':
+        description: User not found
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiResponseError'

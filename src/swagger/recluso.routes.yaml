@@ -1,0 +1,132 @@
+'/reclusos':
+  get:
+    tags: [Recluso]
+    summary: Buscar todos los reclusos
+    operationId: get_all
+    responses:
+      '200':
+        description: Listar todos los guardias
+        content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - properties:
+                    data: 
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/Recluso'
+
+  post:
+    tags: [Recluso]
+    summary: Registrar un nuevo recluso
+    operationId: add
+    security:
+      - bearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - nombre
+              - apellido
+              - dni
+              - fecha_nac
+            properties:
+              nombre:
+                type: string
+                minLength: 1
+                maxLength: 40
+                description: nombre del recluso
+              apellido:
+                type: string
+                minLength: 1
+                maxLength: 40
+                description: apellido del recluso
+              dni:
+                type: number
+                description: DNI del guardia
+              fecha_nac:
+                type: string
+                format: date
+                description: fecha de nacimiento del recluso
+            example:
+              nombre: 'Juan'
+              apellido: 'Estevez'
+              dni: 45687285
+              fecha_nac: '1990-05-21'
+    responses:
+      '201':
+        description: recluso registrado por primera vez
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/ApiResponse'
+                - properties:
+                    data:
+                      $ref: '#/components/schemas/Recluso'
+      '202':
+        description: recluso ingresado nuevamente
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/ApiResponse'
+                - properties:
+                    data:
+                      $ref: '#/components/schemas/Recluso'
+      '409':
+        description: recluso con dni ingresado esta activo actualmente
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/ApiResponseError'
+                - properties:
+                    errorCode:
+                      type: string
+                      example: recluso con dni ingresado esta activo actualmente
+      '400':
+        description: Bad Request - campos invalidos o faltantes
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiResponse'
+              example:
+                status: 400
+                message: Bad Request
+                data: null
+             
+'/recluso/{dni}':
+  get:
+    tags: [Recluso]
+    summary: dame un recluso por dni
+    operationId: get_one
+    parameters:
+      - name: dni
+        in: path
+        required: true
+        description: dni de un recluso
+        schema:
+          type: integer
+          format: int64
+    responses:
+      '201':
+        description: recluso encontrado
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/ApiResponse'
+                - properties:
+                    data:
+                      $ref: '#/components/schemas/Recluso'
+      '404':
+        description: recluso no encontrado
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiResponseError'

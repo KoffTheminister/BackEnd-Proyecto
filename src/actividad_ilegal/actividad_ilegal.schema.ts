@@ -34,7 +34,6 @@ const dia_de_la_semana = v.pipe(
     v.maxValue(7, ERR_DIA_RANGE),
 )
 
-
 const hora_inicio = v.pipe(
     v.number(),
     v.minValue(HORA_MIN, ERR_HORA),

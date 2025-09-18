@@ -1,0 +1,189 @@
+'/guardias':
+  get:
+    tags: [Guardia]
+    summary: Buscar todos los guardias
+    operationId: get_all
+    responses:
+      '200':
+        description: Listar todos los guardias
+        content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - properties:
+                    data: 
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/Guardia'
+
+  post:
+    tags: [Guardia]
+    summary: Registrar un nuevo guardia
+    operationId: add
+    security:
+      - bearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - nombre
+              - apellido
+              - dni
+            properties:
+              nombre:
+                type: string
+                minLength: 1
+                maxLength: 40
+                description: nombre del guardia
+              apellido:
+                type: string
+                minLength: 1
+                maxLength: 40
+                description: apellido del guardia
+              dni:
+                type: number
+                description: DNI del guardia
+            example:
+              nombre: 'Juan'
+              apellido: 'Estevez'
+              dni: 45687285
+    responses:
+      '201':
+        description: guardia registrado por primera vez
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/ApiResponse'
+                - properties:
+                    data:
+                      $ref: '#/components/schemas/Guardia'
+      '202':
+        description: guardia inactivo reactivado
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/ApiResponse'
+                - properties:
+                    data:
+                      $ref: '#/components/schemas/Guardia'
+      '409':
+        description: Guardia con dni ingresado esta activo actualmente
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/ApiResponseError'
+                - properties:
+                    errorCode:
+                      type: string
+                      example: Guardia con dni ingresado esta activo actualmente
+      '400':
+        description: Bad input, campos faltantes o mal formateados
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/ApiResponseError'
+                - properties:
+                    errorCode:
+                      type: string
+                      example: Bad input
+             
+'/guardias/{dni}':
+  get:
+    tags: [Guardia]
+    summary: dame un guadia por dni
+    operationId: get_one
+    parameters:
+      - name: dni
+        in: path
+        required: true
+        description: dni de un guardia
+        schema:
+          type: integer
+          format: int64
+    responses:
+      '201':
+        description: guardia encontrado
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/ApiResponse'
+                - properties:
+                    data:
+                      $ref: '#/components/schemas/Guardia'
+      '404':
+        description: Guardia no encontrado
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiResponseError'
+
+'/guardias/finalizarContrato':
+  put:
+    tags: [Guardia]
+    summary: finalizar el contrato de un
+    operationId: finalizar_contrato
+    security:
+      - bearerAuth: []
+    parameters:
+      - name: cod_guardia
+        in: body
+        required: true
+        description: codigo de guardia
+        schema:
+          type: integer
+          format: int64
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - name
+            properties:
+              - name: cod_guardia
+                in: body
+                required: true
+                description: codigo de guardia
+                schema:
+                  type: integer
+                  format: int64
+            example:
+              cod_guardia: 12
+    responses:
+      '201':
+        description: contrato finalizado
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/ApiResponse'
+                - properties:
+                    data:
+                      $ref: '#/components/schemas/Guardia'
+      '409':
+        description: Guardia no tiene contrato activo, por lo que no puede ser finalizado
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/ApiResponseError'
+                - properties:
+                    errorCode:
+                      type: string
+                      example: Guardia con dni ingresado esta activo actualmente
+      '404':
+        description: Guardia con codigo ingresado inexistente
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiResponseError'

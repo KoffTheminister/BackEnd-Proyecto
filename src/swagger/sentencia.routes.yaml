@@ -1,0 +1,18 @@
+'/sentencias':
+  get:
+    tags: [Sentencia]
+    summary: Buscar todas las sentencias
+    operationId: get_all
+    responses:
+      '200':
+        description: Listar todas las sentencias
+        content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - properties:
+                    data: 
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/Sentencia'

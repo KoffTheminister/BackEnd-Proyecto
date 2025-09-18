@@ -1,0 +1,214 @@
+'/actividades_ilegales':
+  get:
+    tags: [ActividadIlegal]
+    summary: Buscar todas las actividades_ilegales activas
+    operationId: get_all
+    responses:
+      '200':
+        description: Listar todas las actividades ilegales
+        content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - properties:
+                    data: 
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/ActividadIlegal'
+
+  post:
+    tags: [ActividadIlegal]
+    summary: Registrar una nueva actividad ilegal
+    operationId: add
+    security:
+      - bearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - nombre
+              - descripcion
+              - locacion
+              - dia_de_la_semana
+              - hora_inicio
+              - hora_fin
+              - cantidad_maxima
+            properties:
+              nombre:
+                type: string
+                minLength: 8
+                maxLength: 60
+                description: nombre de la actividad ilegal
+              descripcion:
+                type: string
+                minLength: 0
+                maxLength: 100
+                description: descripcion de la actividad ilegal
+              locacion:
+                type: string
+                minLength: 10
+                maxLength: 70
+                description: locacion de la actividad ilegal
+              dia_de_la_semana:
+                type: number
+                description: dia de la semana (1-7) en que se realiza la actividad ilegal
+              hora_inicio:
+                type: number
+                description: hora de inicio
+              hora_fin:
+                type: number
+                description: hora de finalizacion
+              cantidad_maxima:
+                type: number
+                description: cantidad maxima de personas que pueden participar
+            example:
+              nombre: 'Fiesta Clandestina'
+              descripcion: 'Fiesta en un galpon abandonado'
+              locacion: 'Calle Falsa 123'
+              dia_de_la_semana: 6
+              hora_inicio: 22
+              hora_fin: 4
+              cantidad_maxima: 50
+    responses:
+      '201':
+        description: Actividad ilegal registrada
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/ApiResponse'
+                - properties:
+                    data:
+                      $ref: '#/components/schemas/ActividadIlegal'
+      '409':
+        description: Los horarios ingresados se solapan con otra actividad ilegal ya registrada
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/ApiResponseError'
+                - properties:
+                    errorCode:
+                      type: string
+                      example: Los horarios ingresados se solapan con otra actividad ilegal ya registrada
+      '400':
+        description: Bad input, campos faltantes o mal formateados
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/ApiResponseError'
+                - properties:
+                    errorCode:
+                      type: string
+                      example: Bad input
+             
+'/actividades_ilegales/{cod}':
+  get:
+    tags: [ActividadIlegal]
+    summary: Dame una actividad ilegal por codigo
+    operationId: get_one
+    parameters:
+      - cod: cod_actividad_ilegal
+        in: path
+        required: true
+        description: codigo de una actividad ilegal
+        schema:
+          type: integer
+          format: int64
+    responses:
+      '201':
+        description: actividad ilegal encontrada
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/ApiResponse'
+                - properties:
+                    data: 
+                      $ref: '#/components/schemas/ActividadIlegal'
+                      message: hola
+      '404':
+        description: Actividad ilegal no encontrada
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiResponseError'
+  delete:
+    tags: [ActividadIlegal]
+    summary: Remover una actividad ilegal por codigo
+    operationId: remove
+    security:
+      - bearerAuth: []
+    parameters:
+      - name: cod
+        in: path
+        required: true
+        description: codigo de una actividad ilegal
+        schema:
+          type: integer
+          format: int64
+    responses:
+      '201':
+        description: Actividad ilegal eliminada
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiResponse'
+      '404':
+        description: Actividad ilegal no encontrada
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiResponseError'
+
+'/actividades_ilegales/inscripcion/{cod_act_ilegal}&{cod_recluso}':
+  post:
+    tags: [ActividadIlegal]
+    summary: Registrar una inscripcion de un recluso a una actividad ilegal
+    operationId: inscripcion
+    security:
+      - bearerAuth: []
+    parameters:
+      - name: cod_act_ilegal
+        in: path
+        required: true
+        description: codigo de actividad ilegal
+        schema:
+          type: integer
+          format: int64
+      - name: cod_recluso
+        in: path
+        required: true
+        description: codigo de recluso
+        schema:
+          type: integer
+          format: int64
+    responses:
+      '201':
+        description: inscripcion registrada
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/ApiResponse'
+                - properties:
+                    data:
+                      $ref: '#/components/schemas/ActividadIlegal'
+      '409':
+        description: Recluso no puede inscribirse a la actividad ilegal
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/ApiResponseError'
+                - properties:
+                    errorCode:
+                      type: string
+                      example: Los horarios ingresados se solapan con otra actividad ilegal ya registrada
+
+             

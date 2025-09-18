@@ -1,0 +1,75 @@
+'/sectores':
+  get:
+    tags:
+      - Sectores
+    summary: Obtener todos los sectores
+    description: Obtiene una lista de todos los sectores disponibles.
+    responses:
+      '200':
+        description: Lista de sectores obtenida exitosamente.
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Sector'
+      '500':
+        description: Error del servidor al obtener los sectores.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+
+'/sectores/{cod_sector}':
+  get:
+    tags:
+      - Sectores
+    summary: Obtener un sector por su código
+    description: Obtiene los detalles de un sector específico utilizando su código.
+    parameters:
+      - name: cod_sector
+        in: path
+        required: true
+        description: Código del sector a obtener.
+        schema:
+          type: integer
+    responses:
+      '200':
+        description: Detalles del sector obtenidos exitosamente.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Sector'
+      '404':
+        description: Sector no encontrado.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+
+'/sectores/celdas/{cod_sector}':
+  get:
+    tags:
+      - Sectores
+    summary: Obtener celdas de un sector por su código
+    description: Obtiene las celdas asociadas a un sector específico utilizando su código.
+    parameters:
+      - name: cod_sector
+        in: path
+        required: true
+        description: Código del sector
+        schema:
+          type: integer
+    responses:
+      '200':
+        description: sectpr encontrado exitosamente con celdas mostradas a continuacion.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Sector'
+      '404':
+        description: Sector no encontrado.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'

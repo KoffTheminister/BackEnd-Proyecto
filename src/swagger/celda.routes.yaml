@@ -1,0 +1,49 @@
+'/celdas':
+  get:
+    tags: [Celda]
+    summary: Buscar todas las celdas
+    operationId: get_all
+    responses:
+      '200':
+        description: Listar todas las celdas
+        content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResponse'
+                  - properties:
+                    data: 
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/Celda'
+
+'/Celda/{cod_celda}':
+  get:
+    tags: [Celda]
+    summary: dame una celda por su codigo
+    operationId: get_one
+    parameters:
+      - name: cod_celda
+        in: path
+        required: true
+        description: codigo de una celda
+        schema:
+          type: integer
+          format: int64
+    responses:
+      '201':
+        description: celda encontrada
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/ApiResponse'
+                - properties:
+                    data:
+                      $ref: '#/components/schemas/Celda'
+      '404':
+        description: celda no encontrada
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiResponseError'

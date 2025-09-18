@@ -1,0 +1,167 @@
+'/turnos':
+  post:
+    tags:
+      - Turnos
+    summary: Crear un nuevo turno
+    description: Permite crear un nuevo turno con la información proporcionada.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - cod_guardia
+              - cod_sector
+              - turno
+            properties:
+              - name: cod_guardia
+                in: body
+                required: true
+                description: codigo de guardia
+                schema:
+                  type: integer
+                  format: int64
+              - name: cod_sector
+                in: body
+                required: true
+                description: codigo de sector
+                schema:
+                  type: integer
+                  format: int64
+              - name: turno
+                in: body
+                required: true
+                description: turno (Mañana, Tarde, Noche)
+                schema:
+                  type: string
+            example:
+              cod_guardia: 12
+              cod_sector: 3
+              turno: M
+    responses:
+      '201':
+        description: Turno creado exitosamente
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Turno'
+      '409':
+        description: Guardia ingresado ya tiene un turno asignado en otro sector pero en el mismo horario
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+      '400':
+        description: Datos inválidos o faltantes en la solicitud
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+      '404':
+        description: Guardia o Sector con codigo ingresado inexistente
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+  delete:
+    tags:
+      - Turnos
+    summary: eliminar turno
+    description: eliminar el turno con la información proporcionada.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - cod_guardia
+              - cod_sector
+              - turno
+            properties:
+              - name: cod_guardia
+                in: body
+                required: true
+                description: codigo de guardia
+                schema:
+                  type: integer
+                  format: int64
+              - name: cod_sector
+                in: body
+                required: true
+                description: codigo de sector
+                schema:
+                  type: integer
+                  format: int64
+              - name: turno
+                in: body
+                required: true
+                description: turno (Mañana, Tarde, Noche)
+                schema:
+                  type: string
+            example:
+              cod_guardia: 12
+              cod_sector: 3
+              turno: M
+    responses:
+      '201':
+        description: Turno eliminado exitosamente
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Turno'
+      '409':
+        description: Guardia ingresado ya tiene un turno asignado en otro sector pero en el mismo horario
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+      '400':
+        description: Datos inválidos o faltantes en la solicitud
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+      '404':
+        description: Guardia o Sector con codigo ingresado inexistente
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+
+'/turnos/{cod_sector}':
+  get:
+    tags:
+      - Turnos
+    summary: Obtener turnos por sector
+    description: Permite obtener todos los turnos asignados a un sector específico.
+    parameters:
+      - name: cod_sector
+        in: path
+        required: true
+        description: Código del sector para el cual se desean obtener los turnos.
+        schema:
+          type: integer
+          format: int64
+    responses:
+      '200':
+        description: Lista de turnos para el sector especificado
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Turno'
+      '404':
+        description: Sector con codigo ingresado inexistente
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+      '409':
+        description: No hay turnos asignados en el sector ingresado
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'

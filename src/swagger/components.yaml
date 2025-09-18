@@ -1,0 +1,322 @@
+components:
+  schemas:
+    ApiResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: Operación exitosa
+
+    ApiResponseError:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+          example: Hubo un error
+        errorCode:
+          type: string
+          example: INVALID_INPUT
+    
+    Administrador:
+      type: object
+      properties:
+        cod_administrador:
+          type: integer
+          example: 1
+        nombre:
+          type: string
+          example: Carlos Sánchez
+        apellido:
+          type: string
+          example: Martínez
+        es_especial:
+          type: boolean
+          example: true
+        dni:
+          type: string
+          example: 11223344
+
+    Recluso:
+      type: object
+      properties:
+        cod_recluso:
+          type: integer
+          example: 1
+        nombre:
+          type: string
+          example: Juan Pérez
+        apellido:
+          type: string
+          example: García
+        fecha_nac:
+          type: date
+          format: date
+          example: 1985-06-15
+        dni:
+          type: string
+          example: 12345678
+        actividades:
+          type: array
+          items:
+            $ref: '#/components/schemas/Actividad'
+          description: Lista de actividades en las cuales el recluso esta anotado
+        actividades_ilegales:
+          type: array
+          items:
+            $ref: '#/components/schemas/ActividadIlegal'
+          description: Lista de actividades en las cuales el recluso esta anotado
+        condenas:
+          type: array
+          items:
+            $ref: '#/components/schemas/Condena'
+          description: Lista de condenas del recluso
+        celda:
+          $ref: '#/components/schemas/Celda'
+          description: Celda asignada al recluso (actualmente alojado)
+    
+    Guardia:
+      type: object
+      properties:
+        cod_guardia:
+          type: integer
+          example: 1
+        nombre:
+          type: string
+          example: María López
+        apellido:
+          type: string
+          example: Fernández
+        fecha_ini_contrato:
+          type: date
+          format: date
+          example: 1990-03-22
+        fecha_fin_contrato:
+          type: date
+          format: date
+          example: 2000-03-22
+        dni:
+          type: string
+          example: 87654321
+        turnos:
+          type: array
+          items:
+            $ref: '#/components/schemas/Turno'
+          description: Lista de turnos asignados al guardia
+    
+    Sentencia:
+      type: object
+      properties:
+        cod_sentencia:
+          type: integer
+          example: 1
+        nombre:
+          type: string
+          example: Robo
+        descripcion:
+          type: string
+          example: Robo con fuerza en las cosas
+        condenas:
+          type: array
+          items:
+            $ref: '#/components/schemas/Condena'
+          description: Lista de condenas asociadas a esta sentencia
+        duracion_anios:
+          type: integer
+          example: 3
+          description: Duración en años de la sentencia 
+        orden_de_gravedad:
+          type: integer
+          example: 2
+          description: Orden de gravedad de la sentencia
+        sectores:
+          type: array
+          items:
+            $ref: '#/components/schemas/Sector'
+          description: Lista de sectores donde se puede alojar a un recluso con esta sentencia
+
+    Condena:
+      type: object
+      properties:
+        cod_condena:
+          type: integer
+          example: 1
+        fecha_ini:
+          type: date
+          format: date
+          example: 2020-01-15
+        fecha_fin_estimada:
+          type: date | null
+          format: date
+          example: 2023-01-15
+        cod_recluso:
+          type: integer
+          example: 1
+          description: Codigo del recluso al cual se le asigna la condena
+        sentencias:
+          type: array
+          items:
+            $ref: '#/components/schemas/Sentencia'
+          description: Lista de sentencias asociadas a esta condena
+    
+    Sector:
+      type: object
+      properties:
+        cod_sector:
+          type: integer
+          example: 1
+        nombre:
+          type: string
+          example: Sector A
+        descripcion:
+          type: string
+          example: Sector para reclusos de baja peligrosidad
+        celdas:
+          type: array
+          items:
+            $ref: '#/components/schemas/Celda'
+          description: Lista de celdas en el sector
+        sentencias:
+          type: array
+          items:
+            $ref: '#/components/schemas/Sentencia'
+          description: Lista de sentencias permitidas en el sector
+        turnos:
+          type: array
+          items:
+            $ref: '#/components/schemas/Turno'
+          description: Lista de turnos asignados al sector
+    
+    Celda:
+      type: object
+      properties:
+        cod_celda:
+          type: integer
+          example: 1
+        cod_sector:
+          type: integer
+          example: 1
+          description: Codigo del sector al cual pertenece la celda
+        descripcion:
+          type: string
+          example: Celda para 2 reclusos
+        capacidad:
+          type: integer
+          example: 2
+        reclusos:
+          type: array
+          items:
+            $ref: '#/components/schemas/Recluso'
+          description: Lista de reclusos alojados en la celda
+    
+    Turno:
+      type: object
+      properties:
+        cod_guardia:
+          type: integer
+          example: 1
+          description: Codigo del guardia asignado al turno
+        cod_sector:
+          type: integer
+          example: 1
+          description: Codigo del sector asignado al turno
+        turno:
+          type: string
+          example: N
+          description: Turno asignado (Mañana - M, Tarde - T, Noche - N)
+    
+    Actividad:
+      type: object
+      properties:
+        cod_actividad:
+          type: integer
+          example: 1
+        nombre:
+          type: string
+          example: Taller de carpintería
+        descripcion:
+          type: string
+          example: Actividad de carpintería para reclusos
+        reclusos:
+          type: array
+          items:
+            $ref: '#/components/schemas/Recluso'
+          description: Lista de reclusos anotados en la actividad
+        locacion:
+          type: string
+          example: Sala de actividades 1
+          description: Ubicación donde se realiza la actividad
+        hora_inicio:
+          type: number
+          format: time
+          example: 14
+          description: Hora de inicio de la actividad
+        hora_fin:
+          type: number
+          format: time
+          example: 16
+        cantidad_minima:
+          type: integer
+          example: 5
+          description: Cantidad mínima de reclusos para que la actividad se lleve a cabo
+        edad_minima:
+          type: integer
+          example: 18
+          description: Edad mínima requerida para participar en la actividad
+        dia_de_la_semana:
+          type: string
+          example: 1
+          description: Día de la semana en que se realiza la actividad (1-7, donde 1 es lunes y 7 es domingo)
+        cod_sector:
+          type: integer
+          example: 1
+          description: Codigo del sector donde se realiza la actividad
+
+    ActividadIlegal:
+      type: object
+      properties:
+        cod_act_ilegal:
+          type: integer
+          example: 1
+        nombre:
+          type: string
+          example: Contrabando de celulares
+        descripcion:
+          type: string
+          example: Actividad ilegal de contrabando de celulares dentro del penal
+        reclusos:
+          type: array
+          items:
+            $ref: '#/components/schemas/Recluso'
+          description: Lista de reclusos involucrados en la actividad ilegal
+        locacion:
+          type: string
+          example: Patio central
+          description: Ubicación donde se realiza la actividad ilegal
+        hora_inicio:
+          type: number
+          example: 15
+          description: Hora de inicio de la actividad ilegal
+        hora_fin:
+          type: number
+          example: 16 
+          description: Hora de fin de la actividad ilegal
+        dia_de_la_semana:
+          type: string
+          example: Lunes
+          description: Día de la semana en que se realiza la actividad ilegal
+
+    Verficacion:
+      type: object
+      properties:
+        valid:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: Token válido

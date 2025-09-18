@@ -3,8 +3,6 @@ import 'reflect-metadata'
 import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
-import swaggerUI from "swagger-ui-express"
-import { apiSpec } from './swagger/swagger.js'
 import { orm, syncSchema } from './shared/db/orm.js'
 import { RequestContext } from '@mikro-orm/core'
 import { guardia_router } from './guardia/guardia.routes.js'
@@ -20,11 +18,10 @@ import { actividad_ilegal_router } from './actividad_ilegal/actividad_ilegal.rou
 import { verify_router } from './shared/verification_tools/verify.routes.js'
 
 dotenv.config()
-const server_port = process.env.server_port
+const server_port = process.env.production_port
 
 const app = express()
 app.use(express.json())
-app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(apiSpec))
 
 app.use(cors())
 
@@ -52,12 +49,8 @@ app.use((_, res) => {
 //await syncSchema()  // solo en etapas de desarrollo
   
 app.listen(server_port, () => {
-    console.log(`server correctly running at port: ${server_port}`)
+    console.log(`server for production currectly running at port: ${server_port}`)
 })
-
-
-
-
 
 
 

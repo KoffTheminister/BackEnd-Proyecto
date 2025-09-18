@@ -28,7 +28,11 @@ export async function verificar_token(req: Request, res: Response, next: NextFun
             contrasenia: decoded.contrasenia,
             es_especial: decoded.es_especial
         }
-        if(next != undefined) next()
+        if(next != undefined){
+            next()
+        } else {
+            return res.status(200).json({status: 200})
+        }
     } catch(error: any){
         console.log(error.message)
         return res.status(403).json({status: 403})
